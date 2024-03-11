@@ -208,7 +208,7 @@ var value1 = elem.value; // TypeError: Cannot read properties of null
 var value2 = elem && elem.value; // elem이 Falsy 값이면 elem으로 평가되고 Truthy 값이면 elem.value로 평가
 ```
 
-논리곱 연산자는 보통 기본값 설정을 위해 활용된다.
+논리합 연산자는 보통 기본값 설정을 위해 활용된다.
 
 ```javascript
 function getStringLength1(str) {
@@ -231,5 +231,34 @@ getStringLength3(); // 0
 
 ### 9.4.2 옵셔널 체이닝 연산자
 
+위에서 언급된 논리곱 연산자를 이용한 객체의 프로퍼티 참조를 위한 연산자이다.
+
+```javascript
+var elem = null;
+var value = elem?.value; // undefined
+```
+
+여기서 차이점은 옵셔널 체이닝 연산자는 좌항 피연산자가 Falsy 값이더라도 null 또는 undefined가 아니면 우항의 프로퍼티 참조를 이어나간다.
+
+```javascript
+var str = '';
+var length1 = str && str.length; // ''
+var length2 = str?.length; // 0
+```
+
 ### 9.4.3 null 병합 연산자
+
+변수에 기본값을 설정하기 위해 논리합 연산자를 사용했었는데 null 병합 연산자를 활용할 수 도 있다.
+
+```javascript
+var foo = null ?? 'default string' // "default string"
+```
+
+하지만 0 또는 ''도 Falsy 값이기에 예기치 않은 동작이 일어날 수 있다.
+이러한 점에서 null 병합 연산자도 옵셔널 체이닝 연산자와 같이 null 또는 undefined만 검증하기에 더 예측 가능하고 안전하게 만들어준다.
+
+```javascript
+  var foo1 = '' || 'default string' // "default string"
+  var foo2 = '' ?? 'default string'; // ""
+```
 
