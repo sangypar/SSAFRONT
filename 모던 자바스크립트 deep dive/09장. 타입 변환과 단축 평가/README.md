@@ -67,7 +67,9 @@ Array + '' // 내장 함수 - "funtion Array() {[native code]}" - Date, Object, 
 +null // ??
 ```
 ### 9.2.3 불리언 타입으로 변환
+
 if문이나 for문과 같은 제어문 또는 상항 조건 연산자의 조건식은 논리적 참/거짓으로 평가되어야 하느 표현식이다.
+
 ```javascript
 if('') console.log('1');
 if(0) console.log('2');
@@ -76,6 +78,7 @@ if(null) console.log('4');
 if(NaN) console.log('5');
 if(undefined) console.log('6');
 ```
+
 자바스크립트 엔진은 불리언 타입이 아닌 값을 <b>Truthy 값(참으로 평가되는 값)</b> 또는 <b>Falsy 값(거짓으로 평가되는 값)</b>으로 구분하며
 다음 7가지가 모두 Falsy 값이다
 > false, undefined, null, 0, -0, NaN, ''
@@ -83,3 +86,150 @@ if(undefined) console.log('6');
 <br>
 
 ## 9.3 명시적 타입 변환
+
+### 9.3.1 문자열 타입으로 변환
+
+```javascript
+// 1. String 생성자 함수를 new 연산자 없이 호출
+String(1) // "1"
+String(NaN) // "NaN"
+String(true) // "true"
+// 2. Object.prototype.toString 메서드 사용
+(1).toString() // "1"
+(NaN).toString() // "NaN"
+(true).toString() // "true"
+// 3. 문자열 연결 연산자 이용
+1 + '' // "1"
+NaN + '' // "NaN"
+true + '' // "true"
+```
+
+### 9.3.2 숫자 타입으로 변환
+
+```javascript
+// 1. Number 생성자 함수를 new 연산자 없이 호출
+Number('0') // 0
+Number('10.53') // 10.53
+Number(true) // 1
+// 2. parseInt, parseFloat 함수 사용(문자열만 가능)
+parseInt('0') // 0
+parseFloat('10.53') // 10.53
+// 3. + 단항 산술 연산자 이용
++'0' // 0
++true // 1
+// 4. * 산술 연산자 이용
+'0' * 1 // 0
+true * 1 // 1
+```
+
+### 9.3.3 불리언 타입으로 변환
+
+```javascript
+// 1. Boolean 생성자 함수를 new 연산자 없이 호출
+Boolean('x') // true
+Boolean('false') // ?
+Boolean(0) // false
+Boolean(1) // true
+// 2. ! 부정 논리 연산자를 두 번 사용하는 방법
+!!'x' // true
+!!0 // false
+!!null //false
+```
+
+<br>
+
+## 9.4 단축 평가
+
+### 9.4.1 논리 연산자를 사용한 단축 평가
+
+```javascipt
+'Cat' && 'Dog'
+'Cat' || 'Dog'
+```
+
+논리곱(&&) 연산자와 논리합(||) 연산자는 논리 연산의 결과를 결정하는 피연산자를 타입 변환하지 않고 그대로 반환하는데 이를 <b>단축 평가(short-circuit evaluation)</b>라 한다.
+단축 평가는 표현식을 평가하는 도중에 평가 결과가 확정된 경우 나머지 평가 과정을 생략하는 것을 말한다.
+
+```javascipt
+true || anything // true
+false || anything // anything
+true && anything // anything
+false && anything // false
+```
+
+보통 논리곱 연산자는 다음과 같은 예시를 통해 조건 렌더링에 많이 활용되며 삼항 연산자를 활용할 수 도 있다.
+```javascript
+import { useState } from "react";
+
+import { CardStructure } from "../card.model";
+
+interface CardProps {
+  card: CardStructure;
+  color: string
+};
+
+const Card: React.FC<CardProps> = (props) => {
+
+  const [onImage, setOnImage] = useState(false);
+
+  return (
+    <>
+      <div
+        className="flex justify-center w-60 m-2 border rounded-2xl z-10"
+        key={props.card.id}
+        onClick={() => setOnImage(!onImage)}
+      >
+        {props.card.name}
+      </div>
+      {onImage && (
+        <div
+          className="fixed z-50 w-full h-full top-0 left-0"
+          onClick={() => setOnImage(!onImage)}
+        >
+          <img
+            className="fixed inset-0 m-auto"
+            src={props.card.image}
+            alt={props.card.id.toString()}
+          />
+        </div>
+      )}
+    </>
+  );
+};
+
+export default Card;
+```
+
+객체의 프로퍼티 참조 타입 에러를 방지하기 위해 사용할 수 도 있다.
+
+```javascript
+var elem = null;
+var value1 = elem.value; // TypeError: Cannot read properties of null
+var value2 = elem && elem.value; // elem이 Falsy 값이면 elem으로 평가되고 Truthy 값이면 elem.value로 평가
+```
+
+논리곱 연산자는 보통 기본값 설정을 위해 활용된다.
+
+```javascript
+function getStringLength1(str) {
+  str = str || '';
+  return str.length;
+}
+
+function getStringLength2(str) {
+  return str.length;
+}
+
+function getStringLength3(str= '') {
+  return str.length;
+}
+
+getStringLength1(); // 0
+getStringLength2(); // TypeError: Cannot read properties of undefined
+getStringLength3(); // 0
+```
+
+### 9.4.2 옵셔널 체이닝 연산자
+
+### 9.4.3 null 병합 연산자
+
