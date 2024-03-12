@@ -128,6 +128,48 @@ console.log(a, b, c); // 0 0 0
 5 == '5'; // true;
 
 // 일치 비교 : 값, 타입 비교 O
-5 === '5; // false;
+5 === '5'; // false;
 
+// 결과 예측 어려운 연산
+'0' == ''; // false;
+0 == ''; // true;
+0 == '0'; // true;
+false == 'false'; // false
+false == '0'; // true
+false == null; // false
+false == undefined; // false
+NaN === NaN; // false
+0 === -0; // true
+
+// Object.js 메서드는 아래 상황 제외하고 ===와 동일하다
+Object.js(-0, +0); // false
+Object.js(NaN, NaN); // true
+
+// Number.isNaN 함수는 지정한 값이 NaN인지 확인 후 불리언 값으로 반환
+Number.isNaN(NaN); // true
+Number.isNaN(10); // false
+Number.isNaN(1 + undefined); // true
 ```
+
+#### 7.3.1 대소 관계 비교 연산자
+```javascript
+5 > 5; // false
+5 >= 5; // true
+```
+
+<br>
+
+## 7.4 삼항 조건 연산자
+삼항 조건 연산자 : 조건식의 평가 결과에 따라 반환할 값을 결정
+조건식 ? (true일때 반환할 값) : (false일때 반환할 값)
+```javascript
+var x = 2;
+
+var result = x % 2 ? '홀수' : '짝수'; // 짝수
+```
+삼항 조건 연산자는 if...else 문과 비슷하다. 하지만 if...else문은 표현식이 아닌 문이므로 값처럼 사용 불가능하다.
+삼항 조건 연산자 표현식은 값으로 평가할 수 있는 표현식인 문이다.
+
+<br>
+
+## 7.5 논리 연산자
