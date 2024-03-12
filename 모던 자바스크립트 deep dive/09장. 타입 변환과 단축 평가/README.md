@@ -258,7 +258,40 @@ var foo = null ?? 'default string' // "default string"
 이러한 점에서 null 병합 연산자도 옵셔널 체이닝 연산자와 같이 null 또는 undefined만 검증하기에 더 예측 가능하고 안전하게 만들어준다.
 
 ```javascript
-  var foo1 = '' || 'default string' // "default string"
-  var foo2 = '' ?? 'default string'; // ""
+var foo1 = '' || 'default string' // "default string"
+var foo2 = '' ?? 'default string'; // ""
 ```
+
+다음과 같은 예시에서 기본값 처리를 위해 활용된다.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title></title>
+</head>
+<body>
+    <h1>Welcome</h1>
+    <label for="nameInput">Enter your name:</label>
+    <input type="text" id="nameInput">
+    <button onclick="displayName()">Submit</button>
+    <p id="greeting"></p>
+    <script>
+        function displayName() {
+            // 사용자가 입력한 이름을 가져옴
+            var name = document.getElementById("nameInput").value;
+            // null 병합 연산자를 사용하여 기본값 설정
+            var displayName = name ?? "Guest";
+            // 환영 메시지 표시
+            document.getElementById("greeting").innerText = "Hello, " + displayName + "!";
+        }
+    </script>
+</body>
+</html>
+```
+
+위와 같이 input에 입력값에 따라 입력이 되지 않았을 경우 또는 공백만 들어왔을 때도 변수에 기본값을 설정할 수 있습니다.
+
 
