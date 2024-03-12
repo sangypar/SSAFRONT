@@ -214,7 +214,69 @@ console.log(x); // 3
 
 ## 7.7 그룹 연산자
 그룹 연산자 : 소괄호()로 피연산자를 감싸는 그룹 연산자는 자신의 피연산자인 표현식을 가장 먼저 평가한다.
+<p align="center"><img src="./img/두뇌풀가동.gif" width="300px"></p> 
+<br>
+
 ```javascript
 2 + 2 * 2; // 6
 (2 + 2) * 2; // 8
 ```
+
+<br>
+
+## 7.8 typeof 연산자
+typeof 연산자 : 피연산자의 데이터 타입을 문자열로 변환한다.
+```javascript
+typeof ''  // string
+typeof 1 // number
+typeof NaN // number
+typeof true // boolean
+typeof undefined // undefined
+typeof Symbol() // symbol
+typeof null // object *null이 아닌것은 버그이다
+typeof [] // object 
+typeof {} // object 
+typeof new Data() // object 
+typeof /test/gi // object 
+typeof function () {} // function
+
+//선언하지 않은 식별자를 typeof연산자로 연산하면 undefined을 반환한다.
+```
+
+<br>
+
+## 7.9 지수 연산자
+지수 연산자 : 좌항의 피연산자를 밑으로, 우항의 피연산자를 지수로 거듭제곱하여 반환한다.
+```javascript
+2 ** 2; // 4
+2 ** 2.5; // 5.656854
+2 ** 0; // 1
+2 ** -2; // 0.25
+(-2) ** 2 // 4 (음수를 거듭제곱의 밑으로 사용하려면 괄호로 묶어야 한다)
+
+// 지수 연산자 대신 math.pow 사용도 가능하다
+
+// 지수 연산자는 이항 연산자 중에서 우선순위가 가장 높다.
+2 * 5 ** 2; // 50
+```
+
+<br>
+
+## 7.10 연산자의 부수 효과
+부수 효과가 있는 연산자는 할당 연산자(=), 증감 연산자(++/--),delete 연산자이다.
+```javascript
+var o = {a : 1};
+
+delete o.a; // delete 연산자는 객체의 프로퍼티를 삭제함
+console.log(o); // {}
+```
+
+<br>
+
+## 7.11 연산자의 우선순위
+연산자 우선순위 : 여러 개의 연산자로 이뤄진 문일 경우 연산자가 실행 되는 순서
+
+<br>
+
+## 7.12 연산자의 결합 순서
+연산자 결합 순서 : 연산자의 좌항 or 우항 중 어디서부터 평가를 수행할 것인지를 나타내는 순서
