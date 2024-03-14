@@ -58,7 +58,7 @@ Array + '' // 내장 함수 - "funtion Array() {[native code]}" - Date, Object, 
 1 - '1' // 0
 1 * '10' // 10
 1 / 'one' // NaN
-'1 > 0 // true
+'1' > 0 // true
 +'' // 0
 +'0' // 0
 +'string' // ??
