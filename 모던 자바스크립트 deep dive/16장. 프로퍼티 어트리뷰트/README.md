@@ -1,161 +1,65 @@
-# 7장 연산자
-연산자 : 하나 이상의 표현식을 대상으로 _산술, 할당, 비교, 논리,타입, 지수 연산_ 등을 수행하는 기호
+# 16장 프로퍼티 어트리뷰트
 
-피연산자 : 연산의 대상 
+## 16.1 내부 슬롯과 내부 메서드
 
-<br>
-
-## 7.1 산술 연산자
-산술 연산자 : 피연산자를 대상으로 수학적 계산 수행, 연산이 불가능한 경우 NaN을 반환한다.
-
-#### 7.1.1 이항 산술 연산자
-이항 산술 연산자 : 2개의 피연산자를 산술 연산
+내부 슬롯과 내부 메서드는 ECMAScript사양에서 사용하는 의사 프로퍼티와 의사 메서드다. 즉, ECMAScript 사양에서 등장하는 [[]]로 감싼 이름들이 내부 슬롯과 내부 메서드이다. -> ECMAScript 문서에서 자바스크립트 내부 동작의 설명을 위해 정의해 놓은 가상 메소드
 ```javascript
-5 + 2; // 7
-5 - 2; // 3
-5 * 2; // 10
-5 / 2; // 2.5
-5 % 2; // 1
-// 모든 이항 산술 연산자는 부수 효과가 없다.
-// *부수효과란? 산술 연산 후에도 피연산자의 값이 바뀌는 효과
-```
-
-#### 7.1.2 단항 산술 연산자
-단항 산술 연산자 : 1개의 피연산자를 산술 연산
-
-```javascript
-+10; // 10 (아무런 효과가 없다.)
-+(-10) // -10
-
-// 증감 연산자에는 전위 증감연산자와 후위 증감연산자가 있다.
-var x = 5, result;
-
-// 선할당 후증가
-result = x++;
-console.log(result, x); // 5 6
-
-// 선증가 후할당
-result = ++x;
-console.log(result, x); // 7 7
-
-// 선할당 후감소
-result = x--;
-console.log(result, x); // 7 6
-
-// 선감소 후할당
-result = --x;
-console.log(result, x); // 5 5
-```
-피연산자가 숫자 타입이 아니라면 숫자 타입으로 변환하여 반환한다. 하지만 부수효과가 없기에 피연산자의 값이 바뀌지는 않는다.
-```javascript
-var x = '1';
-
-// 문자열 -> 숫자 타입 변환
-console.log(+x); // 1
-console.log(x); // "1"
-
-// 불리언 값 -> 숫자 타입 변환
-x = true;
-console.log(+x); // 1
-console.log(x); // true
-
-// 불리언 값  -> 숫자 타입 변환
-x = false;
-console.log(+x); // 0
-console.log(x); // false
-
-// 문자열 -> 숫자 타입 변환
-x = 'Hello';
-console.log(+x); // NaN
-console.log(x); // "Hello"
-```
-#### 7.1.3 문자열 연결 연산자
-+ 연산자는 피연산자 중 하나 이상이 문자열인 경우 문자열을 연결 합니다.
-```javascript
-// 문자열 연결 연산자
-1 + '2'; // '12'
-
-// true는 1로 변환
-1 + true; // 2
-
-// null은 0으로 변환
-1 + null; // 1
-
-// undefined는 숫자로 변환X
-1 + undefined; // NaN
+const o = {};
+o. [[Prototype]] // Uncaught SyntaxError: Unexpected token '[ ’
+o.__proto__ // Object.prototype
 ```
 
 <br>
 
-## 7.2 할당 연산자
-할당 연산자 : 우항에 있는 피연산자의 평가 결과를 좌항에 있는 변수에 할당
+## 16.2 프로퍼티 어트리뷰트와 프로퍼티 디스크립터 객체
+프로퍼티를 생성할 때 자바스크립트 엔진은 프로퍼티의 상태를 나타내는 property attribute를 기본값으로 자동 정의 
+
+property attribute : 자바스크립트 엔진이 관리하는 내부 상태 값인 내부 슬롯 [[Value]].[[Writable]].[[Enumerable]].[[Configurable]]이다.
+직접 접근은 불가능 하지만 지만 Object.getOwnPropertyDescriptor 메서드를 사용하여 간접적으로 확인이 가능
+Object.getOwnPropertyDescriptor -> 프로퍼티 디스크립터 객체를 반환, 존재 안할 경우 undefined를 반환
+
 ```javascript
-var x;
+const person = {
+name: 'Park'
+};
 
-x = 10;
-console.log(x); // 10
+// 프로퍼티 동적 생성
+person.age = 28;
 
-x += 5;
-console.log(x); // 15
+// 모든 프로퍼티의 프로퍼티 어트리뷰트 정보를 제공하는 프로퍼티 디스크립터 객체들을 반환한다.
+console.log(Object.getOwnPropertyDescriptors(person));
+/*
+{
+name: {value: "Park", writable: true, enumerable: true, configurable: true},
+age: {value: 28, writable: true, enumerable: true, configurable: true}
+}   //첫 번째 매개변수 : 객체의 참조, 두번째 매개변수 : 프로퍼티 키
+*/
 
-x -= 5;
-console.log(x); // 10
-
-x *= 10;
-console.log(x); // 50
-
-x /= 10;
-console.log(x); // 10
-
-x %= 10;
-console.log(x); // 0
-
-//할당문은 값으로 평가되는 표현식인 문으로서 할당된 값이기 때문에 연쇄할당도 가능하다
-var a, b, c;
-a = b = c = 0;
-
-console.log(a, b, c); // 0 0 0
 ```
 
 <br>
 
-## 7.3 비교 연산자
-비교 연산자 : 좌항과 우항의 피연산자를 비교한 후 불리언 값으로 반환
+## 16.3 데이터 프로퍼티와 접근자 프로퍼티
+프로퍼티 -> 데이터 프로퍼티 / 접근자 프로퍼티
 
-#### 7.3.1  동등/일치 비교 연산자
-```javascript
-// 동등 비교 : 값 비교 O , 타입 비교 X
-5 == '5'; // true;
+데이터 프로퍼티 : 키와 값으로 구성된 일반적인 프로퍼티
+접근자 프로퍼티 : 자체적으로는 값을 갖지 않고 다른 데이터 프로퍼티의 값을 읽거나 저장할 때 호출되는 접근자 함수로 구성된 프로퍼티
 
-// 일치 비교 : 값, 타입 비교 O
-5 === '5'; // false;
+#### 16.3.1 데이터 프로퍼티
+|프로퍼티 어트리뷰트|프로퍼티 디스크립터 객체의 프로퍼티|설명|
+|-------|-------|---------------------|
+|[[Value]]|value|프로퍼티 키를 통해 프로퍼티 값에 접근하면 반환되는 값|
+|[[Writable]]|writable|프로퍼티 값의 변경 가능 여부를 불리언 값으로 가짐. false -> 읽기 전용 프로퍼티|
+|[[Enumerable]]|enumerable|열거 가능 여부를 불리언 값으로 가짐. fales -> for ... in 문이나 Object. keys 메서드 등으로 열거 불가능|
+|[[Configurable]]|configurable|프로퍼티의 재정의 가능 여부를 불리언 값으로 가짐. false -> 해당 프로퍼티 삭제, 변경 금지|
 
-// 결과 예측 어려운 연산
-'0' == ''; // false;
-0 == ''; // true;
-0 == '0'; // true;
-false == 'false'; // false
-false == '0'; // true
-false == null; // false
-false == undefined; // false
-NaN === NaN; // false
-0 === -0; // true
-
-// Object.js 메서드는 아래 상황 제외하고 ===와 동일하다
-Object.js(-0, +0); // false
-Object.js(NaN, NaN); // true
-
-// Number.isNaN 함수는 지정한 값이 NaN인지 확인 후 불리언 값으로 반환
-Number.isNaN(NaN); // true
-Number.isNaN(10); // false
-Number.isNaN(1 + undefined); // true
-```
-
-#### 7.3.1 대소 관계 비교 연산자
-```javascript
-5 > 5; // false
-5 >= 5; // true
-```
+#### 16.3.2 접근자 프로퍼티
+|프로퍼티 어트리뷰트|프로퍼티 디스크립터 객체의 프로퍼티|설명|
+|-------|-------|---------------------|
+|[[Get]]|get||
+|[[Set]]|set||
+|[[Enumerable]]|enumerable||
+|[[Configurable]]|configurable||
 
 <br>
 
