@@ -2,7 +2,9 @@
 
 ## 16.1 내부 슬롯과 내부 메서드
 
-내부 슬롯과 내부 메서드는 ECMAScript사양에서 사용하는 의사 프로퍼티와 의사 메서드다. 즉, ECMAScript 사양에서 등장하는 [[]]로 감싼 이름들이 내부 슬롯과 내부 메서드이다. -> ECMAScript 문서에서 자바스크립트 내부 동작의 설명을 위해 정의해 놓은 가상 메소드
+내부 슬롯과 내부 메서드는 ECMAScript사양에서 사용하는 의사 프로퍼티와 의사 메서드
+
+ECMAScript에서 등장하는 [[]]로 감싼 이름들이 내부 슬롯과 내부 메서드 -> ECMAScript 문서에서 자바스크립트 내부 동작의 설명을 위해 정의해 놓은 가상 메소드
 ```javascript
 const o = {};
 o. [[Prototype]] // Uncaught SyntaxError: Unexpected token '[ ’
@@ -15,6 +17,7 @@ o.__proto__ // Object.prototype
 프로퍼티를 생성할 때 자바스크립트 엔진은 프로퍼티의 상태를 나타내는 property attribute를 기본값으로 자동 정의 
 
 property attribute : 자바스크립트 엔진이 관리하는 내부 상태 값인 내부 슬롯 [[Value]].[[Writable]].[[Enumerable]].[[Configurable]]이다.
+
 직접 접근은 불가능 하지만 지만 Object.getOwnPropertyDescriptor 메서드를 사용하여 간접적으로 확인이 가능
 Object.getOwnPropertyDescriptor -> 프로퍼티 디스크립터 객체를 반환, 존재 안할 경우 undefined를 반환
 
@@ -49,145 +52,183 @@ age: {value: 28, writable: true, enumerable: true, configurable: true}
 |프로퍼티 어트리뷰트|프로퍼티 디스크립터 객체의 프로퍼티|설명|
 |-------|-------|---------------------|
 |[[Value]]|value|프로퍼티 키를 통해 프로퍼티 값에 접근하면 반환되는 값|
-|[[Writable]]|writable|프로퍼티 값의 변경 가능 여부를 불리언 값으로 가짐. false -> 읽기 전용 프로퍼티|
-|[[Enumerable]]|enumerable|열거 가능 여부를 불리언 값으로 가짐. fales -> for ... in 문이나 Object. keys 메서드 등으로 열거 불가능|
-|[[Configurable]]|configurable|프로퍼티의 재정의 가능 여부를 불리언 값으로 가짐. false -> 해당 프로퍼티 삭제, 변경 금지|
+|[[Writable]]|writable|프로퍼티 값의 변경 가능 여부를 불리언 값으로 가짐. false → 읽기 전용 프로퍼티|
+|[[Enumerable]]|enumerable|열거 가능 여부를 불리언 값으로 가짐. fales → for ... in 문이나 Object. keys 메서드 등으로 열거 불가능|
+|[[Configurable]]|configurable|프로퍼티의 재정의 가능 여부를 불리언 값으로 가짐. false → 해당 프로퍼티 삭제, 변경 금지|
 
 #### 16.3.2 접근자 프로퍼티
 |프로퍼티 어트리뷰트|프로퍼티 디스크립터 객체의 프로퍼티|설명|
 |-------|-------|---------------------|
-|[[Get]]|get||
-|[[Set]]|set||
-|[[Enumerable]]|enumerable||
-|[[Configurable]]|configurable||
+|[[Get]]|get|접근자 프로퍼티를 통해 데이터 프로퍼티의 값을 읽을 때 호출되는 접근자 함수|
+|[[Set]]|set|접근자 프로퍼티를 통해 데이터 프로퍼티의 값을 저장할 때 호출되는 접근자 함수|
+|[[Enumerable]]|enumerable|데이터 프로퍼티와 동일|
+|[[Configurable]]|configurable|데이터 프로퍼티와 동일|
 
-<br>
-
-## 7.4 삼항 조건 연산자
-삼항 조건 연산자 : 조건식의 평가 결과에 따라 반환할 값을 결정
-조건식 ? (true일때 반환할 값) : (false일때 반환할 값)
 ```javascript
-var x = 2;
+const person = {
+// 데이터 프로퍼티
+firstName: 'SY',
+lastName: 'P',
 
-var result = x % 2 ? '홀수' : '짝수'; // 짝수
+// getter 함수
+get fullName() { // fullName은 접근자 함수로 구성된 접근자 프로퍼티다.
+return '${this.firstName} ${this.lastName}';
+},
+
+// setter 함수
+set fullName(name) {
+[this.firstName, this.lastName] = name.split(’ ’);
+}
+};
+
+// 데이터 프로퍼티를 통한 프로퍼티 값의 참조.
+console.log(person.firstName + ' ' + person.lastName); // SY P
+
+// 접근자 프로퍼티를 통한 프로퍼티 값의 저장
+// 접근자 프로퍼티 fullName에 값을 저장하면 setter 함수가 호출
+person.fullName = 'SangYong Park';
+console.log(person); // {firstName: "SangYong", lastName: "Park"}
+
+// 접근자 프로퍼티를 통한 프로퍼티 값의 참조
+// 접근자 프로퍼티 fullName에 접근하면 getter 함수가 호출된다.
+console.log(person.fullName); // SangYong Park
+
+// firstNam은은 데이터 프로퍼티다.
+// 데이터 프로퍼티는 [[Value]], [[Writable]], [[타wmerable]], [[Configurable]]
+let descriptor = Object.getOwnPropertyDescriptor(person, firstName' );
+console.log(descriptor);
+// {value: "SangYong", writable: true, enumerable: true, configurable: true}
+
+// fullNam은은 접근자 프로퍼티다.
+// 접근자 프로퍼티는 [[Get]], 〔[Set]], [[Enumerable]], [[Configurable]]
+descriptor = Object.getOwnPropertyDescriptor(person, 'fullName');
+console.log(descriptor);
+// {get: /, set: f, enumerable: true, configurable: true}
 ```
-삼항 조건 연산자는 if...else 문과 비슷하다. 하지만 if...else문은 표현식이 아닌 문이므로 값처럼 사용 불가능하다.
-삼항 조건 연산자 표현식은 값으로 평가할 수 있는 표현식인 문이다.
+접근자 프로퍼티는 자체적으로 값(프로퍼티 어트리뷰트 [[Value]])을 가지지 않으며 다만 데이터 프로퍼티의 값을 읽거나 저장할 때 관여 함
 
-<br>
-
-## 7.5 논리 연산자
-논리 연산자는 우항과 좌항의 피연산자를 논리 연산한다.(AND, OR, NOT)
-```javascript
-// 논리합 연산자
-true || true; // true
-true || false; // true
-false || false; // false
-
-// 논리곱 연산자
-true && true; // true
-true && false; // false
-false && false; // false
-
-// 논리 부정 연산자
-!true; // false
-
-// 논리 부정 연산자는 언제나 불리언 값을 반환하지만
-// 논리합 논리곱 연산자의 평과 결과는 불리언 값이 아닐 수도 있다.
-!0; // true
-!'Hello'; // false
-'Cat' && 'Dog' // 'Dog'
-
-// 드 모르간의 법칙 : 논리곱(합)의 부정은 각각 부정의 논리합(곱)과 같다는 법칙
-!(x || y) === (!x && !y)
-!(x && y) === (!x || !y)
-```
-
-<br>
-
-## 7.6 쉼표 연산자
-쉼표 연산자 : 쉼표 연산자는 왼쪽 피연산자 부터 평가하고 마지막 피연산자의 평가가 끝나면 마지막 피연산자의 평과 결과를 반환한다.
-```javascript
-var x;
-
-x = (2, 3);
-console.log(x); // 3
-```
-
-<br>
-
-## 7.7 그룹 연산자
-그룹 연산자 : 소괄호()로 피연산자를 감싸는 그룹 연산자는 자신의 피연산자인 표현식을 가장 먼저 평가한다.
-<p align="center"><img src="./img/두뇌풀가동.gif" width="300px"></p> 
-<br>
+프로토타입 : 어떤 객체의 부모 객체의 역할을 하는 객체, 자식 객체에게 자신의 프로퍼티와 메서드를 상속
 
 ```javascript
-2 + 2 * 2; // 6
-(2 + 2) * 2; // 8
+//접근자 프로퍼티와 데이터 프로퍼티를 구별하는 방법
+
+// 일반 객체의 __proto__는 접근자 프로퍼티다.
+Object.getOwnPropertyDescriptor(Object.prototype, '__proto__' );
+// {get: f, set: f, enumerable: false, configurable: true}
+
+// 함수 객체의 prototype은 데이터 프로퍼티다.
+Object.getOwnPropertyDescriptor(function() {}, 'prototype');
+// {value: {... }, writable: true, enumerable: false, configurable: false}
 ```
 
 <br>
 
-## 7.8 typeof 연산자
-typeof 연산자 : 피연산자의 데이터 타입을 문자열로 변환한다.
+## 16.4 프로퍼티 정의
+프로퍼티 정의 : 새로운 프로퍼티를 추가하면서 프로퍼티 어트리뷰트를 명시적으로 정의하거나, 기존 어트리뷰트를 재정의 하는 것
+
 ```javascript
-typeof ''  // string
-typeof 1 // number
-typeof NaN // number
-typeof true // boolean
-typeof undefined // undefined
-typeof Symbol() // symbol
-typeof null // object *null이 아닌것은 버그이다
-typeof [] // object 
-typeof {} // object 
-typeof new Data() // object 
-typeof /test/gi // object 
-typeof function () {} // function
+// Object.defineProperty 메서드를 사용하면 프로퍼티의 어트리뷰트를 정의할 수 있다.
 
-//선언하지 않은 식별자를 typeof연산자로 연산하면 undefined을 반환한다.
+const person = {};
+
+Object.defineProperty(person, 'firstName', {
+value: 'SY',
+writable: true,
+enumerable: true,
+configurable: true
+});
+
+Object.defineProperty(person, 'lastName', {
+value: 'P'
+});
+
+let descriptor = Object.getOwnPropertyDescriptor(person, 'firstName');
+console.log('firstName', descriptor);
+// firstName {value: "SY", writable: true, enumerable: true, configurable: true}
+
+// 디스크립터 객체의 프로퍼티를 누락시키면 undefined, false가 기본값이다.
+descriptor = Object.getOwnPropertyDescriptor(person, 'lastName');
+console.log('lastName', descriptor);
+// lastName {value: "P", writable: false, enumerable: false, configurable: false}
+
+// lastName 프로퍼티는 [[Enumerable]]의 값이 false이므로 열거되지 않는다.
+console.log(Object.keys(person)); // ["firstName"]
+
+// lastName 프로퍼티는 [[Writable]]의 값이 false이므로 값을 변경할 수 없다.
+person.LastName = 'Kim'; // 에러 발생 X
+
+// lastName 프로퍼티는 [[Configurable]]의 값이 false이므로 삭제할 수 없다.
+delete person.lastName; // 에러 발생 X (재 정의할경우 에러 발생)
+
+descriptor = Object.getOwnPropertyDescriptor(person, ’lastName');
+console.log('lastName', descriptor);
+// lastName {value: "P", writable: false, enumerable: false, configurable: false}
+
+// 접근자 프로퍼티 정의
+Object.defineProperty(person, 'fullName1, {
+
+get() {
+return '${this.firstName} ${this.lastName}';
+},
+
+set(name) {
+[this.firstName, this.lastName] = name.split(' ');
+},
+enumerable: true,
+configurable: true
+});
+
+descriptor = Object.getOwnPropertyDescriptor(person, 'fullName’);
+console.log( fullName , descriptor);
+// fullName {get: f, set: f, enumerable: true, configurable: true}
+
+person.fullName = 'SangYong Park';
+console.log(person); // {firstName: "SangYong", lastName: "Park"}
 ```
+프로퍼티 디스크립터 객체에서 어트리뷰트를 생략하면 다음과 같이 적용된다.
 
-<br>
+Value/ Get/ Set → undefined
 
-## 7.9 지수 연산자
-지수 연산자 : 좌항의 피연산자를 밑으로, 우항의 피연산자를 지수로 거듭제곱하여 반환한다.
+writable/ enumerable/ configurable → false
+
 ```javascript
-2 ** 2; // 4
-2 ** 2.5; // 5.656854
-2 ** 0; // 1
-2 ** -2; // 0.25
-(-2) ** 2 // 4 (음수를 거듭제곱의 밑으로 사용하려면 괄호로 묶어야 한다)
+const person = {};
 
-// 지수 연산자 대신 math.pow 사용도 가능하다
+Object.defineProperties(person, {
 
-// 지수 연산자는 이항 연산자 중에서 우선순위가 가장 높다.
-2 * 5 ** 2; // 50
+firstName: {
+value: 'SY',
+writable: true,
+enumerable: true,
+configurable: true
+},
+lastName: {
+value: 'P',
+writable: true,
+enumerable: true,
+configurable: true
+},
+
+fullName: {
+get() {
+return '${this.firstName} ${this.lastName}';
+},
+
+set(name) {
+[this.firstName, this.lastName] = name.split(' ');
+},
+enumerable: true,
+configurable: true
+}
+});
+person.fullName = 'SangYong Park';
+console.log(person); // {firstName: "SangYong", lastName: "Park”}
 ```
-
 <br>
 
-## 7.10 연산자의 부수 효과
-부수 효과가 있는 연산자는 할당 연산자(=), 증감 연산자(++/--),delete 연산자이다.
+## 16.5 객체 변경 방지
+
+
 ```javascript
-var o = {a : 1};
 
-delete o.a; // delete 연산자는 객체의 프로퍼티를 삭제함
-console.log(o); // {}
 ```
-
-<br>
-
-## 7.11 연산자의 우선순위
-연산자 우선순위 : 여러 개의 연산자로 이뤄진 문일 경우 연산자가 실행 되는 순서
-
-<br>
-<img src="./img/연산자우선순위1.png">
-<img src="./img/연산자우선순위2.png">
-
-<br>
-
-## 7.12 연산자의 결합 순서
-연산자 결합 순서 : 연산자의 좌항 or 우항 중 어디서부터 평가를 수행할 것인지를 나타내는 순서
-
-<br>
-<img src="./img/연산자결합순서.png">
