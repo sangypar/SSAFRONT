@@ -4,3 +4,4 @@ score = 80;
 var score;
 
 console.log(score);
+
