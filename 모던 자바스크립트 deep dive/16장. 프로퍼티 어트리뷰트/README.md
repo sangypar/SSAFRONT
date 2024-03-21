@@ -94,7 +94,7 @@ console.log(person); // {firstName: "SangYong", lastName: "Park"}
 console.log(person.fullName); // SangYong Park
 
 // firstNam은은 데이터 프로퍼티다.
-// 데이터 프로퍼티는 [[Value]], [[Writable]], [[타wmerable]], [[Configurable]]
+// 데이터 프로퍼티는 [[Value]], [[Writable]], [[Enumerable]], [[Configurable]]
 let descriptor = Object.getOwnPropertyDescriptor(person, firstName' );
 console.log(descriptor);
 // {value: "SangYong", writable: true, enumerable: true, configurable: true}
