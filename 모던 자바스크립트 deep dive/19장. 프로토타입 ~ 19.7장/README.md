@@ -8,6 +8,7 @@
 시레는 특징이나 성질을 나타내는 **속성** attrivute/property를 가지고 있고 이를 통해 인식, 구별할 수 있다.
 
 * 추상화
+  
 다양한 속성 중에서 프로그램에 필요한 속성만 간추려 표현하는 것
 여러 개의 사람 객체들 중에서 속성을 통해 하나의 객체를 구별 할 수 있다. (김도은과 최이서는 다른 사람이다!)
 → 이렇게 속성을 통해 여러 개의 값을 하나의 단위로 구성한 복합적인 자료구조를 **객체**라고 부른다.
@@ -27,6 +28,7 @@ const Circle = {
 
 ## 상속과 프로토타입
 * 상속이란?
+  
 어떤 객체의 프로퍼티 또는 메서드를 다른 객체가 상속받아 그대로 사용할 수 있는 것
 자바 스크립트에서는 상속을 구현하여 불필요한 중복을 제거한다. 기존의 코드를 적극적으로 재사용하면 중복을 제거할 수 있다.
 [생성자 함수](https://github.com/sangypar/SSAFRONT/tree/main/%EB%AA%A8%EB%8D%98%20%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8%20deep%20dive/17%EC%9E%A5.%20%EC%83%9D%EC%84%B1%EC%9E%90%20%ED%95%A8%EC%88%98%EC%97%90%20%EC%9D%98%ED%95%9C%20%EA%B0%9D%EC%B2%B4%20%EC%83%9D%EC%84%B1)에서 봤듯이 동일한 프로퍼티 구조를 갖는 객체를 여러 개 생성할 때 유용하다.
@@ -91,6 +93,7 @@ name: "Lee" person 객체의 프로퍼티
 ```
 
 * __proto__는 접근자 프로퍼티다.
+  
 내부 슬롯을 프로퍼티가 아니다. 따라서 자바스크립트에서는 내부 슬롯과 내부 메서드에 직접적으로 접근하거나 호출할 수 잇는 방법을 제공하지 않는다.
 __proto__ 접근자 프로퍼티를 통해서 간접적으로 [[Prototype]]이라는 내부 슬롯의 값, 즉 프로토타입에 접근할 수 있다는 뜻이다.
 ![image](https://github.com/sangypar/SSAFRONT/assets/158231909/d0b51d9f-b6d6-407a-b820-6fbb6d6ef10d)
@@ -111,6 +114,7 @@ console.log(obj.x); // 1
 ```
 
 * __proto__ 접근자 프로퍼티는 상속을 통해 사용된다.
+  
 __proto__는 객체가 직접 소유하는 프로퍼티가 아니라 Obeject.prototype의 프로퍼티다. 모든 객체는 상속을 통해 접근자 프로퍼티를 사용할 수 있다.
 
 **Object.prototype**
@@ -121,6 +125,7 @@ __proto__는 객체가 직접 소유하는 프로퍼티가 아니라 Obeject.pro
 ```
 
 * __proto__ 접근자 프로퍼티를 통해 프로토타입에 접근하는 이유
+  
 접근자 프로퍼티는 사용하는 이유는 **상호 참조에 의해 프로토타입 체인이 생성되는 것을 방지하기 위해** 사용된다.
 
 ```javaScript
@@ -140,6 +145,7 @@ parent.__proto__ = child; // TypeError: Cyclic __proto__ value
 아무런 체크 없이 무조건적으로 프로토타입을 교체할 수 없도록 __proto__ 접근자 프로퍼티를 통해 프로토타입에 접근하고 교체하도록 구현되어 있다.
 
 * __proto__ 접근자 프로퍼티를 코드 내에서 직접 사용하는 것은 권장하지 않는다.
+  
 모든 객체가 사용할 수 있는 것은 아니기 때문에 코드 내에서 접근자 프로퍼티를 직접 사용하는 것은 권장하지 않는다.
 직접 상속을 통해 Object.prototype을 상속받지 않는 객체를 생성할 수도 있기 때문에 접근자 프로퍼티를 사용할 수 없는 경우가 있다.
 ```javaScript
@@ -154,6 +160,7 @@ console.log(Object.getPrototypeOf(obj)); // null
 ```
 
 접근자 프로퍼티 대신 프로포타입의 참조를 취득하고 싶을 때는 **Object.getPrototypeOf** 메서드를 사용하고, 교체하고 싶은 경우는 **Object.setPrototypeOf** 메서드를 사용할 것을 권장한다.
+
 ```javaScript
 const obj = {};
 const parent = { x: 1 };
@@ -195,13 +202,16 @@ console.log(obj.foo.hasOwnProperty('prototype')); // false
 // non-constructor는 프로토타입을 생성하지 않는다.
 console.log(obj.foo.prototype); // undefined
 ```
+
 **모든 객체가 가지고 있는 __proto__ 접근자 프로퍼티와 함수 객체만이 가지고 있는 prototype 프로퍼티는 결국 동일한 프로토타입을 가리킨다.**
 그러나 이들 프로퍼티를 사용하는 주체가 다르다.
 ![image](https://github.com/sangypar/SSAFRONT/assets/158231909/3521f9c2-cd20-4d60-89fa-f0a53f9f9038)
 ![image](https://github.com/sangypar/SSAFRONT/assets/158231909/3475ec24-5fac-4330-9c8e-772a5d55e90a)
 
 ### 프로토타입의 constructor 프로퍼티와 생성자 함수
+
 **모든 프로토타입은 constructor 프로퍼티를 갖는다.** 이 프로퍼티는 자신을 참조하고 있는 생성자 함수를 가리킨다.
+
 ```javaScript
 // 생성자 함수
 function Person(name) {
