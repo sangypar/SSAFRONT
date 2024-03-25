@@ -46,6 +46,7 @@ age: {value: 28, writable: true, enumerable: true, configurable: true}
 프로퍼티 -> 데이터 프로퍼티 / 접근자 프로퍼티
 
 데이터 프로퍼티 : 키와 값으로 구성된 일반적인 프로퍼티
+
 접근자 프로퍼티 : 자체적으로는 값을 갖지 않고 다른 데이터 프로퍼티의 값을 읽거나 저장할 때 호출되는 접근자 함수로 구성된 프로퍼티
 
 #### 16.3.1 데이터 프로퍼티
@@ -94,7 +95,7 @@ console.log(person); // {firstName: "SangYong", lastName: "Park"}
 console.log(person.fullName); // SangYong Park
 
 // firstNam은은 데이터 프로퍼티다.
-// 데이터 프로퍼티는 [[Value]], [[Writable]], [[타wmerable]], [[Configurable]]
+// 데이터 프로퍼티는 [[Value]], [[Writable]], [[Enumerable]], [[Configurable]]
 let descriptor = Object.getOwnPropertyDescriptor(person, firstName' );
 console.log(descriptor);
 // {value: "SangYong", writable: true, enumerable: true, configurable: true}
