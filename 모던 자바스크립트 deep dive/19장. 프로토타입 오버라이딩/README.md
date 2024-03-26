@@ -1,25 +1,66 @@
-# 16장 프로퍼티 어트리뷰트
+# 19장 프로토타입
 
-## 16.1 내부 슬롯과 내부 메서드
+## 19.8 오버라이딩과 프로퍼티 섀도잉
 
-내부 슬롯과 내부 메서드는 ECMAScript사양에서 사용하는 의사 프로퍼티와 의사 메서드
+> 오버라이딩 : 상위 클래스가 가지고 있는 메서드를 하위 클래스가 재정의하여 사용하는 방식이다.
 
-ECMAScript에서 등장하는 [[]]로 감싼 이름들이 내부 슬롯과 내부 메서드 -> ECMAScript 문서에서 자바스크립트 내부 동작의 설명을 위해 정의해 놓은 가상 메소드
+> 오버로딩 : 함수의 이름은 동일하지만 매개변수의 타입 또는 개수가 다른 메서드를 구현하고 매개변수에 의해 메서드를 구별하여 호출하는 방식이다. 자바스크립트는 오버로딩을 지원하지 않지만 arguments 객체를 사용하여 구현할 수는 있다.
+
 ```javascript
-const o = {};
-o. [[Prototype]] // Uncaught SyntaxError: Unexpected token '[ ’
-o.__proto__ // Object.prototype
+const Person = (function () {
+// 생성자 함수
+function Person(name) {
+this.name = name;
+}
+
+// 프로토타입 메서드
+Person.prototype.sayHello = function () {
+console.log( Hi! My name is ${this.name} );
+};
+
+// 생성자 함수를 반환
+return Person;
+}());
+
+const me = new Person('Park');
+
+// 인스턴스 메서드
+me.sayHello = function () {
+console.log( Hey! My name is ${this.name} );
+};
+
+// 인스턴스 메서드가 호출된다. 프로토타입 메서드는 인스턴스 메서드에 의해 가려진다.
+me.sayHello(); // Hey! My name is Park
+
+// 인스턴스 메서드를 삭제한다.
+delete me.sayHello;
+// 인스턴스에는 sayHello 메서드가 없으므로 프로토타입 메서드가 호출된다.
+me.sayHello(); // Hi! My name is Park
+
+// 프로토타입 체인을 통해 프로토타입 메서드가 삭제되지 않는다.
+delete me.sayHello;
+// 프로토타입 메서드가 호출된다.
+me.sayHello(); // Hi! My name is Park
+
+// 하위 객체를 통해 프로토타입의 프로퍼티를 변경 또는 삭제하는 것은 불가능하다.
+// 즉, 하위객체를 통해 프로토타입에 get 액세스는 허용되나 set 액세스는 허용되지 않는다.
+
+// 프로토타입 메서드 삭제
+delete Person.prototype.sayHello;
+me.sayHello(); // TypeError: me. sayHello is not a function
+
+//프로토타입 프로퍼티를 변경 또는 삭제하려면 하위 객체를 통해 프로토타입 체인으로 접근하는 것이 아니라 프로토타입에 직접 접근해야 한다.
 ```
+프로토타입 프로퍼티와 같은 이름의 프로퍼티를 인스턴스에 추가시 프로토타입 프로퍼티를 덮어쓰는 것이 아니라 인스턴스 프로퍼티로 추가한다.
+
+즉, sayHello는 프로토타입 메서드 sayHello를 오버라이딩했고 프로토타입 메서드 sayHello는 가려진다.
+
+상속 관계에 의해 프로퍼티가 가려지는 현상을 프로퍼티 섀도잉이라 한다.
 
 <br>
 
-## 16.2 프로퍼티 어트리뷰트와 프로퍼티 디스크립터 객체
-프로퍼티를 생성할 때 자바스크립트 엔진은 프로퍼티의 상태를 나타내는 property attribute를 기본값으로 자동 정의 
+## 19.9 프로토타입의 교체
 
-property attribute : 자바스크립트 엔진이 관리하는 내부 상태 값인 내부 슬롯 [[Value]].[[Writable]].[[Enumerable]].[[Configurable]]이다.
-
-직접 접근은 불가능 하지만 지만 Object.getOwnPropertyDescriptor 메서드를 사용하여 간접적으로 확인이 가능
-Object.getOwnPropertyDescriptor -> 프로퍼티 디스크립터 객체를 반환, 존재 안할 경우 undefined를 반환
 
 ```javascript
 const person = {
