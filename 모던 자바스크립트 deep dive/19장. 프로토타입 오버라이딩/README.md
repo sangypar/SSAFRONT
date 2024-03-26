@@ -289,29 +289,83 @@ Object.create 메서드의 장점은
 > - new 연산자가 없이도 객체를 생성할 수 있다.
 > - 프로토타입을 지정하면서 객체를 생성할 수 있다.
 > - 객체 리터럴에 의해 생성된 객체도 상속받을 수 있다.
-#### 19.11.2 객체 리터럴 내부에서 __proto__에 의한 직접 상속
 
 ```javascript
+// Object.prototype의 빌트인 메서드인 Object.prototype.hasOwnProperty와 같은 메서드는
+// 모든 객체의 프로토타입 체인의 종점, 즉 Object.prototype의 메서드이므로 모든 객체가 상속받아 호출할수 있다. (권장 X)
 
+const obj = { a: 1 };
+obj.hasOwnProperty('a'); // true
+obj.propertyIsEnumerable('a'); // true
+
+// 프로토타입 체인의 종점에 위치하는 객체는 Object.prototype의 빌트인 메서드를 사용할 수 없기 때문에 빌트인 메서드는 간접적으로 호출하는것이 좋다
+
+// 프로토타입이 null인 객체를 생성한다.
+const obj1 = Object.create(null);
+obj1.a = 1;
+
+// console.log(obj1.hasOwnProperty('a'));
+// TypeError: obj1.hasOwnProperty is not a function
+
+// Object.prototyped 빌트인 메서드는 객체로 직접 호출하지 않는다.
+console.log(Object.prototype.hasOwnProperty.call(obj1, 'a' )); // true
+```
+
+#### 19.11.2 객체 리터럴 내부에서 __proto__에 의한 직접 상속
+
+Object.create는 두 번째 인자로 오는 프로퍼티를 정의하는 것은 번거롭다. 
+
+그래서 객체 리터럴 내부에서 __proto__ 접근자 프로퍼티를 사용하여 직접 상속을 구현할 수 있다.
+
+```javascript
+const myProto = { x: 10 };
+// 객체 리터럴에 의해 객체를 생성하면서 프로토타입을 지정하여 직접 상속받을 수 있다.
+const obj = {
+  y: 20,
+// 객채를 직접 상속받는다.
+// obj → myProto → Object.prototype → null
+__proto__: myProto
+};
+/* 위 코드는 아래와 동일하다.
+const obj = Object.create(myProto, {
+  y: { value: 20, writable: true, enumerable: true, configurable: true }
+});
+*/
+
+console.log(obj.x, obj.y); // 10 20
+console.log(Object.getPrototypeOf(obj) === myProto); // true
 ```
 
 <br>
 
 ## 19.12 정적 프로퍼티/메서드
 
-
-#### 16.5.1 객체 확장 금지
+정적 프로퍼티/메서드 : 생성자 함수로 인스턴스를 생성하지 않아도 참조, 호출할 수 있는 프로퍼티/메서드
 
 ```javascript
 
 ```
 
-#### 16.5.2 객체 밀봉
-
-#### 16.5.3 객체 동결
-
-#### 16.5.4 불변 객체
-
 <br>
 
 ## 19.13 프로퍼티 존재 확인
+
+#### 19.13.1 in 연산자
+
+#### 19.13.2 Object.prototype.hasOwnProperty 메서드
+
+```javascript
+
+```
+
+<br>
+
+## 19.14 프로퍼티 열거
+
+#### 19.14.1 for...in문
+
+#### 19.14.2 Object.keys/values/entries 메서드
+
+```javascript
+
+```
