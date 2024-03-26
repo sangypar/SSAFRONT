@@ -306,9 +306,11 @@ console.log(Person.prototype); // undefined
 ```
 
 함수 선언문은 런타임 이전에 자바스크립트 엔진에 의해 먼저 실행된다. 그래서 함수 선언문으로 정의된 생성자 함수는 어떤 코드보다 먼저 평가되어 함수 객체가 된다. 이때 프로토타입도 더불어 생성된다.
+
 ![image](https://github.com/sangypar/SSAFRONT/assets/158231909/dbcdc805-1ebb-48f9-8ab7-9bac0cbd692c)
 
 생성된 프로토타입은 오직 constructor 프로퍼티만을 갖는 객체다. 프로토타입도 자신의 프로토타입으로 Object.prototype를 갖는다.
+
 ![image](https://github.com/sangypar/SSAFRONT/assets/158231909/625fcec9-95ef-4027-bfa9-50a910acae1f)
 
 ### 빌트인 생성자 함수와 프로토타입 생성 시점
@@ -409,7 +411,7 @@ Object.getPrototypeOf(Person.prototype) === Object.prototype; //true
 ```
 ![image](https://github.com/sangypar/SSAFRONT/assets/158231909/3e2f2689-0d40-4042-be60-10e1d0efae30)
 
-**프로토타입 체인**
+**프로토타입 체인** <br>
 객체의 프로퍼티(메서드 포함)에 접근하려고 할 때 해당 객체에 접근하려는 프로퍼티가 없다면 [[Prototype]] 내부 슬롯의 참조를 따라 자신의 부모역할을 하는 프로토타입의 프로퍼티를 순차적으로 검색한다.
 상속을 구현하는 메커니즘이다.
 위의 예시에서 hasOwnProperty는 Object.Prototype의 메서드인데, 프로토타입 체인을 따라 Object까지 올라가서 그 메서드를 검색하여 사용하는 것이다.
@@ -417,8 +419,8 @@ Object.getPrototypeOf(Person.prototype) === Object.prototype; //true
 프로토타입 체인을 계속 타고 올라가다 보면 최상위에 위치하는 객체는 언제나 Obejct.prototype이다. = 모든 객체는 Object.prototype을 상속받는다.
 **Object.prototype을 프로토타입 체인의 종점**이라고 부른다. 여기서도 프로퍼티를 검색할 수 없다면 undefined를 반환한다. *에러가 발생하지 않는다*
 
-**프로토타입 체인은 상속과 프로퍼티 검색을 위한 메커니즘**이라고 할 수 있다. 
-이와 달리 식별자는 [스코프 체인]([![Uploading image.png…]()](https://github.com/sangypar/SSAFRONT/tree/main/%EB%AA%A8%EB%8D%98%20%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8%20deep%20dive/13%EC%9E%A5.%20%EC%8A%A4%EC%BD%94%ED%94%84#1331-%EC%8A%A4%EC%BD%94%ED%94%84-%EC%B2%B4%EC%9D%B8%EC%97%90-%EC%9D%98%ED%95%9C-%EB%B3%80%EC%88%98-%EA%B2%80%EC%83%89)https://github.com/sangypar/SSAFRONT/tree/main/%EB%AA%A8%EB%8D%98%20%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8%20deep%20dive/13%EC%9E%A5.%20%EC%8A%A4%EC%BD%94%ED%94%84#1331-%EC%8A%A4%EC%BD%94%ED%94%84-%EC%B2%B4%EC%9D%B8%EC%97%90-%EC%9D%98%ED%95%9C-%EB%B3%80%EC%88%98-%EA%B2%80%EC%83%89)
+**프로토타입 체인은 상속과 프로퍼티 검색을 위한 메커니즘**이라고 할 수 있다. <br>
+이와 달리 식별자는 [스코프 체인](https://github.com/sangypar/SSAFRONT/tree/main/%EB%AA%A8%EB%8D%98%20%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8%20deep%20dive/13%EC%9E%A5.%20%EC%8A%A4%EC%BD%94%ED%94%84#1331-%EC%8A%A4%EC%BD%94%ED%94%84-%EC%B2%B4%EC%9D%B8%EC%97%90-%EC%9D%98%ED%95%9C-%EB%B3%80%EC%88%98-%EA%B2%80%EC%83%89)https://github.com/sangypar/SSAFRONT/tree/main/%EB%AA%A8%EB%8D%98%20%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8%20deep%20dive/13%EC%9E%A5.%20%EC%8A%A4%EC%BD%94%ED%94%84#1331-%EC%8A%A4%EC%BD%94%ED%94%84-%EC%B2%B4%EC%9D%B8%EC%97%90-%EC%9D%98%ED%95%9C-%EB%B3%80%EC%88%98-%EA%B2%80%EC%83%89)
 에서 검색한다. 스코프의 계층적 구조에서 식별자를 검색한다. **스코프 체인은 식별자 검색을 위한 메커니즘**이라고 할 수 있다.
 
 **_스코프 체인과 프로토타입 체인은 서로 연관없이 별도로 동작하는 것이 아니라 서로 협력하여 식별자와 프로퍼티를 검색하는데 사용된다._**
