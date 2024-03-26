@@ -166,7 +166,7 @@ bar();
 
 > 클로저에 의해 참조되는 상위 스코프의 변수를 자유 변수(free variable)라고 부르며 클로저란 "자유 변수에 대해 닫혀있다."는 의미이다.
 
-## 24.2 클로저의 활용
+## 24.4 클로저의 활용
 
 클로저는 상태(state)를 안전하게 변경하고 유지하기 위해 사용한다. <br>
 상태가 의도치 않게 변경되지 않도록 <b>상태를 안전하게 은닉(information hiding)하고 특정 함수에게만 상태 변경을 허용</b>하기 위해 사용한다.
@@ -246,6 +246,7 @@ console.log(counter.decrease()); // 0
 ```
 
 즉시 실행 함수가 반환하는 객체 리터럴은 즉시 실행 함수의 실행 단계에서 평가되어 객체가 되고 이때 객체의 메소드도 함수 객체로 생성된다.
+다음과 같이 프로토타입을 활용하여 구현도 가능하다.
 
 ```javascript
 
@@ -277,3 +278,150 @@ console.log(counter.decrease()); // 0
 
 ```
 
+```javascript
+
+function makeCounter(aux) {
+  let counter = 0;
+  return function() {
+    counter = aux(counter);
+    return counter;
+  }
+}
+
+function increase(n) {
+  return ++n;
+}
+
+function decrease(n) {
+  return --n;
+}
+
+const increaser = makeCounter(increase);
+console.log(increaser()); // 1
+console.log(increaser()); // 2
+
+const decreaser = makeCounter(decrease);
+console.log(decreaser()); // -1
+console.log(decreaser()); // -2
+
+```
+
+makeCounter 함수는 보조 함수를 인자로 전달받고 함수를 반환하는 고차 함수다.
+이 때 주의해야 할 것은 makeCounter 함수를 호출해 함수를 반환할 때 반환된 함수는 자신만의 독립된 렉시컬 환경을 갖는다는 것이다.
+따라서 위의 예시에서 increaser와 decreaser 함수는 별개의 렉시컬 환경을 갖기 때문에 카운터 상태가 연동되지 않는다.
+
+```javascript
+
+const counter = (function(){
+
+  let counter = 0;
+
+  return function (aux) {
+    counter = aux(counter);
+    return counter;
+  };
+
+}());
+
+function increase(n) {
+  return ++n;
+}
+
+function decrease(n) {
+  return --n;
+}
+
+console.log(counter(increase)); // 1
+console.log(counter(increase)); // 2
+
+console.log(counter(decrease)); // 1
+console.log(counter(decrease)); // 0
+
+```
+
+독립된 카운터가 아니라 연동하여 증감이 가능한 카운터를 만들려면 렉시컬 환경을 공유하는 클로저를 만들어야 한다.
+이를 위해서는 <b>makeCounter 함수를 두 번 호출하지 말아야 한다.</b>
+
+## 24.5 캡슐화와 정보 은닉
+
+캡슐화(encapsulation)는 객체의 상태(state)를 나타내는 프로퍼티와 프로퍼티를 참조하고 조작할 수 있는 동작(behavior)인 메서드를 하나로 묶는 것을 말한다.
+캡슐화는 객체의 특정 프로퍼티나 메서드를 감출 목적으로 사용하기도 하는데 이를 정보 은닉(information hiding)이라 한다. <br>
+
+정보 은닉은 외부에 공개할 필요가 없는 구현의 일부를 외부에 공개되지 않도록 감추어 적절치 못한 접근으로부터 객체의 상태가 변경되는 것을 방지해 정보를 보호하고, 
+객체 간의 상호 의존성, 즉 결합도(coupling)를 낮추는 효과가 있다.
+
+```javascript
+const Person = (function(){
+  let _age = 0;
+
+  function Person(name, age) {
+    this.name = name;
+    _age = age;
+  }
+
+  Person.prototype.sayHi = function() {
+    console.log(`Hi My name is ${this.name}. I am ${_age}.`);
+  };
+
+  return Person;
+}());
+
+const me = new Person('Lee', 20);
+me.sayHi(); // Hi! My Name is Lee, I am 20.
+console.log(me.name); // Lee
+console.log(me._age); // undefined
+
+const you = new Person('Kim', 30);
+you.sayHi(); // Hi! My Name is Kim, I am 30.
+console.log(me.name); // Kim
+console.log(me._age); // undefined
+
+me.sayHi(); // Hi! My Name is Lee, I am 30. // _age 변수 값이 변경된다!
+```
+
+Person.prototype.sayHi 메서드는 즉시 실행 함수가 호출될 때 생성되며
+Person 생성자 함수의 모든 인스턴스가 상속을 통해 호출할 수 있는 Person.prototype.sayHi 메서드의 상위 스코프는 어떤 인스턴스를 호출하더라도 하나의 동일한 상위 스코프를 사용하게 된다.
+이러한 이유로 Person 생성자 함수가 여러 개의 인스턴스를 생성할 경우 위와 같이 _age 변수의 상태가 유지되지 않는다.
+이처럼 자바스크립트는 정보 은닉을 완전하게 지원하지 않는다.
+
+## 24.6 자주 발생하는 실수
+
+```javascript
+var funcs = [];
+
+for( var i = 0; i < 3; i++) {
+    funcs[i] = function () { return i; };
+}
+
+for( var j = 0; j < funcs.length; j++) {
+    console.log(funcs[j]());
+}
+```
+
+```javascript
+var funcs = [];
+
+for( var i = 0; i < 3; i++) {
+    funcs[i] = (function (id) {
+        return function() {
+            return id;
+        }
+    }(i))
+}
+
+for( var j = 0; j < funcs.length; j++) {
+    console.log(funcs[j]());
+}
+```
+
+```javascript
+const funcs = [];
+
+for(let i = 0; i < 3; i++) {
+    funcs[i] = function () { return i; };
+}
+
+for(let j = 0; j < funcs.length; j++) {
+    console.log(funcs[j]());
+}
+```
