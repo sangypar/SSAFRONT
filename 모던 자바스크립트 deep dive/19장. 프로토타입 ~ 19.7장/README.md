@@ -420,7 +420,7 @@ Object.getPrototypeOf(Person.prototype) === Object.prototype; //true
 **Object.prototype을 프로토타입 체인의 종점**이라고 부른다. 여기서도 프로퍼티를 검색할 수 없다면 undefined를 반환한다. *에러가 발생하지 않는다*
 
 **프로토타입 체인은 상속과 프로퍼티 검색을 위한 메커니즘**이라고 할 수 있다. <br>
-이와 달리 식별자는 [스코프 체인](https://github.com/sangypar/SSAFRONT/tree/main/%EB%AA%A8%EB%8D%98%20%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8%20deep%20dive/13%EC%9E%A5.%20%EC%8A%A4%EC%BD%94%ED%94%84#1331-%EC%8A%A4%EC%BD%94%ED%94%84-%EC%B2%B4%EC%9D%B8%EC%97%90-%EC%9D%98%ED%95%9C-%EB%B3%80%EC%88%98-%EA%B2%80%EC%83%89)https://github.com/sangypar/SSAFRONT/tree/main/%EB%AA%A8%EB%8D%98%20%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8%20deep%20dive/13%EC%9E%A5.%20%EC%8A%A4%EC%BD%94%ED%94%84#1331-%EC%8A%A4%EC%BD%94%ED%94%84-%EC%B2%B4%EC%9D%B8%EC%97%90-%EC%9D%98%ED%95%9C-%EB%B3%80%EC%88%98-%EA%B2%80%EC%83%89)
+이와 달리 식별자는 [스코프 체인](https://github.com/sangypar/SSAFRONT/tree/main/%EB%AA%A8%EB%8D%98%20%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8%20deep%20dive/13%EC%9E%A5.%20%EC%8A%A4%EC%BD%94%ED%94%84#1331-%EC%8A%A4%EC%BD%94%ED%94%84-%EC%B2%B4%EC%9D%B8%EC%97%90-%EC%9D%98%ED%95%9C-%EB%B3%80%EC%88%98-%EA%B2%80%EC%83%89)
 에서 검색한다. 스코프의 계층적 구조에서 식별자를 검색한다. **스코프 체인은 식별자 검색을 위한 메커니즘**이라고 할 수 있다.
 
 **_스코프 체인과 프로토타입 체인은 서로 연관없이 별도로 동작하는 것이 아니라 서로 협력하여 식별자와 프로퍼티를 검색하는데 사용된다._**
