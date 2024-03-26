@@ -109,7 +109,7 @@ __proto__를 통해 프로토타입에 접근하면 내부적으로 getter 함�
 ```javaScript
 const obj = {};
 const parent = { x: 1 };
-// getter 함수인 get __proto__가 호출되어 obj 객처/의 프로토타입을 취득
+// getter 함수인 get __proto__가 호출되어 obj 객체의 프로토타입을 취득
 obj._proto_;
 
 // setter 함수인 set_______ _가 호출되어 obj 객체의 프로토타입을 교체
@@ -136,10 +136,10 @@ __proto__는 객체가 직접 소유하는 프로퍼티가 아니라 Obeject.pro
 const parent = {};
 const child = {};
 
-// chiIc/의 프로토타입을 parent로 설정
+// child의 프로토타입을 parent로 설정
 child.__proto__ = parent;
 
-// pa rent의 프로토타입을 chiId로 설정
+// parent의 프로토타입을 child로 설정
 parent.__proto__ = child; // TypeError: Cyclic __proto__ value
 ```
 
@@ -153,13 +153,13 @@ parent.__proto__ = child; // TypeError: Cyclic __proto__ value
 모든 객체가 사용할 수 있는 것은 아니기 때문에 코드 내에서 접근자 프로퍼티를 직접 사용하는 것은 권장하지 않는다.
 직접 상속을 통해 Object.prototype을 상속받지 않는 객체를 생성할 수도 있기 때문에 접근자 프로퍼티를 사용할 수 없는 경우가 있다.
 ```javaScript
-// obj는 프로토타입 체인의 종점이다. 따라서 Object.__proto__S 상속받을 수 없다.
+// obj는 프로토타입 체인의 종점이다. 따라서 Object.__proto__를 상속받을 수 없다.
 const obj = Object.create(null);
 
-// obj는 Obj은ct.__proto__를 상속받을 수 없다.
+// obj는 Object.__proto__를 상속받을 수 없다.
 console.log(obj.__proto__); // undefined
 
-// 따라서________보다 Object.getPrototypeOf 메서드를 人居하^ 편이 좋다.
+// 따라서 __proto__보다 Object.getPrototypeOf 메서드를 사용하는 편이 좋다.
 console.log(Object.getPrototypeOf(obj)); // null
 ```
 
@@ -201,7 +201,7 @@ console.log(Person.prototype); // undefined
 const obj = {
 foo() {}
 };
-// non-constr나ctor는 prototype 프로퍼티를 소유하지 않는다.
+// non-constructor는 prototype 프로퍼티를 소유하지 않는다.
 console.log(obj.foo.hasOwnProperty('prototype')); // false
 
 // non-constructor는 프로토타입을 생성하지 않는다.
@@ -224,7 +224,7 @@ this.name = name;
 
 const me = new Person('Lee');
 
-// me 객체의 생성자 함수는 Personom,
+// me 객체의 생성자 함수는 Person,
 console.log(me.constructor === Person); // true
 ```
 ![image](https://github.com/sangypar/SSAFRONT/assets/158231909/df2be7a2-e442-4f42-a343-122d40008a10)
