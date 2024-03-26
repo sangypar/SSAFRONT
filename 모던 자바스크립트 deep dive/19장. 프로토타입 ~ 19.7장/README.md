@@ -344,9 +344,11 @@ console.log(obj.constructor === Object); //true
 console.log(obj.hasOwnProperty('x'));    //true
 //이 객체는 constructor 프로퍼티와 hasOwnProperty 메서드 등을 소유하진 않지만 프로토타입의 그것들을 자신의 자산인 것처럼 사용할 수 있다.
 ```
+
 ### Object 생성자 함수에 의해 생성된 객체의 프로토타입
 Object 생성자 함수를 인수 없이 호출하면 빈 객체가 되고, 이때는 객체 리터럴과 마찬가지로 추상연산 OrdinaryObjectCreate가 호출된다. 이에 해당하는 프로토타입은 Object.prototype이다.
 ![image](https://github.com/sangypar/SSAFRONT/assets/158231909/14711ae6-5220-43ae-8e43-893cc168c451)
+
 ```javaScript
 const obj = new Object();
 obj.x = 1;
@@ -360,7 +362,9 @@ console.log(obj.hasOwnProperty('x')); // true
 ### 생성자 함수에 의해 생성된 객체의 프로토타입
 new 연산자와 함께 인스턴스를 생성하면 추상연산 OrdinaryObjectCreate가 호출된다. 여기에 전달되는 프로토타입은 생성자 함수의 prototype 프로퍼티에 바인딩 되어 있는 객체이다.
 ![image](https://github.com/sangypar/SSAFRONT/assets/158231909/274bd4f9-580f-4238-a829-ea41f9ff0bb6)
+
 Object.prototype은 다양한 빌트인 메서드를 갖고 있지만, *사용자 정의 생성자 함수 Person과 더불어 생성된 프로토타입 Person.prototype의 프로퍼티는 constructor 뿐이다.*
+
 ```javaScript
 function Person(name) {
 this.name = name;
