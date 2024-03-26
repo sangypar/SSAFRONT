@@ -66,7 +66,7 @@ me.sayHello(); // TypeError: me. sayHello is not a function
 
 
 ```
-
+<p align="center"><img src="./img/1.png"></p>
 <br>
 
 ## 19.10 instanceof 연산자
