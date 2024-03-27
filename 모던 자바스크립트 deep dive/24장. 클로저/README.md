@@ -171,7 +171,7 @@ bar();
 클로저는 상태(state)를 안전하게 변경하고 유지하기 위해 사용한다. <br>
 상태가 의도치 않게 변경되지 않도록 <b>상태를 안전하게 은닉(information hiding)하고 특정 함수에게만 상태 변경을 허용</b>하기 위해 사용한다.
 
-```javscript
+```javascript
 
 let num = 0;
 
