@@ -146,21 +146,59 @@ delete 연산자로 변수, 함수, 매개변수 삭제 시 에러가 발생한�
 
 #### 20.5.4 with문의 사용
 
-with 문 : 
+with 문 : 반복된 동일한 객체의 요소들에 접근할때 반복되는 부모 객체를 적는것을 축약 하기 위해서 사용한다.
 ```javascript
+// BEFORE
+x = Math.cos(3 * Math.PI) + Math.sin(Math.LN10) 
+y = Math.tan(14 * Math.E)
 
+// AFTER
+with (Math){
+   x = cos(3 * PI) + sin (LN10)  
+   y = tan(14 * E)
+}
+```
+with문을 사용하면 객체 이름을 생략할 수 있어서 코드가 간단해지는 효과가 있지만 성능과 가독성이 나빠지는 문제가 있다.
+```javascript
+(function () {
+  'use strict';
+
+// SyntaxError: Strict mode code may not include a with statement
+  with({ x: 1 }) {
+    console.log(x);
+  }
+}()); 
 ```
 
 ## 20.6 strict mode 적용에 의한 변화
 
 #### 20.6.1 일반 함수의 this
 
+strict mode에서 함수를 일반 함수로서 호출하면 this에 undefined가 바인딩된다. 생성자 함수가 아닌 일반 함수 내부에서는 this를 사용할 필요가 없기 때문이다.
 ```javascript
+(function () {
+  'use strict' ;
+function foo() {
+  console.log(this); // undefined
+}
+foo();
 
+function Foo() {
+  console.log(this); // Foo
+}
+new Foo();
+}());
 ```
 
 #### 20.6.2 arguments 객체
 
+strict mode에서는 매개변수에 전달된 인수를 재할당하여 변경해도 arguments 객체에 반영되지 않는다.
 ```javascript
-
+(function (a) {
+  'use strict' ;
+  // 매개변수에 전달된 인수를 재할당하여 변경
+  a = 2;
+  // 변경된 인수가 arguments 객체에 반영되지 않는다.
+  console.log(arguments); // { 0: 1, length: 1 }
+}(1));
 ```
