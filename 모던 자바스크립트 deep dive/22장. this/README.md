@@ -254,6 +254,7 @@ console.log(radius); // 15
 
 ### 22.2.4 Function.prototype.apply/call/bind 메서드에 의한 간접 호출
 <p align="center"><img src="./img/4.png"></p>
+
 apply, call, bind 메서드는 Function.prototype의 메서드다. 즉, 이들 메서드는 모든 함수가 상속받아 사용할 수 있다.<br><br>
 
 Function.prototype.apply, Function.prototype.call 메서드는 this로 사용할 객체와 인수 리스트를 인수로 전달받아 함수를 호출한다.
