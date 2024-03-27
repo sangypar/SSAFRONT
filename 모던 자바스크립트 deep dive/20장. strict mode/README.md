@@ -1,11 +1,15 @@
 # 20장 strict mode 
 
 ## 20.1 strict mode란?
-
-
 ```javascript
+function foo() {
+  x = 10;
+}
+foo();
 
+console.log(x); // ?
 ```
+
 
 <br>
 
