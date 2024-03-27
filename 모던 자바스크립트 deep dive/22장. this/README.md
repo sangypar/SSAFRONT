@@ -180,7 +180,7 @@ const person = {
 
 console.log(person.getName()); // Lee
 ```
-<p align="center"><img src="./img/1.png"></p>
+<p align="center"><img src="./img/1.PNG"></p>
 
 위 코드의 getName 메서드는 person 객체의 메서드로 정의되었다.<br>
 즉, getName 프로퍼티가 가리키는 함수 객체는 person 객체에 포함된 것이 아니라, 독립적으로 존재하는 별도의 객체다.<br>
@@ -199,7 +199,7 @@ const getName = person.getName;
 
 console.log(getName()); // ''
 ```
-<p align="center"><img src="./img/2.png"></p>
+<p align="center"><img src="./img/2.PNG"></p>
 
 따라서 메서드 내부의 this는 프로퍼티로 메서드를 가리키고 있는 객체와 관계가 없고, 메서드를 호출한 객체에 바인딩된다.
 
@@ -222,7 +222,7 @@ Person.prototype.name = 'Kim';
 // getName 메서드를 호출한 객체는 Person.prototype이다.
 console.log(Person.prototype.getName()); // Kim
 ```
-<p align="center"><img src="./img/3.png"></p>
+<p align="center"><img src="./img/3.PNG"></p>
 
 ### 22.2.3 생성자 함수 호출
 생성자 함수 내부의 this에는 생성자 함수가 (미래에) 생성할 인스턴스가 바인딩된다.
@@ -253,7 +253,7 @@ console.log(radius); // 15
 ```
 
 ### 22.2.4 Function.prototype.apply/call/bind 메서드에 의한 간접 호출
-<p align="center"><img src="./img/4.png"></p>
+<p align="center"><img src="./img/4.PNG"></p>
 
 apply, call, bind 메서드는 Function.prototype의 메서드다. 즉, 이들 메서드는 모든 함수가 상속받아 사용할 수 있다.<br><br>
 
