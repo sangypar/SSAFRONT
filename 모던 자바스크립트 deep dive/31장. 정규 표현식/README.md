@@ -70,8 +70,7 @@ g | Global | 대상 문자열 내에서 패턴과 일치하는 모든 문자열 
 m | Multi Line | 문자열의 행이 바뀌더라도 패턴 검색 지속
 
 - 플래그는 옵션이므로 선택적으로 사용할 수 있으며, 순서와 상관없이 하나 이상의 플래그를 동시에 설정 가능
-- 아무것도 지정하지 않으면 대소문자를 구별해서 패턴 검색
-- 문자열에 패턴 검색 매칭 대상이 1개 이상 존재해도 첫 번째 매칭한 대상만 검색하고 종료
+- <b>기본값은 대소문자를 구별</b> 패턴 검색, 문자열에 패턴 검색 매칭 대상이 1개 이상 존재해도 <b>첫 번째 매칭한 대상만 검색하고 종료</b>
 
 ![regExp_8](https://github.com/sangypar/SSAFRONT/assets/106229016/65e66068-cf8f-4e75-8792-7e5df4fc377e)
 
@@ -165,11 +164,60 @@ m | Multi Line | 문자열의 행이 바뀌더라도 패턴 검색 지속
 ## 31.6 자주 사용하는 정규표현식
 
 ### 31.6.1 특정 단어로 시작하는지 검사
+
+- [...] 바깥의 ^은 문자열의 시작을 의미하고, ?은 앞선 패턴이 최대 한 번 이상 반복되는지 매치
+
+![regExp_24](https://github.com/sangypar/SSAFRONT/assets/106229016/6c98faec-aec2-47b2-b08f-fb5d25e63b87)
+
 ### 31.6.2 특정 단어로 끝나는지 검사
+
+- $는 문자열의 마지막을 의미
+
+![regExp_25](https://github.com/sangypar/SSAFRONT/assets/106229016/90c4bca9-aa31-4c4c-a028-6df96354d3de)
+
 ### 31.6.3 숫자로만 이루어진 문자열인지 검사
+
+- [...] 바깥의 ^은 문자열의 시작, $는 문자열의 마지막을 의미
+- \d는 숫자를 의미하고 +는 앞선 패턴이 최소 한번 이상 반복됨을 의미
+
+![regExp_26](https://github.com/sangypar/SSAFRONT/assets/106229016/762b5b3e-f5ee-4d4b-9638-0300564eb107)
+
 ### 31.6.4 하나 이상의 공백으로 시작하는지 검사
+
+- 하나 이상의 공백으로 시작하는지 검사
+- \s는 여러 가지 공백 문자(스페이스, 탭 등)를 의미하고 즉, [\t\r\n\v\f]와 같음
+
+> 탭(\t), 캐리지 리턴(\r), 개행(\n), 수직 탭(\v), 폼 피드(\f)
+
+![regExp_27](https://github.com/sangypar/SSAFRONT/assets/106229016/66fab67f-b3d7-421b-9415-3d242ba23955)
+
 ### 31.6.5 아이디로 사용 가능한지 검사
+
+- {4,10}은 앞선 패턴이 최소 4번, 최대 10번 반복되는 문자열을 의미
+
+![regExp_28](https://github.com/sangypar/SSAFRONT/assets/106229016/ef2c8a03-565d-42ef-9327-586f7ce51dd5)
+
 ### 31.6.6 메일 주소 형식에 맞는지 검사
+
+![regExp_29](https://github.com/sangypar/SSAFRONT/assets/106229016/68cf36be-4cd9-45d1-901d-6730c4156af8)
+
+![image](https://github.com/sangypar/SSAFRONT/assets/106229016/003a8f12-de3f-4964-9b2c-3a31ed938444)
+
 ### 31.6.7 핸드폰 번호 형식에 맞는지 검사
+
+![regExp_30](https://github.com/sangypar/SSAFRONT/assets/106229016/1696952c-58c9-4670-a7a4-da9f011cdacd)
+
 ### 31.6.8 특수 문자 포함 여부 검사
+
+![regExp_31](https://github.com/sangypar/SSAFRONT/assets/106229016/2fcc6549-11eb-4894-a540-2ea220199090)
+
+![image](https://github.com/sangypar/SSAFRONT/assets/106229016/ec1ee1d8-ad3e-44a1-adf7-d95101ecbd62)
+
+- 위의 파란색으로 표시된 부분이 검사하는 특수문자들이고 선택적으로 조절 가능
+- 특수문자 앞에 /가 들어간 특수문자는 정규 표현식에서 사용하는 특수 문자들이고
+- 일반적인 문자로 해석하기 위해선 이스케이프 필요
+
+## 추가 예시
+
+![regExp_32](https://github.com/sangypar/SSAFRONT/assets/106229016/e2ba0ae6-0ee8-40e7-9fa9-53aad74e33bc)
 
