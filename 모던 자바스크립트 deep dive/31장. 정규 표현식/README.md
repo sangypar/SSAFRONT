@@ -120,6 +120,56 @@ m | Multi Line | 문자열의 행이 바뀌더라도 패턴 검색 지속
 
 ### 31.5.4 OR 검색
 
+- |은 or의 의미를 가짐
+
+![regExp_16](https://github.com/sangypar/SSAFRONT/assets/106229016/ebf8eda9-35ca-42bb-bb89-6dd15ca30728)
+
+- 분해되지 않은 단어 레벨로 검색하기 위해서 +를 함께 사용
+- [] 내의 문자는 or로 동작, 그 뒤에 +를 사용하면 앞선 패턴을 한 번 이상 반복
+
+![regExp_17](https://github.com/sangypar/SSAFRONT/assets/106229016/d9d4d0ce-b17f-485f-82d9-001b2302730e)
+
+- 범위를 지정하려면 [] 내에 -를 사용
+
+![regExp_18](https://github.com/sangypar/SSAFRONT/assets/106229016/d5e27ddd-d86c-43ed-b395-592c628d7a59)
+
+- 다음과 같이 숫자를 검색할 수 있고 쉼표를 패턴에 포함 가능
+- \d는 [0-9]와 같고 \D는 문자를 의미
+
+![regExp_19](https://github.com/sangypar/SSAFRONT/assets/106229016/f9eb83bc-316b-4b57-b036-fb7ba9a3408c)
+
+- \w는 알파벳, 숫자, 언더스코어를 의미하고 \W는 \w와 반대로 동작
+
+![regExp_20](https://github.com/sangypar/SSAFRONT/assets/106229016/c27a2975-c179-4328-ba13-147760538ed5)
+
+### 31.5.5 NOT 검색
+
+- [...] 내의 ^은 not의 의미
+- [^0-9] 는 \D와 같고 [^A-Za-z0-9_] 는 \W와 같음
+
+![regExp_21](https://github.com/sangypar/SSAFRONT/assets/106229016/27f6b812-4b77-4201-bf94-760256827b0c)
+
+### 31.5.6 시작 위치로 검색
+
+- [...] 밖의 ^은 문자열의 시작을 의미
+
+![regExp_22](https://github.com/sangypar/SSAFRONT/assets/106229016/66ed5a03-b7fa-4afc-a656-a80c97451470)
 
 
+### 31.5.7 마지막 위치로 검색
+
+- $는 문자열의 마지막을 의미
+
+![regExp_23](https://github.com/sangypar/SSAFRONT/assets/106229016/336865c9-757c-4789-b434-410b80166bd7)
+
+## 31.6 자주 사용하는 정규표현식
+
+### 31.6.1 특정 단어로 시작하는지 검사
+### 31.6.2 특정 단어로 끝나는지 검사
+### 31.6.3 숫자로만 이루어진 문자열인지 검사
+### 31.6.4 하나 이상의 공백으로 시작하는지 검사
+### 31.6.5 아이디로 사용 가능한지 검사
+### 31.6.6 메일 주소 형식에 맞는지 검사
+### 31.6.7 핸드폰 번호 형식에 맞는지 검사
+### 31.6.8 특수 문자 포함 여부 검사
 
