@@ -725,3 +725,10 @@ const result = arr2.fill(1);
 console.log(result); //[1,1,1]
 ```
 
+Array.from 메서드를 사용하면 두 번째 인수로 전달한 콜백 함수에 첫 번째 인수에 의해 생성된 배열의 요소값과 인덱스를 순차적으로 전달하면서 호출, 콜백함수의 반환값으로 구성된 배열을 반환한다.
+
+```javaScript
+const sequences = (length = 0) => Array.from({length}, (_, i) => i);
+console.log(sequences(3));
+```
+
