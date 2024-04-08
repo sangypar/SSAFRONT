@@ -89,8 +89,6 @@ function rand(min, max) {
 console.log(rand(6, 10));
 ```
 
-[답]()
-
 #### 29.9.7 Math.pow
 
 > Math.pow 메서드는 첫 번째 인수를 밑으로, 두 번째 인수를 지수로 거듭제곱한 결과를 반환한다.
@@ -126,6 +124,7 @@ Math.max([1,2,3,4,5,6,7]);                // ?
 Math.max.apply([1,2,3,4,5,6,7]);          // ?
 Math.max.apply(null, [1,2,3,4,5,6,7]);    // ?
 ```
+[참고](https://velog.io/@minngki/JavaScript-Math.min-Math.max-apply-%ED%95%A8%EC%88%98)
 
 [답](https://github.com/sangypar/SSAFRONT/blob/main/%EB%AA%A8%EB%8D%98%20%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8%20deep%20dive/29%EC%9E%A5.%20Math/%EB%8B%B5/Math.max%20%EB%8B%B5.md)
 
