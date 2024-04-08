@@ -24,6 +24,8 @@ Math.abs('string');     // ?
 Math.abs();             // ? → undefined와 동일
 ```
 
+[답](https://github.com/sangypar/SSAFRONT/blob/main/%EB%AA%A8%EB%8D%98%20%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8%20deep%20dive/29%EC%9E%A5.%20Math/%EB%8B%B5%EC%A7%80.md)
+
 #### 29.9.2 Math.round
 
 > Math.round 숫자의 소수점 이하를 반올림한 정수값을 반환한다.
