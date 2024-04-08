@@ -1,91 +1,39 @@
-# 19장 프로토타입
+# 29장 Math
 
-## 19.8 오버라이딩과 프로퍼티 섀도잉
+## 29.1 Math 프로퍼티
 
-> 오버라이딩 : 상위 클래스가 가지고 있는 메서드를 하위 클래스가 재정의하여 사용하는 방식이다.
-
-> 오버로딩 : 함수의 이름은 동일하지만 매개변수의 타입 또는 개수가 다른 메서드를 구현하고 매개변수에 의해 메서드를 구별하여 호출하는 방식이다. 자바스크립트는 오버로딩을 지원하지 않지만 arguments 객체를 사용하여 구현할 수는 있다.
-
-```javascript
-const Person = (function () {
-// 생성자 함수
-  function Person(name) {
-  this.name = name;
-}
-
-// 프로토타입 메서드
-Person.prototype.sayHello = function () {
-  console.log( Hi! My name is ${this.name} );
-};
-
-// 생성자 함수를 반환
-  return Person;
-}());
-
-const me = new Person('Park');
-
-// 인스턴스 메서드
-me.sayHello = function () {
-  console.log( Hey! My name is ${this.name} );
-};
-
-// 인스턴스 메서드가 호출된다. 프로토타입 메서드는 인스턴스 메서드에 의해 가려진다.
-me.sayHello(); // Hey! My name is Park
-
-// 인스턴스 메서드를 삭제한다.
-delete me.sayHello;
-// 인스턴스에는 sayHello 메서드가 없으므로 프로토타입 메서드가 호출된다.
-me.sayHello(); // Hi! My name is Park
-
-// 프로토타입 체인을 통해 프로토타입 메서드가 삭제되지 않는다.
-delete me.sayHello;
-// 프로토타입 메서드가 호출된다.
-me.sayHello(); // Hi! My name is Park
-
-// 하위 객체를 통해 프로토타입의 프로퍼티를 변경 또는 삭제하는 것은 불가능하다.
-// 즉, 하위객체를 통해 프로토타입에 get 액세스는 허용되나 set 액세스는 허용되지 않는다.
-
-// 프로토타입 메서드 삭제
-delete Person.prototype.sayHello;
-me.sayHello(); // TypeError: me. sayHello is not a function
-
-//프로토타입 프로퍼티를 변경 또는 삭제하려면 하위 객체를 통해 프로토타입 체인으로 접근하는 것이 아니라 프로토타입에 직접 접근해야 한다.
-```
-프로토타입 프로퍼티와 같은 이름의 프로퍼티를 인스턴스에 추가시 프로토타입 프로퍼티를 덮어쓰는 것이 아니라 인스턴스 프로퍼티로 추가한다.
-
-즉, sayHello는 프로토타입 메서드 sayHello를 오버라이딩했고 프로토타입 메서드 sayHello는 가려진다.
-
-상속 관계에 의해 프로퍼티가 가려지는 현상을 프로퍼티 섀도잉이라 한다.
+> Math.PI → 3.141592(원주율 값)를 반환한다.
 
 <br>
 
-## 19.9 프로토타입의 교체
-부모 객체인 프로토타입을 동적으로 변경할 수 있다. 이러한 특징을 활용해 객체 간의 상속관계를 동적으로 변경할수 있다.
+## 29.2 Math 메서드
 
-프로토타입은 생성자 함수 또는 인스턴스에 의해 교체할 수 있다.
+#### 29.2.1 Math.abs
 
-#### 19.9.1 생성자 함수에 의한 프로토타입의 교체
+> Math.abs 메서드는 인수로 전달된 숫자의 절대값을 반환한다.
+
 ```javascript
-const Person = (function () {
-  function Person(name) {
-  this.name = name;
-}
+Math.abs(-1);           // 1
+Math.abs('-1');         // 1
+Math.abs('');           // ?
+Math.abs([]);           // ?
+Math.abs(null);         // ?
+Math.abs(undefined);    // ?
+Math.abs({});           // ?
+Math.abs('string');     // ?
+Math.abs();             // ? → undefined와 동일
+```
 
+#### 29.9.2 Math.round
 
-// 1 생성자 함수의 prototype 프로퍼티를 통해 프로토타입을 교체
-Person.prototype = {
-  sayHello() {
-    console.log('Hi! My name is ${this.name}');
-  }
-};
-  return Person;
-}());
-const me = new Person('Park');
+> Math.round 숫자의 소수점 이하를 반올림한 정수값을 반환한다.
 
-// 프로토타입을 교체하면 constructor 프로퍼티와 생성자 함수 간의 연결이 파괴된다.
-console.log(me.constructor === Person); // false
-// 프로토타입 체인을 따라 Object.prototyped constructor 프로퍼티가 검색된다.
-console.log(me.constructor === Object); // true
+```javascript
+Math.round(1.4); // 1
+Math.round(1.5); // 2
+Math.round('-1.5'); // ?
+Math.round('null'); // ?
+
 ```
 <p align="center"><img src="./img/1.png"></p>
 프로토타입으로 교체한 객체 리터럴에는 constructor 프로퍼티가 없다.
@@ -572,3 +520,4 @@ Object.entries(person).forEach(([key, value]) => console.log(key, value));
 //name Lee
 //address Seoul
 ```
+
