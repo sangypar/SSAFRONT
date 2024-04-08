@@ -732,3 +732,11 @@ const sequences = (length = 0) => Array.from({length}, (_, i) => i);
 console.log(sequences(3));
 ```
 
+### Array.prototype.includes
+
+배열 내에 특정 요소가 포함되어 잇는지 확인하여 true 또는 false를 반환한다.
+첫 번째 인수로 검색할 대상을 지정한다. 두 번째 인수로 검색을 시작할 인덱스를 지정, 생략하면 기본값이 0으로 설정된다. 두 번째 인수에 음수를 전달하면 length 프로퍼티 값과 음수 인덱스를 합산하여 검색 시작 인덱스를 설정한다.
+
+```javaScript
+const 
+```
