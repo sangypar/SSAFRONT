@@ -1,4 +1,4 @@
-# 30장 Date
+# 30장 Date 🕥
 
 Date는 날짜와 시간을 위한 메서드를 제공하는 빌트인 객체이면서 생성자 함수이다.
 
@@ -50,6 +50,7 @@ Date 생성자 함수에 연, 월, 일, 시, 분, 초, 밀리초를 의미하는
 new Date(2024, 3); // Mon Apr 01 2024 00:00:00 GMT+0900 (한국 표준시)
 new Date(2024, 3, 8, 10, 00, 00, 0); // Mon Apr 08 2024 10:00:00 GMT+0900 (한국 표준시)
 ```
+<p align="center"><img src="./img/Date.png"></p> 
 
 <br>
 
@@ -57,158 +58,300 @@ new Date(2024, 3, 8, 10, 00, 00, 0); // Mon Apr 08 2024 10:00:00 GMT+0900 (한�
 
 #### 30.2.1 Date.now
 
-```javascript
+1970년 1월 1일 00:00:00(UTC)을 기점으로 현재 시간까지 경과한 밀리초를 숫자로 반환한다.
 
+```javascript
+Date.now(); // 1712589017266
 ```
 
 #### 30.2.2 Date.parse
 
-```javascript
+1970년 1월 1일 00:00:00(UTC)을 기점으로 인수로 전달된 지정 시간까지의 밀리초를 숫자로 반환한다.
 
+```javascript
+// UTC
+Date.parse('Jan 2, 1970 00:00:00 UTC');// 86400000
+
+// KST
+Date.parse('Jan 2, 1970 09:00:00'); // 86400000
+
+// KST
+Date.parse('1970/01/02/09:00:00'); // 86400000
 ```
 
 #### 30.2.3 Date.UTC
 
-```javascript
+Date.parse와 같지만 Date.UTC 메서드의 인수는 로컬 타임(KST)이 아닌 UTC로 인식된다.
 
+```javascript
+Date.UTC(1970, 0, 2); // 86400000
+Date.UTC('1970/1/2'); // NaN
 ```
 
 #### 30.2.4 Date.prototype.getFullYear
 
-```javascript
+Date 객체의 연도를 나타내는 정수를 반환한다.
 
+```javascript
+new Date('2024/04/08').getFullYear(); // 2024
 ```
 
 #### 30.2.5 Date.prototype.setFullYear
 
-```javascript
+Date 객체에 연도를 나타내는 정수를 설정한다. 연도 이외에 옵션으로 월, 일도 설정할 수 있다.
 
+```javascript
+const today = new Date();
+
+// 년도 지정
+today.setFullYear(2024);
+today.getFullYear(); // 2024
+
+// 년도/월/일 지정
+today.setFullYear(1997, 6, 9);
+today.getMonth(); // 6
+today.getDate(); // 9
 ```
 
 #### 30.2.6 Date.prototype.getMonth
 
-```javascript
+Date 객체의 월을 나타내는 0 〜 11의 정수를 반환한다. 1월 → 0, 12월 → 11
 
+```javascript
+new Date('2024/04/08').getMonth(); // 3
 ```
 
 #### 30.2.7 Date.prototype.setMonth
 
-```javascript
+Date 객체에 월을 나타내는 0 〜 11의 정수를 설정한다. 월 이외에 옵션으로 일도 설정할 수 있다.
 
+```javascript
+const today = new Date();
+
+// 월 지정
+today.setMonth(0); // 1월
+today.getMonth(); // 0
+
+// 월/일 지정
+today.setMonth(5, 9); // 6월 9일
+today.getMonth(); // 5 
 ```
 
 #### 30.2.8 Date.prototype.getDate
 
-```javascript
+Date 객체의 날짜(1 〜 31)를 나타내는 정수를 반환한다.
 
+```javascript
+new Date('2024/06/09').getDate(); // 9
 ```
 
 #### 30.2.9 Date.prototype.setDate
 
-```javascript
+Date 객체에 날짜(1 〜 31)를 나타내는 정수를 설정한다.
 
+```javascript
+const today = new Date();
+
+// 날짜 지정
+today.setDate(9);
+today.getDate(); // 9
 ```
 
 #### 30.2.10 Date.prototype.getDay
 
-```javascript
+Date 객체의 요일(0 〜 6)을 나타내는 정수를 반환한다.
 
+|요일|일|월|화|수|목|금|토|
+|---|---|---|---|---|---|---|---|
+|반환값|0|1|2|3|4|5|6|
+
+```javascript
+new Date('2024/04/08').getDay(); // 1 (월요일)
 ```
 
 #### 30.2.11 Date.prototype.getHours
 
-```javascript
+Date 객체의 시간(0 ~ 23)을 나타내는 정수를 반환한다.
 
+```javascript
+new Date('2024/04/08/12:00').getHours(); // 12
 ```
 
 #### 30.2.12 Date.prototype.setHours
 
-```javascript
+Date 객체에 시간(0 ~ 23)을 나타내는 정수를 설정한다. 시간 이외에 옵션으로 분, 초, 밀리초도 설정할 수 있다.
 
+```javascript
+const today new Date();
+
+// 시간 지정
+today.setHours(7);
+today.getHours(); // 7
+
+// 시간/분/초/밀리초 지정
+today setHours(0, 0, 0, 0); // 00:00:00:00
+today getHours(); // 0
 ```
 
 #### 30.2.13 Date.prototype.getiviinutes
 
-```javascript
+Date 객체의 분(0 ~ 59)을 나타내는 정수를 반환한다.
 
+```javascript
+new Date('2024/04/08/12:30').getMinutes(); // 30
 ```
 
 #### 30.2.14 Date.prototype.setiviin나tes
 
-```javascript
+Date 객체에 분(0 ~ 59)을 나타내는 정수를 설정한다. 분 이외에 옵션으로 초, 밀리초도 설정할 수 있다.
 
+```javascript
+const today = new Date();
+
+// 분 지정
+today.setMinutes(50);
+today.getMinutes(); // 50
+
+// 분/초/밀리초 지정
+today.setMinutes(5, 10, 999); // HH:05:10:999
+today.getMinutes(); // 5
 ```
 
 #### 30.2.15 Date.prototype.getSeconds
 
-```javascript
+Date 객체의 초(0 ~ 59)를 나타내는 정수를 반환한다.
 
+```javascript
+new Date('2024/04/08/12:30:10').getSeconds(); // 10
 ```
 
 #### 30.2.16 Date.prototype.setSeconds
 
-```javascript
+Date 객체에 초(0 ~ 59)를 나타내는 정수를 설정한다. 초 이외에 옵션으로 밀리초도 설정할 수 있다.
 
+```javascript
+const today = new Date();
+
+// 초 지정
+today.setSeconds(30);
+today.getSeconds(); // 30
+
+// 초/밀리초 지정
+today.setSeconds(10, 0); // HH:MM:10:000
+today.getSeconds(); // 10
 ```
 
 #### 30.2.17 Date.prototype.getMilliseconds
 
-```javascript
+Date 객체의 밀리초(0 ~ 999)를 나타내는 정수를 반환한다.
 
+```javascript
+new Date('2024/04/08/12:30:10:150').getMilliseconds(); // 150
 ```
 
 #### 30.2.18 Date.prototype.setMilliseconds
 
-```javascript
+Date 객체에 밀리초(0 ~ 999)를 나타내는 정수를 설정한다.
 
+```javascript
+const today = new Date();
+
+// 밀리초 지정
+today.setMilliseconds(123);
+today.getMilliseconds(); // 123
 ```
 
 #### 30.2.19 Date.prototype.getTime
 
-```javascript
+1970년 1 월 1일 00:00:00(UTC)를 기점으로 Date 객체의 시간까지 경과된 밀리초를 반환한다.
 
+```javascript
+new Date('2024/04/08/12:30').getTime(); // 1712547000000
 ```
 
 #### 30.2.20 Date.prototype.setTime
 
-```javascript
+Date 객체에 1970년 1월 1일 00:00:00(UTC)를 기점으로 경과된 밀리초를 설정한다.
 
+```javascript
+const today = new Date();
+
+// 1970년 1월 1일 00:00:00(UTC)를 기점으로 경과된 밀리초 설정
+today.setTime(1712547000000); 
+console.log(today); // Mon Apr 08 2024 12:30:00 GMT+0900 (한국 표준시)
 ```
 
 #### 30.2.21 Date.prototype.getTimezoneOffset
 
-```javascript
+UTC와 Date 객체에 지정된 로컬 시간과의 차이를 *분* 단위로 반환한다.
 
+KST는 UTC에 9시간을 더한 시간이다. 즉, UTC = KST - 9(시간) 이다.
+
+```javascript
+const today = new Date(); // today의 지정 로캘은 KST다.
+
+//UTC와 today의 지정 로캘 KST와의 차이는 -9시간이다.
+
+today.getTimezoneOffset() / 60; // -9
 ```
 
 #### 30.2.22 Date.prototype.toDateString
 
-```javascript
+사람이 읽을 수 있는 형식의 문자열로 Date 객체의 날짜를 반환한다.
 
+```javascript
+const today = new Date('2024/4/08/12:30');
+
+today.toString(); // 'Mon Apr 08 2024 12:30:00 GMT+0900 (한국 표준시)'
+today.toDateString(); // 'Mon Apr 08 2024'
 ```
 
 #### 30.2.23 Date.prototype.toTimeString
 
-```javascript
+사람이 읽을 수 있는 형식으로 Date 객체의 시간을 표현한 문자열을 반환한다.
 
+```javascript
+const today = new Date('2024/4/08/12:30');
+
+today.toTimeString(); // '12:30:00 GMT+0900 (한국 표준시)'
 ```
 
 #### 30.2.24 Date.prototype.toISOString
 
-```javascript
+ISO 8601 형식으로 Date 객체의 날짜와 시간을 표현한 문자열을 반환한다.
 
+```javascript
+const today = new Date('2024/4/08/12:30');
+
+today.toISOString(); // '2024-04-08T03:30:00.000Z'
+today.toISOString().slice(0, 10); // '2024-04-08'
+today.toISOString().slice(0, 10).replace(/-/g,''); // '20240408'
 ```
 
 #### 30.2.25 Date.prototype.toLocaleString
 
-```javascript
+인수로 전달한 로캘을 기준으로 Date 객체의 날짜와 시간을 표현한 문자열을 반환한다. 인수를 생략한 경우 브라우저가 동작 중인 시스템의 로캘을 적용한다.
 
+```javascript
+const today = new Date('2024/4/08/12:30');
+
+today.toLocaleString(); '2024. 4. 8. 오후 12:30:00'
+today.toLocaleString('ko-KR'); // '2024. 4. 8. 오후 12:30:00'
+today.toLocaleString('en-US'); // '4/8/2024, 12:30:00 PM'
+today.toLocaleString('ja-JP'); // '2024/4/8 12:30:00'
 ```
 
 #### 30.2.26 Date.prototype.toLocaleTimeString
 
-```javascript
+인수로 전달한 로캘을 기준으로 Date 객체의 시간을 표현한 문자열을 반환한다. 인수를 생략한 경우 브라우저가 동작 중인 시스템의 로캘을 적용한다.
 
+```javascript
+const today = new Date('2024/4/08/12:30');
+
+today.toLocaleTimeString(); // '오후 12:30:00'
+today.toLocaleTimeString('ko-KR'); // '오후 12:30:00'
+today.toLocaleTimeString('en-US'); // '12:30:00 PM'
+today.toLocaleTimeString('ja-JP'); // '12:30:00'
 ```
 
 <br>
@@ -216,5 +359,47 @@ new Date(2024, 3, 8, 10, 00, 00, 0); // Mon Apr 08 2024 10:00:00 GMT+0900 (한�
 ## 30.3 Date를 활용한 시계 예제 
 
 ```javascript
+(function printNow() {
+  const today = new Date();
 
+  const dayNames = [
+    '(일요일)',
+    '(월요일)',
+    '(화요일)',
+    '(수요일)',
+    '(목요일)',
+    '(금요일)',
+    '(토요일)'
+  ];
+
+  // getDay 메서드는 해당 요일(0 ~ 6)을 나타내는 정수를 반환한다.
+  const day = dayNames[today.getDay()];
+  const year = today.getFullYear();
+  const month = today.getMonth() + 1;
+  const date = today.getDate();
+  let hour = today.getHours();
+  let minute = today.getMinutes();
+  let second = today.getSeconds();
+  const ampm = hour >= 12 ? 'PM' : 'AM';
+
+  // 12시간제로 변경
+  hour %= 12;
+  hour = hour || 12 ; // hour가 0이면 12를 재할당
+
+  // 10 미만인 분과 초를 2자리로 변경
+  minute = minute < 10 ? '0' + minute : minute;
+  second = second < 10 ? '0' + second : second;
+
+  const now = `${year}년 ${month}월 ${date}일 ${day} ${hour}:${minute}:${second}${ampm}`;
+
+  console.log(now);
+
+  // 1초마다 printNow 함수를 재귀 호출한다.
+  setTimeout(printNow, 1000);
+}());
+
+// 2024년 4월 9일 (화요일) 12:56:47AM
+// 2024년 4월 9일 (화요일) 12:56:48AM
+// 2024년 4월 9일 (화요일) 12:56:49AM
+...
 ```
