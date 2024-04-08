@@ -207,3 +207,161 @@ class person {
   }
 }
 ```
+
+## 25.7 프로퍼티
+### 25.7.1 인스턴스 프로퍼티
+인스턴스 프로퍼티는 constructor 내부에서 정의해야 한다. <br>
+constructor 내부 코드가 실행되기 전에 constructor 내부의 this에는 이미 클래스가 암묵적으로 생성한 인스턴스인 빈 객체가 바인딩되어 있다. <br>
+``` javascript
+class Person {
+  constructor(name) {
+    // 인스턴스 프로퍼티
+    this.name = name;
+  }
+}
+
+const me = new Person('Lee');
+
+console.log(me); // Person {name: "Lee"}
+console.log(me.name); // Lee;
+```
+
+### 25.7.2 접근자 프로퍼티
+접근자 프로퍼티는 다른 데이터 프로퍼티의 값을 읽거나 저장할 때 사용하는 접근자 함수로 구성된 프로퍼티이다.
+
+``` javascript
+class Person {
+  constructor(firstName, lastName) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+  }
+
+  // getter 함수
+  get fullName() {
+    return `${this.firstName} ${this.lastName}`;
+  }
+
+  // setter 함수
+  set fullName(name) {
+    [this.firstName, this.lastName] = name.split(' ');
+  }
+}
+
+const me = new Person('Ungmo', 'Lee');
+
+// 데이터 프로퍼티를 통한 프로퍼티 값의 참조
+console.log(`${me.firstName} ${me.lastName}`); // Ungmo Lee
+
+// 접근자 프로퍼티를 통한 프로퍼티 값의 저장
+// 접근자 프로퍼티 fullName에 값을 저장하면 setter 함수가 호출된다.
+me.fullName = 'Heegun Lee';
+console.log(me); // {firstName: "Heegun", lastName: "Lee"}
+
+// 접근자 프로퍼티를 통한 프로퍼티 값의 참조
+// 접근자 프로퍼티 fullName에 접근하면 getter 함수가 호출된다
+console.log(me.fullName); // Heegun Lee
+
+// fullName은 접근자 프로퍼티다
+// 접근자 프로퍼티는 get, set, enumerable, configurable 프로퍼티 어트리뷰트를 갖는다.
+console.log(Object.getOwnPropertyDescriptor(Person.prototype, 'fullName')); // {get: ƒ, set: ƒ, enumerable: false, configurable: true}
+```
+
+getter는 호출하는 것이 아니라 프로퍼티처럼 참조하는 형식으로 사용하며, 참조 시에 내부적으로 getter가 호출된다. <br>
+setter도 호출하는 것이 아니라 프로퍼티처럼 값을 할당하는 형식으로 사용하며, 할당 시에 내부적으로 setter가 호출된다. <br>
+클래스의 메서드는 기본적으로 프로토타입 메서드가 된다. 따라서 클래스의 접근자 프로퍼티 또한 인스턴스 프로퍼티가 아닌 프로토타입 프로퍼티가 된다.
+
+``` javascript
+Object.getOwnPropertyNames(me); // ["firstName", "lastName"]
+Object.getOwnPropertyNames(Object.getPrototypeOf(me)); // ["constructor", "fullName"]
+```
+
+### 25.7.3 클래스 필드 정의 제안
+클래스 필드(또는 멤버)는 클래스 기반 객체지향 언어에서 클래스가 생성할 인스턴스의 프로퍼티를 가리키는 용어다. <br>
+<hr>
+원래는 자바스크립트의 클래스에서 인스턴스 프로퍼티를 선언하고 초기화하려면 반드시 constructor 내부에서 this에 프로퍼티를 추가해야 한다. <br>
+또한 자바스크립트의 클래스에서 인스턴스 프로퍼티를 참조하려면 반드시 this를 사용하여 참조해야한다. <br>
+자바스크립트의 클래스 몸체에는 메서드만 선언할 수 있다.
+<hr>
+그러나 최근에 더해진 '클래스 필드'라는 문법을 사용하여, 클래스를 정의할 때 '<프로퍼티 이름> = <값>'을 써주면 간단히 클래스 필드를 만들 수 있다.
+  
+``` javascript
+class Person {
+  // 클래스 필드 정의
+  name = 'Lee';
+
+  // 클래스 필드에 함수를 할당
+  getName = function() {
+    return this.name;
+  }
+
+  // 화살표 함수로 정의할 수도 있다.
+  // getName = () => this.name;
+}
+
+const me = new Person();
+console.log(me); // Person {name: "Lee"}
+```
+
+이처럼 클래스 필드에 함수를 할당하는 경우, 이 함수는 프로토타입 메서드가 아닌 인스턴스 메서드가 된다.<br>
+따라서 클래스 필드에 함수를 할당하는 것은 권장하지 않는다.
+
+### 25.7.4 private 필드 정의 제안
+원래 자바스크립트는 접근제한자를 지원하지 않는다. 따라서 인스턴스 프로퍼티는 언제나 public이다. <br>
+아래의 private 프로퍼티와 메서드는 제안(proposal) 목록에 등재된 문법으로, 명세서에 등재되기 직전 상태이다.
+
+``` javascript
+class Person {
+  // private 필드 정의
+  #name = '';
+
+  constructor(name) {
+    // private 필드 참조
+    this.#name = name;
+  }
+}
+
+const me = new Person('Lee');
+
+console.log(me.#name); // SyntaxError: Private field '#name' must be declared in an enclosing class
+```
+
+클래스 외부에서 private 필드에 직접 접근할 수 있는 방법은 없다.<br>
+다만 접근자 프로퍼티를 통해 간접적으로 접근하는 방법은 유효하다.
+
+``` javascript
+class Person {
+  #name = '';
+
+  constructor(name) {
+    this.name = name;
+  }
+
+  get name() {
+    return this.#name.trim();
+  }
+}
+
+const me = new Person(' Lee ');
+console.log(me.name); // Lee
+```
+
+### 25.7.5 static 필드 정의 제안
+클래스에는 static 키워드를 사용하여 정적 메서드를 정의할 수 있지만, 정적 필드는 정의할 수 없었다. <br>
+현재는 Static class features를 이용하여 static public 필드, static private 필드, static private 메서드를 정의할 수 있다.
+
+``` javascript
+class MyMath {
+  static PI = 22 / 7;
+
+  static #num = 10;
+
+  static increment() {
+    return ++MyMath.#num;
+  }
+}
+
+console.log(MyMath.PI); // 3.1412857142857143
+console.log(MyMath.increment()); // 11
+```
+
+## 25.8 상속에 의한 클래스 확장
