@@ -435,4 +435,293 @@ console.log(stack.entries());//[1,2]
 ```
 
 ### Array.prototype.unshift
+인수로 전달받은 모든 값을 배열의 선두에 요소로 추가하고, 변경된 length 프로퍼티 값을 반환한다. **원본배열을 직접 변경**
+이것 역시 ES6의 스프레드 문법을 사용하는 편이 좋다.
+
+```javaScript
+const arr = [1,2];
+arr.unshift(3,4);
+console.log(arr); //[3,4,1,2]
+
+//스프레드 문법
+const newArr = [3, ...arr];
+console.log(newArr); //[3,1,2]
+```
+
+### Array.prototype.shift
+
+원본배열에서 첫번째 요소를 제거하고 제거한 요소를 반환한다. 빈 배열이면 undefined를 반환한다. **원본배열을 직접 변경**
+shift와 push 메서드를 사용하면 큐queue를 쉽게 구현할 수 있다.
+
+```javaScript
+const Queue = (function() {
+  function Queue(array = []) {
+    if(!Array.isArray(array)) {
+      throw new TyepError(`${array} is not an array.`);
+    }
+    this.array = array;
+  }
+
+  Queue.prototype = {
+    constructor: Queue,
+
+    enqueue(value){
+      return this.array.push(value);
+    },
+
+    dequeue() {
+      return this.array.shift();
+    },
+
+    entries() {
+      return [...this.array];
+    }
+  };
+
+  return Queue;
+}
+
+-------------------------------------------------------------
+
+//클래스로 구현하기
+class Queue {
+  #array;
+
+   constructor(array = []) {
+    if(!Array.isArray(array)) {
+      throw new TyepError(`${array} is not an array.`);
+    }
+    this.array = array;
+  }
+
+  enqueue(value){
+     return this.#array.push(value);
+ },
+
+  dequeue() {
+     return this.#array.shift();
+  },
+
+  entries() {
+      return [...this.#array];
+  }
+}
+
+--------------------------------------------------------------
+
+const queue = new Queue([1,2]);
+console.log(queue.entries()); //[1,2]
+
+queue.enqueue(3);
+console.log(queue.entries()); //[1,2,3]
+
+queue.dequeue();
+console.log(queue.entries()); //[2,3]
+```
+
+### Array.prototype.concat
+
+인수로 전달된 값들(배열 또는 원시값)을 원본 배열의 마지막 요소로 추가한 *새로운 배열*을 반환한다. 배열이 인수로 전달되었다면 해체하여 새로운 배열의 요소로 추가한다. **원본배열은 변경되지 않는다.**
+push와 unshift는 원본 배열을 변경하기 때문에 원본 배열을 반드시 변수에 저장해두어야 하며, concat은 반환값을 반드시 변수에 할당받아야 한다.
+
+```javaScript
+const arr1 = [1,2];
+const arr2 = [3,4];
+
+let result = arr1.concat(arr2);
+console.log(result); // [1,2,3,4]
+
+result = arr1.concat(arr2, 5); //arr2와 숫자를 원본배열 arr1에 넣겠다!
+console.log(result); //[1,2,3,4,5]
+console.log(arr1); //[1,2] //원본 배열은 바뀌지 않는다
+```
+
+인수로 받은 값이 배열인 경우, push와 unshift는 배열을 그대로 원본 배열의 마지막/첫번째 요소로 추가하지만, concat은 해체하여 새로운 배열의 마지막 요소로 추가한다.
+
+```javaScript
+const arr = [3,4];
+
+arr.unshift([1,2]);
+arr.push([5,6]);
+console.log(arr); //[[1,2], 3, 4, [5,6]]
+
+let result = [1, 2].concat([3,4]);
+console.log(result); //[1,2,3,4]
+
+//concat도 스프레드 문법으로 대체가능
+result = [...[1,2], ...[3,4]];
+console.log(result); //[1,2,3,4]
+```
+
+*결론적으로 ES6의 스프레드 문법을 일광성 있게 사용하는 것을 권장한다.*
+
+**push, pop, unshift, shift 메서드 정리**
+![image](https://github.com/sangypar/SSAFRONT/assets/158231909/46ad43b6-c68f-45b9-91f8-9057bc19dba0)
+
+
+### Array.prototype.splice
+
+원본 배열의 중간에 요소를 추가하거나 중간에 있는 요소를 제거하는 경우 splice 메서드를 사용한다. 3개의 매개변수가 있으며 **원본배열을 직접 변경**한다.
+
+```
+✅ start : 원본 배열의 요소를 제거하기 시작할 인덱스, 여기서부터 모든 요소를 제거한다. 음수인 경우 배열에서의 끝으로부터의 인덱스값 (-1 : length -1) - 첫번째 인자
+✅ deleteCount : start부터 제거할 요소의 개수로, 0인 경우 아무런 요소도 제거되지 않는다 (옵션) - 2번째 인자
+✅ items : 제거한 위치에 삽입할 요소들의 목록으로, 생략 시에는 원본 배열에서 제거하기만 한다(옵션) - 3번째 인자 이후
+```
+
+```javaScript
+const arr = [1,2,3,4];
+const result = arr.splice(1,2,20,30); //1부터 2개 요소 제거, 그 자리에 20 30 요소 삽입
+console.log(result); //[2,3]
+console.log(arr); //[1,20,30,4]
+```
+![image](https://github.com/sangypar/SSAFRONT/assets/158231909/d24171fc-f188-4818-94dd-e68623536438)
+
+제거할 요소의 개수(두 번째 인수)를 0으로 지정하면 아무런 요소도 제거하지 않고, 빈 배열이 반환된다.
+이 요소가 생략되면 start부터 (첫 번째 인수) 모든 요소를 제거한다.
+
+추가할 요소들의 목록(세 번째 인수)를 전달하지 않으면 제거되기만 하고, 추가되지 않는다.
+
+![image](https://github.com/sangypar/SSAFRONT/assets/158231909/e3c0a300-0785-4545-acfb-86e67eaa3597)
+
+배열에서 특정 요소를 제거하려면 indexOf 메서드를 통해 특정 요소 인덱스를 취득한 후 splice 메서드를 사용한다.
+또는 filter ㅁ서드를 사용하여 제거할 수도 있으나, 특정요소가 중복된 경우는 모두 삭제된다.
+
+```javaScript
+const arr = [1,2,3,1,2];
+
+function remove(array, item) {
+  const index = array.indexOf(item); //제거할 요소의 인덱스값 획득
+  if(index !== -1) array.splice(index, 1); //제거할 요소가 있다면 제거한다
+  return array;
+}
+
+console.log(remove(arr,2)); //[1,3,1,2]
+
+function removeAll(array, item) {
+  return array.filter(v => v !== item); //item 요소 제거
+}
+
+console.log(removeAll(arr,2)); //[1,3,1]
+```
+
+### Array.prototype.slice
+
+인수로 전달된 범위의 요소들을 복사하여 배열로 반환한다. **원본 배열은 변경되지 않는다.**
+두 개의 매개변수를 갖는다.
+
+```
+✅ start : 복사를 시작할 인덱스의 값, 음수인 경우 배열에서의 끝으로부터의 인덱스값 (-1 : length -1) - 첫번째 인자
+✅ end : 복사를 종료할 인덱스의 값으로 복사된 결과에 포함되지는 않는다. 생략 가능하며 기본값은 length 프로퍼티 값이다. - 2번째 인자
+```
+
+```javaScript
+const arr = [1,2,3];
+
+arr.slice(0,1); //[1]
+arr.slice(0,2); //[1,2]
+```
+
+첫 번째 인수로 전달받은 인덱스로부터 두 번째 인수로 전달받은 인덱스 이전까지 요소들을 복사하여 배열로 반환한다.
+end를 생략하면 (두번째 인수 생략) start부터 모든 요소를 복사하여 반환한다.
+첫 번째, 두 번째 인수를 생략하면 원본 배열의 복사본을 생성하여 반환한다. 이때 생성된 복사본은 **얕은 복사**를 통해 생성된다.
+![image](https://github.com/sangypar/SSAFRONT/assets/158231909/c5be79a1-7c4b-4a39-a4d3-58b2eee80469)
+
+```javaScript
+const todos = [
+  {id : 1, content: 'HTML', completed: false},
+  {id : 2, content: 'CSS', completed: true},
+  {id : 3, content: 'JS', completed: false}
+];
+
+const _todos = todos.slice(); //얕은 복사로 원본배열 전체 복사
+
+console.log(_todos === todos); //false 참조값이 다른 별개의 객체
+console.log(_todos[0] === todos[0]); //true 배열 요소의 참조값이 같다.
+```
+
+##### 얕은 복사와 깊은 복사
+> 객체를 프로퍼티 값으로 갖는 객체의 경우 얕은 복사는 한 단계까지만 복사하는 것을 말하고, 깊은 복사는 객체 중첩되어 있는 객체까지 모두 복사하는 것을 말한다.
+> slice, 스프레드문법, Object.assign 메서드는 모두 얕은 복사를 수행한다.
+
+arguments, HTMLCollection, NodeList 같은 유사배열 객체를 배열로 변환할 수 있다.
+Array.from 메서드를 사용하면 더욱 간단하게 유사배열 객체를 배열로 변환할 수 있다. 이 메서드는 유사배열 객체 또는 이터러블 객체를 배열로 반환한다.
+
+```javaScript
+function sum(){
+  var arr = Array.prototype.slice.call(arguments);
+  console.log(arr); //[1,2,3]
+
+  return arr.reduce(function (pre, cur) {
+    return pre+cur;
+  }, 0);
+}
+
+console.log(sum(1,2,3)); //6
+
+------------------------------------------------------
+
+function sum() {
+    var arr = Array.prototype.slice.call(arguments);
+    console.log(arr); //[1,2,3]
+
+    return arr.reduce((pre, cur) => pre+cur, 0);
+}
+
+console.log(sum(1,2,3)); //6
+
+--------------------------------------------------------
+//스프레드 문법으로 표현하기
+function sum() {
+    const arr = [...arguments];
+    console.log(arr); //[1,2,3]
+
+    return arr.reduce((pre, cur) => pre+cur, 0);
+}
+
+console.log(sum(1,2,3)); //6
+```
+
+### Array.prototype.join
+
+원본 배열의 모든 요소를 문자열로 반환한 후 인수로 전달받은 문자열, 즉 구분자로 연결한 문자열을 반환한다. 구분자는 생략가능하며 기본 구분자는 콤마(,)다.
+
+```javaScript
+const arr = [1,2,3,4];
+
+arr.join(); // '1,2,3,4'
+arr.join(''); // '1234'
+arr.join(':'); //'1:2:3:4'
+```
+
+### Array.prototype.reverse
+
+원본 배열의 순서를 반대로 뒤집는다. **원본 배열이 변경된다.** 반환값은 변경된 배열이다.
+
+```javaScript
+const arr = [1,2,3];
+const result = arr.reverse();
+
+console.log(arr);
+console.log(result);
+//둘다 [3,2,1]
+```
+
+### Array.prototype.fill
+
+인수로 전달받은 값을 처음부터 끝까지 해당 요소로 채운다. **원본 배열이 변경된다.**
+두 번째 인수로는 채우기를 시작할 인덱스, 세 번째 인수로는 채우기를 멈출 인덱스를 전달할 수 있다.
+배열을 생성하면서 특정 값으로 요소를 채울 수 있다.
+
+```javaScript
+const arr = [1,2,3,4];
+
+arr.fill(0); //[0,0,0,0]
+arr.fill(0, 1); //[1,0,0,0]
+arr.fill(0, 1, 2); //[1, 0, 0, 4]
+
+const arr2 = new Array(3);
+const result = arr2.fill(1);
+console.log(result); //[1,1,1]
+```
 
