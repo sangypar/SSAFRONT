@@ -183,3 +183,81 @@ Array.of('string'); //['string']
 ```
 
 ### Array.from
+유사배열 객체 또는 이터러블 객체를 인수로 전달받아 배열로 변환하여 반환한다.
+```
+- 유사배열 객체?
+마치 배열처럼 인덱스로 프로퍼티 값에 접근할 수 있고 length 프로퍼티를 갖는 객체를 말한다. for문으로 순회할 수 있다.
+
+const arrayLike = {
+  '0' : 'a';
+  '1' : 'b';
+  '2' : 'c';
+  length: 3;
+};
+
+- 이터러블 객체?
+Symbol.iterator 메서드를 구현하여 for...of 문으로 순회할 수 있다. (ES6에서 제공하는 빌트인 이터러블은 Array, String, Map, Set, DOM 컬렉션)이 있다.
+```
+
+두번째 인수로 전달한 콜백 함수를 통해 값을 만들면서 요소를 채울 수 있다. 콜백함수의 반환값으로 구성된 배열을 반환한다.
+
+```javaScript
+Array.from({length: 2, 0: 'a', 1: 'b'}; //['a', 'b']
+Array.from('Hello'); //['H', 'e', 'l', 'l', 'o'] 문자열은 이터러블이다
+
+Array.from({length: 3}); // [undefined, undefined, undefined]
+Array.from({length: 3}, (_, i) => i); //[0,1,2]
+```
+
+## 배열 요소의 참조
+
+참조할 때는 대괄호 표기법을 사용한다. 존재하지 않는 요소(없는 인덱스)에 접근하면 undefined가 반환된다.
+배열은 사실 인덱스를 나타내는 문자열을 프로퍼티 키로 갖는 객체이다. ('0' : 프로퍼티 값)
+같은 이유로 희소 배열의 존재하지 않는 요소를 참조해도 undefined가 뜬다.
+
+```javaScript
+const arr1 = [1,2];
+console.log(arr1[0]);//1
+console.log(arr1[2]); //undefined
+
+const arr2 = [1, ,3];
+console.log(arr2[1]); //undefined
+```
+
+## 배열의 요소의 추가와 갱신
+
+배열에도 요소를 동적으로 추가할 수 있다. 존재하지 않는 인덱스를 사용해 값을 할당하면 새로운 요소가 추가된다. 이때 length는 자동 갱신된다.
+
+```javaScript
+const arr = [0];
+arr[1] =1;
+console.log(arr); //[0, 1]
+console.log(arr.length); //2
+
+arr[100] = 100;
+console.log(arr); //희소배열이 된다 [0, 1, empty x 98, 100]
+console.log(arr.length); //100
+//이 역시 값을 명시적으로 할당하지 않은 요소는 생성되지 않는다는 것에 주의하자.
+
+arr[1] = 10; //재할당이 가능하다
+console.log(arr); //[0, 10]
+```
+
+인덱스는 요소의 위치를 나타내므로 반드시 0 이상의 정수(또는 정수 형태 문자열)을 사용해야 한다. 만약 그 외 값을 인덱스처럼 사용하면 *요소가 생성되는 것이 아니라 프로퍼티가 생성된다.* 추가된 프로퍼티는 length 프로퍼티 값에 영향을 주지 않는다.
+
+```javaScript
+const arr = [];
+
+//배열요소 추가
+arr[0] = 1;
+arr['1'] = 2;
+
+//프로퍼티 추가
+arr['foo] = 3;
+arr.bar = 4;
+arr[1.1] = 5;
+arr[-1] = 6;
+
+console.log(arr); // [1,2, foo:3, bar:4, '1.1':5, '-1':6]
+console.log(arr.length); //2 프로퍼티는 영향을 주지 않는다
+```
