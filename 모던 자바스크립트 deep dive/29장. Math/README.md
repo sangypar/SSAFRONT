@@ -37,7 +37,7 @@ Math.round('-1.5'); // ?
 Math.round('null'); // ?
 ```
 
-[답]()
+[답](https://github.com/sangypar/SSAFRONT/blob/main/%EB%AA%A8%EB%8D%98%20%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8%20deep%20dive/29%EC%9E%A5.%20Math/%EB%8B%B5/Math.round%20%EB%8B%B5.md)
 
 #### 29.9.3 Math.ceil
 
