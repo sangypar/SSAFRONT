@@ -261,3 +261,178 @@ arr[-1] = 6;
 console.log(arr); // [1,2, foo:3, bar:4, '1.1':5, '-1':6]
 console.log(arr.length); //2 프로퍼티는 영향을 주지 않는다
 ```
+
+## 배열 요소의 삭제
+
+delete 연산자를 사용할 수 있다. delete 연산자는 객체의 프로퍼티를 삭제하는 것이다. 그렇게 되면 희소배열이 된다.
+특정 요소를 완전히 삭제하려면 splice 메서드를 사용해야 한다.
+
+```javaScript
+const arr = [1,2,3];
+
+delete arr[1]; //요소의 삭제
+console.log(arr); //[1, empty, 3]
+console.log(arr.length); //3
+//length에 영향을 주지 않고, 요소만 삭제된다는 것은 희소배열이 된다는 것이다.
+
+//요소를 완전히 삭제하려면
+arr.splice(1, 1); //1에서부터 1개의 요소를 제거
+console.log(arr); //[1,3]
+console.log(arr.length); //2
+```
+
+## 배열 메서드
+
+배열 메서드는 결과물을 반환하는 패턴이 두 가지이다. **배열에는 원본배열(배열 메서드를 호출한 배열, 즉 배열 메서드 구현체 내부에서 this가 가리키는 객체)을 직접 변경하는 메서드**와 **원본 배열을 직접 변경하지 않고 새로운 배열을 생성하여 반환하는 메서드**가 있다.
+
+```javaScript
+const arr = [1];
+
+//push는 원본 배열을 직접 변경한다.
+arr.push(2);
+console.log(arr); //[1,2]
+
+//concat은 새로운 배열로 만들어서 반환한다
+const result = arr.concat(3);
+console.log(arr); //[1,2]
+console.log(result); //[1,2,3]
+```
+
+### Array.isArray
+
+Array 생성자 함수의 정적 메서드이다. Array.of와 Array.from도 Array 생성자 함수의 정적 메서드이다.
+**Array.isArray는 전달된 인수가 배열이면 true, 배열이 아니면 false를 반환한다.**
+
+```javaScript
+//true
+Array.isArray([]);
+Array.isArray([1,2]);
+
+//false
+Array.isArray();
+Array.isArray(null);
+Array.isArray({});
+Array.isArray(true);
+Array.isArray({0: 1, length: 1});
+```
+
+### Array.prototype.indexof
+
+원본 배열에서 인수로 전달된 요소를 검색하여 인덱스를 반환한다.
+중복되는 요소가 여러 개 있다면 첫 번째로 검색된 요소의 인덱스를 반환한다.
+원본 배열에 인수로 전달한 요소가 존재하지 않으면 -1를 반환한다.
+**배열에 특정 요소가 존재하는지 확인할 때 유용하다.** ES7에서 도입된 Array.prototype.includes 멧드를 사용하면 가독성이 더 좋다.
+
+```javaScript
+const arr = [1,2,3,4];
+
+arr.indexOf(2); // 1
+arr.indexOf(4); //-1
+arr.indexOf(2,2); //두번째 인수는 검색시작할 인덱스 (없으면 처음부터)
+
+const foods = ['apple', 'banana'];
+
+if(foods.indexOf('orange') === -1){
+  foods.push('orange'); //존재하지 않으면 추가해줘
+}
+
+console.log(foods); //['apple', 'banana', 'orange']
+
+//include 메서드
+if(!food.includes('orange'){
+  foods.push('orange');
+} //위와 같은 메서드
+```
+
+### Array.prototype.push
+
+push는 전달받은 모든 값을 원본 배열의 마지막 요소로 추가, 변경된 length의 프로퍼티 값을 반환한다. **원본 배열을 직접 변경한다는 점**
+성능은 좋지 않다. 추가할 요소가 하나 뿐이라면 push 대신 length 프로퍼티를 이용해서 추가하는 것이 빠르다.
+push는 원본 배열을 바꾸기 때문에 ES6의 스프레드 문법을 사용하는 편이 좋다. 함수 호출 없이 표현식으로 마지막에 요소를 추가할 수 있고, 부수 효과도 없다.
+
+```javaScript
+const arr = [1,2];
+arr.push(3, 4);
+console.log(arr); //[1,2,3,4];
+
+const arr2 = [1,2];
+arr2[arr2.length] = 3;
+console.log(arr2); //[1,2,3] 인수가 하나일 때는 이게 더 빠르다
+
+//ES6 스프레드 문법
+const newArr = [...arr2, 4];
+console.log(newArr); //[1,2,3,4]
+```
+
+### Array.prototype.pop
+
+원본배열에서 마지막 요소를 제거하고 제거한 요소를 반환한다. 원본 배열이 빈 배열이라면 undefined를 반환한다. **원본배열을 직접 변경한다는 점**
+이를 이용해서 스택 Stack을 쉽게 구현할 수 있다.
+
+```javaScript
+const Stack = (function() {
+    function Stack(array = []) {
+      if(!Array.isArray(array)) {
+        throw new TypeError(`${array} is not an array.`); //47장 예외처리
+      }
+    this.array = array;
+  }
+
+  Stack.prototype = {
+    constructor: Stack, //생성자함수에 의한 프로토타입의 교체
+
+    push(value) {
+      return this.array.push(value);
+    }
+  
+    pop(){
+      return this.array.pop();
+    }
+
+    entries() {
+      return [ ... this.array];
+    } //복사본 배열을 반환한다.
+  };
+
+return Stack;
+}());
+
+-----------------------------------------------------------------
+
+//스택을 클래스로 구현해보기
+class Stack {
+  #array; //private class member
+
+  constructor(array = []) {
+      if(!Array.isArray(array)) {
+        throw new TypeError(`${array} is not an array.`); //47장 예외처리
+      }
+    this.array = array;
+  }
+
+  push(value) {
+      return this.#array.push(value);
+    }
+  
+    pop(){
+      return this.#array.pop();
+    }
+
+    entries() {
+      return [ ... this.#array];
+    } //복사본 배열을 반환한다.
+}
+
+------------------------------------------------------------------
+const stack = new Stack([1,2]);
+console.log(stack.entries()); //[1,2]
+
+stack.push(3);
+console.log(stack.entries()); //[1,2,3]
+
+stack.pop();
+console.log(stack.entries());//[1,2]
+```
+
+### Array.prototype.unshift
+
