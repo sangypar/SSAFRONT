@@ -124,9 +124,9 @@ Math.max([1,2,3,4,5,6,7]);                // ?
 Math.max.apply([1,2,3,4,5,6,7]);          // ?
 Math.max.apply(null, [1,2,3,4,5,6,7]);    // ?
 ```
-[참고](https://velog.io/@minngki/JavaScript-Math.min-Math.max-apply-%ED%95%A8%EC%88%98)
-
 [답](https://github.com/sangypar/SSAFRONT/blob/main/%EB%AA%A8%EB%8D%98%20%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8%20deep%20dive/29%EC%9E%A5.%20Math/%EB%8B%B5/Math.max%20%EB%8B%B5.md)
+
+[참고](https://velog.io/@minngki/JavaScript-Math.min-Math.max-apply-%ED%95%A8%EC%88%98)
 
 #### 29.9.9 Math.min
 
@@ -139,5 +139,4 @@ Math.min(l, 2, 3);   // 1
 Math.min();          // Infinity
 ```
 
-[답]()
-
+배열을 인수로 전달받아 배열의 요소 중에서 최소값을 구하려면 Function.prototype.apply 메서드 또는 스프레드 문법을 사용해야 한다.
