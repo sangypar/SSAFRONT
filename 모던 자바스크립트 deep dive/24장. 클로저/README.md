@@ -268,7 +268,7 @@ const Counter = (function () {
   return Counter;
 } ())
 
-const Counter = new Counter();
+const counter = new Counter();
 
 console.log(counter.increase()); // 1
 console.log(counter.increase()); // 2
