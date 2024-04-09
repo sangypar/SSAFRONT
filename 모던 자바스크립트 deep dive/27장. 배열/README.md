@@ -842,5 +842,143 @@ const numbers = [1,2,3];
 //콜백함수의 세번째 매개변수 arr은 원본 배열을 가리킨다. arr를 변경하면 원본 배열을 직접 변경할 수 있다.
 numbers.forEach((item, index, arr) => { arr[index] = item ** 2l });
 console.log(numbers); //[1,4,9]
+
+const result = [1,2,3].forEach(console.log);
+console.log(result); //undefined
 ```
 
+forEach 메서드의 두 번째 인수로 forEach 메서드 콜백 함수 내부에서 this로 사용할 객체를 전달할 수 있다.
+forEach 메서드의 콜백함수는 일반함수로 호출이 되어 내부의 this는 undefined를 가리킨다. 전역객체가 아니라 undefined인 이유는 클래스 내부 모든 코드에는 암묵적으로 strict mode가 적용되기 때문이다.
+콜백 함수 내부의 this와 multiply 메서드 내부의 this를 일치시키려면 (아래참고) forEach 메서드의 두 번째 인수로 forEach 메서드의 콜백함수 내부에서 this로 사용할 객체를 전달한다.
+
+```javaScript
+clss Numbers {
+  numberArray = [];
+
+  multiply(arr) {
+    arr.forEach(function (item) {
+      tihs.numberArray.push(item*item);
+    }, this);
+  }
+}
+
+const numbers = new Numbers();
+numbers.multiply([1,2,3]);
+console.log(numbers.numberArray); //[1,4,9]
+
+//화살표 함수는 함수 자체 this 바인딩을 갖지 않아서 더 나은 방법이다. 화살표 함수 내부에서 this를 참조하면 상위 스코프의 this를 가져온다.
+  multiply(arr) {
+     arr.forEach(item => this.numberArray.push(item*item);
+  }
+```
+
+forEach 메서드도 내부에서는 for문을 통해 배열을 순회할 수 밖에 없지만, for문을 메서드 내부로 은닉하여 로직의 흐름을 이해하기 쉽게하고 복잡성을 해결한다.
+여기에서는 break, continue를 사용할 수 없다. 모두 빠짐없이 순회하고 중단할 수 없다는 뜻이다.
+희소 배열의 경우에는 존재하지 않는 요소는 순회 대상에서 제외된다. map, filter, reduce 메서드에서도 마찬가지이다.
+
+forEach는 for문에 비해 성능은 좋지 않지만 가독성이 더 좋으므로 요소가 많은 배열이거나 복잡한 코드, 높은 성능이 필요한 겨우가 아니라면 이 메서드를 권장한다.
+
+### Array.prototype.map
+
+map메서드는 자신을 호출한 배열의 모든 요소를 순회하면서 인수로 전달받은 콜백 함수를 반복 호출하고, **콜백 함수의 반환값들로 구성된 새로운 배열을 반환한다. 즉, 원본 배열은 변경되지 않는다.**
+
+```javaScript
+const numbers = [1, 4, 9];
+const roots = numbers.map(item => Math.sqrt(item)); //제곱근구하기 (새로운 배열을 만드는 것
+
+console.log(roots); //[1,2,3]
+console.log(numbers); //[1,4,9]
+```
+
+forEach 메서드와 map 메서드의 공통점으로는 모든 요소를 순회하면서 콜백함수를 반복호출한다는 것이다. 그러나 undefined를 반환하는 forEach와는 달리 map은 반환값들로 구성된 새로운 배열을 반환한다는 차이가 있다.
+**map 메서드가 생성하여 반환하는 새로운 배열의 length 프로퍼티 값은 map 메서드를 호출한 배열의 length 프로퍼티 값과 반드시 일치한다. 즉, map을 호출한 배열과 map으로 생성하여 반환한 배열은 1:1 매핑된다.** <br>
+![image](https://github.com/sangypar/SSAFRONT/assets/158231909/8afdb381-5bd2-4adf-84a5-38d3e167f1e6)
+
+```javaScript
+//map 메서드는 콜백 함수를 호출하면서 3개 (요소 값, 인덱스, this)의 인수를 전달한다.
+
+[1,2,3].map((item, index, arr) => {
+  console.log(`요소값: ${item}, 인덱스: ${index}, this: ${JSON.stringify(arr)}`);
+  return item;
+});
+
+/*
+요소값: 1, 인덱스: 0, this: [1,2,3]
+요소값: 2, 인덱스: 1, this: [1,2,3]
+요소값: 3, 인덱스: 2, this: [1,2,3]
+*/
+```
+
+forEach 메서드와 마찬가지로 map 메서드의 두번째 인수로 this로 사용할 객체를 전달할 수 있다. 여기서도 화살표 함수를 사용하는 것이 더 나은 방법이다.
+
+```javaScript
+class Prefixer {
+  constructor(prefix) {
+    this.prefix = prefix;
+  }
+
+  add(arr) {
+    return arr.map(function(item) {
+      //this를 전달하지 않으면 undefined
+        return this.prefix + item;
+    }, this); //콜백함수 내부에서 사용할 객체 전달
+  }
+
+  //화살표 함수 버전
+  add(arr){
+    return arr.map(item => this.prefix + item);
+  }
+}
+
+const prefixer = new Prefixer('-webkit-);
+console.log(prefixer.add(['transition', 'user-select']));
+//근데 이거 나 똑같이 친거같은데 안 되네요?
+```
+
+### Array.prototype.filter
+
+filter 메서드는 자신을 호출한 배열의 모든 요소를 순회하면서 콜백함수를 반복호출하고, **콜백함수의 반환값이 true인 요소로만 구성된 새로운 배열을 반환한다. 즉, 원본 배열은 변경되지 않는다.** forEach, map과 비교했을 때 true인 요소만 추출한 새로운 배열이 나온다는 점이 다르다. **filter 메서드가 생성하여 반환한 새로운 배열의 length 프로퍼티 값은 filter 메서드를 호출한 배열의 length보다 작거나 같다.**
+
+```javaScript
+const numbers = [1,2,3,4,5];
+const odds = numbers.filter(item => item%2);
+console.log(odds); //[1,3,5]
+```
+![image](https://github.com/sangypar/SSAFRONT/assets/158231909/2420a0c1-6b6c-4866-9308-f11f60a25937)
+
+filter 메서드 역시 배열의 요소값, 인덱스, 호출한 배열 자체(this)를 순차적으로 전달받을 수 있다. 이 역시 두번째 인수에서 this로 사용할 객체를 전달할 수 있다. 이것도 화살표 함수를 사용하는 것이 낫다.
+
+```javaScript
+class Users {
+  constructor() {
+    this.users = [
+      {id : 1, name: 'Lee'},
+      {id : 2, name: 'Kim'}
+    ];
+}
+
+  //추출
+  findById(id) {
+    return this.users.filter(user => user.id === id);
+  }
+
+   //제거
+  remove(id) {
+    this.users = this.users.filter(user => user.id !== id);
+  }
+}
+
+const users = new users();
+
+let user = users.findById(1);
+console.log(user); //[{id: 1, name: 'Lee'}]
+
+users.remove(1);
+
+user = users.findById(1);
+console.log(user); //[]
+```
+
+### Array.prototype.reduce
+
+reduce 메서드는 콜백 함수의 반환값을 다음 순회 시에 콜백함수의 첫 인수로 전달하면서 **하나의 결과값을 만들어 반환한다.** 원본 배열은 변경되지 않는다.
