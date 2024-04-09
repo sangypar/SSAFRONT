@@ -3,11 +3,11 @@
 > 표준 빌트인 객체인 Number는 원시 타입인 Number를 다룰 때 유용한 프로퍼티와 메서드를 제공한다.
 
 ## 28.1 Number 생성자 함수
-> - Number 객체는 생성자 함수 객체다.
+- Number 객체는 생성자 함수 객체다.
 - 따라서 new 연산자와 함께 호출하여 Number 인스턴스를 생성할 수 있다.
 - 생성자 함수에 인수를 전달하지 않고 new 연산자와 함께 호출하면 내부 슬롯에 0을 할당한 Number 래퍼 객체를 생성한다.
 - new 연산자를 사용하지 않고 Number 생성자 함수 호출 시 인스턴스가 아닌 숫자 반환
-이를 통해 명시적 형변환이 가능
+이를 통해 명시적 형변환이 가능 <br/><br/>
 ![](https://velog.velcdn.com/images/chtoqur/post/654b7ee6-931d-4251-abc5-fecb0a905472/image.png)
 
 ## 28.2 Number 프로퍼티
@@ -19,11 +19,11 @@
 ![](https://velog.velcdn.com/images/chtoqur/post/31947016-b612-4320-88ed-dacf9764c3a6/image.png)
 
 ### 28.2.2 Number.MAX_VALUE
-> - 자바스크립트에서 표현할 수 있는 가장 큰 양수
+- 자바스크립트에서 표현할 수 있는 가장 큰 양수
 - MAX_VALUE보다 큰 숫자 = Infinity
 
 ### 28.2.3 Number.MIN_VALUE
-> - 자바스크립트에서 표현할 수 있는 가장 작은 양수 값(5 x 10-324)
+- 자바스크립트에서 표현할 수 있는 가장 작은 양수 값(5 x 10-324)
 - Number.MIN_VALUE보다 작은 숫자 = 0
 - Number.MIN_VALUE는 음수 값이 아닌 최소 양수 값을 나타냄에 주의
 - 음수 부동소수점 값의 최소값은 '-Number.MIN_VALUE'
@@ -34,7 +34,7 @@
 
 ### 28.2.4 Number.MAX_SAFE_INTEGER
 ### 28.2.5 Number.MIN_SAFE_INTEGER
-> 자바스크립트에서 안전하게 표현할 수 있는 가장 큰/작은 정수값
+- 자바스크립트에서 안전하게 표현할 수 있는 가장 큰/작은 정수값
 
 ![](https://velog.velcdn.com/images/chtoqur/post/981a86a1-6cb6-4722-8aa0-dbf1bff258f3/image.png)
 
@@ -42,19 +42,19 @@
 
 ### 28.2.6 Number.POSITIVE_INFINITY
 ### 28.2.7 Number.NEGATIVE_INFINITY
-> 각각 양의 무한대 / 음의 무한대를 나타내는 숫자값
+- 각각 양의 무한대 / 음의 무한대를 나타내는 숫자값
 
 ![](https://velog.velcdn.com/images/chtoqur/post/c3cd7ebc-6763-4d13-b9bd-cb7f1f49cc3d/image.png)
 
 ![](https://velog.velcdn.com/images/chtoqur/post/62f38fa3-eb0f-4246-94fb-9b0842c7037f/image.png)
 
-> - 기능적으로 Infinity/-Infinity와 동일하나, Infinity/-Infinity는 전역 속성이기 때문에 더 다양한 곳에서 사용될 수 있음
+- 기능적으로 Infinity/-Infinity와 동일하나, Infinity/-Infinity는 전역 속성이기 때문에 더 다양한 곳에서 사용될 수 있음
 - ES5 이전에는 Infinity의 속성을 변경 가능했지만 Number.POSITIVE_INFINITY의 값은 변경이 불가능한 읽기 전용 값이었음
 
 ![](https://velog.velcdn.com/images/chtoqur/post/3aef1fd5-95c0-4717-ba5d-a23d91201979/image.png)
 
 ### 28.2.8 Number.NaN
-> - 숫자가 아님을 나타내는 숫자값
+- 숫자가 아님을 나타내는 숫자값
 - window.NaN과 동일
 
 ![](https://velog.velcdn.com/images/chtoqur/post/95d355d5-0fae-4a50-bde0-cd651fbd191d/image.png)
@@ -81,7 +81,7 @@
 
 ![](https://velog.velcdn.com/images/chtoqur/post/9aa47364-7703-4c3e-8a3e-d7d8f0eca7ca/image.png)
 
-> 1. isNaN
+1. isNaN
 - 인수로 들어온 문자열을 숫자로 변환하려고 시도
 - 문자열을 숫자로 변환할 수 없기 때문에 NaN으로 간주
 - 이에 따라 true를 반환
@@ -94,7 +94,7 @@
 > 인수로 전달된 숫자값이 안전한 정수(-2^53 - 1 ~ 2^53 - 1)인지 검사하여 결과를 불리언 값으로 반환
 
 ### 28.3.5 Number.prototype.toExponential
-> - 숫자를 지수 표기법으로 변환하여 문자열로 반환
+- 숫자를 지수 표기법으로 변환하여 문자열로 반환
 - 매우 크거나 작은 숫자를 표기할 때 주로 사용
 - e 앞에 있는 숫자에 10의 n승을 곱하는 형식으로 수를 나타냄
 - 소수점 이하로 표현할 자릿수는 인수를 통해 전달할 수 있다.
@@ -109,14 +109,14 @@
 > 다음과 같이 숫자 리터럴과 함께 메서드를 사용할 경우 혼란을 방지하기 위해 그룹 연산자를 사용할 것을 권장
 
 ### 28.3.6 Number.prototype.toFixed
-> - 숫자를 반올림하여 문자열로 반환
+- 숫자를 반올림하여 문자열로 반환
 - 0~20사이의 정수값을 인수로 전달해서 반올림하는 소수점 이하 자릿수를 설정할 수 있음
 - 인수를 생략할 경우 기본값 0 지정
 
 ![](https://velog.velcdn.com/images/chtoqur/post/d278feae-b34d-47a6-89d6-0fb5bb9402e0/image.png)
 
 ### 28.3.7 Number.prototype.toPrecision
-> - 인수로 전달받은 전체 자릿수까지 유효하도록 나머지 자릿수를 반올림하여 문자열로 반환
+- 인수로 전달받은 전체 자릿수까지 유효하도록 나머지 자릿수를 반올림하여 문자열로 반환
 - 인수로 전달받은 전체 자릿수로 표현할 수 없는 경우 지수 표기법으로 결과 반환
 - 전체 자릿수를 나타내는 0~21 사이의 정수값을 인수로 전달할 수 있음
 - 인수 생략할 경우 기본값 0 지정
@@ -124,7 +124,7 @@
 ![](https://velog.velcdn.com/images/chtoqur/post/0b49ad2e-2b41-4ea4-86d0-45e5609f022b/image.png)
 
 ### 28.3.8 Number.prototype.toString
-> - 숫자를 문자열로 변환하여 반환하는 메서드
+- 숫자를 문자열로 변환하여 반환하는 메서드
 - 인수로 진법을 지정할 수 있음, 생략 시 10진법 지정
 
 ![](https://velog.velcdn.com/images/chtoqur/post/147878db-96fd-4e47-a094-e4d7f861da6b/image.png)
