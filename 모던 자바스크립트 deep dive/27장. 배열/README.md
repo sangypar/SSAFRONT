@@ -982,3 +982,130 @@ console.log(user); //[]
 ### Array.prototype.reduce
 
 reduce 메서드는 콜백 함수의 반환값을 다음 순회 시에 콜백함수의 첫 인수로 전달하면서 **하나의 결과값을 만들어 반환한다.** 원본 배열은 변경되지 않는다.
+첫 번째 인수로 콜백함수, 두 번째 인수로 초기값을 전달받는다. 콜백함수는 4개의 인수로 "초기값 또는 콜백함수 이전 반환값", "배열의 요소값"과 "인덱스", "this"(reduce 메서드를 호출한 배열 자체)가 전달된다.
+
+```javaScript
+const sum = [1,2,3,4].reduce((accumulator, currentValue, index, array) => accumulator + currentValue, 0);
+console.log(sum); //10
+```
+
+![image](https://github.com/sangypar/SSAFRONT/assets/158231909/ad729c3a-7b3b-4e18-b25c-719ed073a742)
+
+![image](https://github.com/sangypar/SSAFRONT/assets/158231909/c6cfcef0-9071-430b-a9d0-dfa4dee9b0bc)
+
+reduce 메서드는 초기값과 배열의 첫 번째 요소값을 콜백 함수에게 인수로 전달하면서 호출하고 다음 순회에는 콜백 함수의 반환값과 두번째 요소값을 콜백 함수의 인수로 전달하면서 호출한다. 이 과정을 반복하여 **reduce 메서드는 하나의 결과값을 반환한다.**
+
+```
+reduce 메서드의 활용법
+
+1. 평균구하기
+2. 최대값 구하기
+    → 이때는 Math.max 메서드를 사용하는 방법이 더 직관적이다.
+3. 요소의 중복 횟수 구하기
+4. 중첩 배열 평탄화
+    → flat 메서드를 사용하는 것이 더 직관적이다.
+5. 중복 요소 제거
+    → filter 메서드를 사용하는 방법이 더 직관적이다.
+      또는 Set(중복 허용하지 않는 집합)을 사용할 수도 있다. 이 방법을 추천한다.
+```
+
+reduce의 두번째 인수로 전달하는 초기값은 생략가능하다. (옵션)
+```javaScript
+const sum = [1,2,3,4].reduce((acc,cur) => acc+cur);
+console.log(sum); //10
+```
+![image](https://github.com/sangypar/SSAFRONT/assets/158231909/56ff9ecc-1996-4421-a3ad-012384f92daf)
+
+**하지만 reduce 메서드를 호출할 때는 언제나 초기갑을 전달하는 것이 안전하다.**
+빈 배열로 reduce 메서드를 호출하면 TypeError가 발생한다. 초기값 설정을 해두면 발생하지 않는다.
+또 객체의 특정 프로퍼티 값을 합산하는 경우에는 반드시 초기값을 전달해야 한다.
+
+```javaScript
+const sum = [].reducr((acc, cur) => acc + cur, 0); //초기값 0추가 = 에러안남
+----------------------------------------------------------------------------
+//객체
+const products = [
+  {id: 1, price: 200},
+  {id: 2, price: 300},
+  {id: 3, price: 400}
+];
+
+const priceSum = products.reduce((acc, cur) => acc.price + cur.price); //콘솔찍을 시 NaN으로 출력
+const priceSum = products.reduce((acc, cur) => acc + cur.price, 0); //초기값 0으로 해야 제대로 값을 계산한 600이 콘솔에 출력된다
+
+```
+
+### Array.prototype.some
+
+some 메서드의 콜백함수 반환값이 단 한번이라도 참이면 true, 모두 거짓이면 false를 반환한다. 조건을 만족하는 요소가 1개 이상 존재하는지 확인하여 결과를 boolean 타입으로 반환한다. 빈 배열이라면, 언제나 false를 반환하므로 주의!
+
+```javaScript
+[5,10,15].some(item => item > 10); //true
+[5,10,15].some(item => item < 0); //false
+[].some(item => item>3); //false 항상
+```
+
+### Array.prototype.every
+
+콜백함수의 반환값이 "모두 참이면" true, 하나라도 거짓이면 false를 반환한다. 모두 만족하는지 확인하여 결과를 boolean 타입으로 반환한다. 단, 빈 배열은 언제나 true로 반환하므로 주의!
+
+```javaScript
+[5, 10, 15].every(item => item > 3); //true
+[5, 10, 15].every(item => item < 0); //false
+[].every(item => item > 3); //true
+```
+
+### Array.prototype.find
+
+find 메서드는 ES6에서 도입된 메서드로 반환값이 true인 첫 번째 요소를 반환한다. true인 요소가 없다면 undefined를 반환한다.
+filter는 true인 값들을 모아서 배열의 형태로 반환하지만, find는 첫 번째 요소 하나만을 반환하므로 배열이 아닌 요소값이다.
+
+```javaScript
+[1,2,2,3].filter(item => item === 2); //[2,2]
+[1,2,2,3].find(item => item === 2); //2
+
+//객체에서도
+const users = [
+  {id: 1, name: 'kim'},
+  {id: 2, name: 'Lee'} 
+];
+
+users.find(user => user.id === 2); //{id: 2, name: 'Lee'} 해당 요소인 객체를 반환
+```
+
+### Array.prototype.findIndex
+
+반환값이 true인 첫 번째 요소의 '인덱스'를 반환한다. true인 요소가 없다면 -1를 반환한다.
+
+```javaScript
+const users = [
+  {id: 1, name: 'kim'},
+  {id: 2, name: 'Lee'},
+  {id: 3, name: 'Choi'}
+];
+
+users.findIndex(user => user.id === 2); //1
+users.findIndex(user => user.name === 'Choi'); //2
+
+//콜백함수를 다음과 같이 추상화할 수 있다.
+function predicate(key, value){
+  return item => item[key] === value; //클로저 반환
+}
+```
+
+### Array.prototype.flatMap
+
+map 메서드를 통해 생성된 배열을 평탄화한다. 즉, map과 flat 메서드를 순차적으로 실행하는 효과가 있다.
+flat처럼 평탄화할 깊이를 지정할 수 없고, 1단계 평탄화만 진행한다. 깊이를 지정하고 싶다면 map 과 flat을 각각 호출해야 한다.
+
+```javaScript
+const arr = ['hello', 'world'];
+arr.map(x => x.split('')).flat(); //['h', 'e', 'l', 'l', 'o', 'w', 'o', 'r', 'l', 'd']
+arr.flatMap(x => x.split('')); //['h', 'e', 'l', 'l', 'o', 'w', 'o', 'r', 'l', 'd']
+
+-----------------------------------------------------------------------------------------
+
+
+
+```
+
