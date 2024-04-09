@@ -53,7 +53,7 @@ const Person = class MyClass {};
 4. 함수의 반환값으로 사용할 수 있다.
 
 클래스의 몸체에는 0개 이상의 메서드(생성자, 프로토타입 메서드, 정적 메서드) 세 가지만 정의할 수 있다.
-<p align="center"><img src="./img/1.PNG"></p>
+<p align="center"><img src="./image/1.PNG"></p>
 
 ## 25.3 클래스 호이스팅
 클래스는 함수로 평가된다. <br>
