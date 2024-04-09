@@ -365,3 +365,262 @@ console.log(MyMath.increment()); // 11
 ```
 
 ## 25.8 상속에 의한 클래스 확장
+### 25.8.1 클래스 상속과 생성자 함수 상속
+**상속에 의한 클래스 확장은 기존 클래스를 상속받아 새로운 클래스를 확장(extends)하여 정의하는 것.** <br>
+클래스와 생성자 함수는 인스턴스를 생성할 수 있는 공통점이 있지만, 상속은 클래스만 제공한다.
+
+``` javascript
+class Animal {
+  constructor(age, weight) {
+    this.age = age;
+    this.weight = weight;
+  }
+
+  eat() { return 'eat';}
+
+  move() { return 'move';}
+}
+
+class Bird extends Animal {
+  fly() { return 'fly'; }
+}
+
+const bird = new Bird(1, 5);
+
+console.log(bird); // Bird {age: 1, weight: 5}
+console.log(bird instanceof Bird); // true
+console.log(bird instanceof Animal); // true
+
+console.log(bird.eat()); // eat
+console.log(bird.move()); // move
+console.log(bird.fly()); // fly
+```
+
+### 25.8.2 extends 키워드
+상속을 통해 클래스를 확장하려면 extends 키워드를 사용하여 상속받을 클래스를 정의한다. <br>
+상속을 통해 확장된 클래스를 **서브클래스, 혹은 파생클래스, 자식클래스**라 부르고, <br>
+서브클래스에게 상속된 클래스를 **수퍼클래스, 혹은 베이스클래스, 부모클래스**라 부른다.
+
+### 25.8.3 동적 상속
+extends 키워드는 클래스 뿐만 아니라 생성자 함수를 상속받아 클래스를 확장할 수도 있다. 단, extends 키워드 앞에는 반드시 클래스가 와야한다.
+
+``` javascript
+// 생성자 함수
+function Base(a) {
+  this.a = a;
+}
+
+// 생성자 함수를 상속받는 서브클래스
+class Derived extends Base {}
+
+const derived = new Derived(1);
+console.log(derived); // Derived {a: 1}
+```
+
+extends 다음에는 [[Construct]] 내부 메서드를 갖는 함수 객체로 평가될 수 있는 모든 표현식을 사용할 수 있다.
+``` javascript
+function Base1() {}
+
+class Base2 {}
+
+let condition = true;
+
+// 조건에 따라 동적으로 상속 대상을 결정하는 서브 클래스
+class Derived extends (Condition ? Base1 : Base2) {}
+
+const derived = new Derived();
+console.log(derived); // Derived {}
+
+console.log(derived instanceof Base1); // true
+console.log(derived instanceof Base2); // false
+```
+
+### 25.8.4 서브클래스의 constructor
+클래스에서 constructor를 생략하면 암묵적으로 비어있는 constructor가 생성된다. <br>
+서브클래스에서 constructor를 생략하면 다음과 같은 constructor가 암묵적으로 정의된다.
+
+``` javascript
+constructor(...args) { super(...args); }
+```
+args는 new 연산자와 함께 클래스를 호출할 때 전달한 인수의 리스트다.
+super()는 수퍼클래스의 constructor를 호출하여 인스턴스를 생성한다.
+
+``` javascript
+// 수퍼클래스
+class Base {}
+
+// 서브클래스
+class Derived extends Base {}
+```
+위 코드는 암묵적으로 아래와 같이 constructor가 정의된다.
+``` javascript
+class Base {
+  constructor() {}
+}
+
+class Derived extends Base {
+  constructor(...args) { super(...args); }
+}
+
+const derived = new Derived();
+console.log(derived); // Derived {}
+```
+
+### 25.8.5 super 키워드
+super 키워드는 함수처럼 호출할 수도 있고, this와 같이 식별자처럼 참조할 수 있는 특수한 키워드다. <br>
+- **super를 호출하면 수퍼클래스의 constructor를 호출한다.**
+
+``` javascript
+class Base {
+  constructor(a, b) {
+    this.a = a;
+    this.b = b;
+  }
+}
+
+class Derived extends Base {}
+
+const derived = new Derived(1, 2);
+console.log(derived); // Derived {a: 1, b: 2}
+```
+
+다음과 같이 서브클래스에서 추가한 프로퍼티를 갖는 인스턴스를 생성한다면, 서브클래스의 constructor를 생략할 수 없다.
+``` javascript
+class Base {
+  constructor(a, b) {
+    this.a = a;
+    this.b = b;
+  }
+}
+
+class Derived extends Base {
+  constructor(a, b, c) {
+    super(a, b);
+    this.c = c;
+  }
+}
+
+const derived = new Derived(1, 2, 3);
+console.log(derived); // Derived {a: 1, b: 2, c: 3}
+```
+
+super를 호출할 때 주의할 사항은 다음과 같다
+1. 서브클래스에서 constructor를 생략하지 않는 경우 서브클래스의 constructor에서는 반드시 super를 호출해야한다.
+2. 서브클래스의 constructor에서 super를 호출하기 전에는 this를 참조할 수 없다.
+3. super는 반드시 서브클래스의 constructor에서만 호출한다. 서브클래스가 아닌 클래스의 constructor나 함수에서 super를 호출하면 에러가 발생한다.
+
+- **super를 참조하면 수퍼클래스의 메서드를 호출할 수 있다.**
+``` javascript
+class Base {
+  constructor(name) {
+    this.name = name;
+  }
+
+  sayHi() {
+    return `Hi! ${this.name}`;
+  }
+}
+
+class Derived extends Base {
+  sayHi() {
+    // super.sayHi는 수퍼클래스의 프로토타입 메서드를 가리킨다.
+    return `${super.sayHi()}. how are you doing?`;
+  }
+}
+
+const derived = new Derived('Lee');
+console.log(derived.sayHi()); // Hi! Lee. how are you doing?
+```
+
+super 참조를 통해 수퍼클래스의 메서드를 참조하려면 super가 수퍼클래스의 메서드가 바인딩된 객체, <br>
+즉 수퍼클래스의 prototype 프로퍼티에 바인딩된 프로토타입을 참조할 수 있어야 한다.
+
+``` javascript
+class Derived extends Base {
+  sayHi() {
+    // __super는 Base.prototype을 가리킨다.
+    const __super = Object.getPrototypeOf(Derived.prototype);
+    return `${__super.sayHi.call(this)} how are you doing?`;
+  }
+}
+```
+
+super는 자신을 참조하고 있는 메서드(위의 경우 Derived의 sayHi)가 바인딩되어 있는 객체(Derived.prototype)의 프로토타입(Base.prototype)을 가리킨다.<br>
+따라서 super 참조가 동작하기 위해서는 super를 참조하고 있는 메서드가 바인딩되어 있는 객체의 프로토타입을 찾을 수 있어야한다. <br>
+이를 위해 메서드는 내부 슬롯 [[HomeObject]]를 가지며, 자신을 바인딩하고 있는 객체를 가리킨다. <br>
+**주의할 것은 ES6의 메서드 축약 표현으로 정의된 함수만이 [[HomeObject]]를 갖는다.**
+
+``` javascript
+const base = {
+  sayHi() {
+    return `Hi! ${this.name)`;
+  }
+};
+
+const derived = {
+  __proto__: base,
+  // ES6 메서드 축약 표현으로 정의한 메서드
+  sayHi() {
+    return `${super.sayHi()}. how are you doing?`;
+  }
+};
+
+console.log(derived.sayHi()); // Hi! Lee. how are you doing?
+```
+
+### 25.8.6 상속 클래스의 인스턴스 생성 과정
+
+``` javascript
+class Rectangle {
+  constructor(width, height) {
+    this.width = width;
+    this.height = height;
+  }
+
+  getArea() {
+    return this.width * this.height;
+  }
+
+  toString() {
+    return `width = ${this.width}, height = ${this.height}`;
+  }
+}
+
+class ColorRectangle extends Rectangle {
+  constructor(width, height, color) {
+    super(width, height);
+    this.color = color;
+  }
+
+  toString() {
+    return super.toString() + `, color = ${this.color}`;
+  }
+}
+
+const colorRectangle = new ColorRectangle(2, 4, 'red');
+console.log(colorRectangle); // ColorRectangle {width: 2, height: 4, color: "red"}
+
+// 상속을 통해 getArea 메서드를 호출
+console.log(colorRectangle.getArea()); // 8
+// 오버라이딩된 toString 메서드를 호출
+console.log(colorRectangle.toString()); // width = 2, height = 4, color = red
+```
+1. **서브클래스의 super 호출**
+   - 자바스크립트 엔진은 내부 슬롯 [[ConstructorKind]]로 수퍼클래스와 서브클래스를 구분한다.
+   - 서브클래스는 자신이 직접 인스턴스를 생성하지 않고 수퍼클래스에게 인스턴스 생성을 위임한다.(서브클래스의 constructor에서 반드시 super를 호출해야 하는 이유)
+2. **수퍼클래스의 인스턴스 생성과 this 바인딩**
+   - 수퍼클래스가 인스턴스를 생성한다.
+   - 생성된 인스턴스의 프로토타입은 서브 클래스의 prototype 프로퍼티가 가리키는 객체다.
+3. **수퍼클래스의 인스턴스 초기화**
+   - 수퍼클래스의 constructor가 실행되어 this에 바인딩되어 있는 인스턴스를 초기화한다.
+   - this에 바인딩되어 있는 인스턴스에 프로퍼티를 추가하고 constructor가 인수로 전달받은 초기값으로 인스턴스의 프로퍼티를 초기화한다.
+4. **서브클래스 constructor로의 복귀와 this 바인딩**
+   - 서브클래스는 별도의 인스턴스를 생성하지 않고 super가 반환한 인스턴스를 this에 바인딩하여 그대로 사용한다.
+5. **서브클래스의 인스턴스 초기화**
+   - 서브클래스의 constructor에 기술되어 있는 인스턴스 초기화가 실행된다.
+6. **인스턴스 반환**
+   - 완성된 인스턴스가 바인딩된 this가 암묵적으로 반환된다.
+
+### 25.8.7 표준 빌트인 생성자 함수 확장
+extends 키워드 다음에는 클래스 뿐만 아니라 [[Construct]] 내부 메서드를 갖는 함수 객체로 평가될 수 있는 모든 표현식을 사용할 수 있다. <br>
+String, Number, Array 같은 표준 빌트인 객체도 [[Construct]] 내부 메서드를 갖는 생성자 함수이므로 extends 키워드를 사용하여 확장할 수 있다.
