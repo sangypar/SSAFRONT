@@ -193,7 +193,7 @@ today setHours(0, 0, 0, 0); // 00:00:00:00
 today getHours(); // 0
 ```
 
-#### 30.2.13 Date.prototype.getiviinutes
+#### 30.2.13 Date.prototype.getMinutes
 
 Date 객체의 분(0 ~ 59)을 나타내는 정수를 반환한다.
 
@@ -201,7 +201,7 @@ Date 객체의 분(0 ~ 59)을 나타내는 정수를 반환한다.
 new Date('2024/04/08/12:30').getMinutes(); // 30
 ```
 
-#### 30.2.14 Date.prototype.setiviin나tes
+#### 30.2.14 Date.prototype.setMinutes
 
 Date 객체에 분(0 ~ 59)을 나타내는 정수를 설정한다. 분 이외에 옵션으로 초, 밀리초도 설정할 수 있다.
 
