@@ -242,8 +242,8 @@ str.repeat(2.5); // 'abcabc' //-> 2로 버림
 
 대상 문자열에서 첫 인수로 받은 문자열이나 정규표현식을 검색하여 두번째 인수로 전달한 문자열로 치환된 문자열을 반환한다.
 검색된 문자열이 여럿이면 첫 번째 검색된 문자열만 치환한다.
-또, 특수한 교체 패턴을 사용할 수 있는데, (예를 들어, $&는 검색된 문자열) 자세한 내용은 MDN의 함수 설명을 참고하자.
-[참고 MDN] (https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/String/replace)
+또, 특수한 교체 패턴을 사용할 수 있는데, (예를 들어, $&는 검색된 문자열) 자세한 내용은 MDN의 함수 설명을 참고하자. <br>
+https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/String/replace
 
 ![image](https://github.com/sangypar/SSAFRONT/assets/158231909/3f7026da-913b-4710-8e2a-1d53349b2f57)
 
