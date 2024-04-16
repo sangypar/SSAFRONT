@@ -225,34 +225,151 @@ const fibonacci = {
 	// next 메서드는 이터레이터 리절트 객체를 반환해야 한다.
 	return {
 		next() {
-			[pre, cur] = [cur, pre + cur];
-			// 이터레이터 리절트 객체를 반환한다.
-			return { value: cur, done: cur >= max };
+				[pre, cur] = [cur, pre + cur];
+				// 이터레이터 리절트 객체를 반환한다.
+				return { value: cur, done: cur >= max };
 			}
 		};
 	}
 };
 
 // 이터러블인 fibonacci 객체를 순회할 때마다 next 메서드가 호출된다.
+// for... of 문은 done 프로퍼티가 true가 될 때까지 반복하며 done 프로퍼티가 true가 되면 반복을 중지한다.
 for (const num of fibonacci) {
 	console.log (num); // 1 2 3 5 8
 }
+
+// 이터러블은 스프레드 문법, 디스트럭처링 할당의 대상이 될 수 있다.
+const arr = [ ... fibonacci];
+console.log(arr); // [ 1, 2, 3, 5, 8 ]
 ```
 
 #### 34.6.2 이터러블을 생성하는 함수
 
-```javascript
+앞에서 살펴본 fibonacci 함수의 최대값은 고정된 값으로 외부에서 전달한 값으로 변경할 방법이 없다. 하지만 수열의 최대값을 인수로 전달받아 이터러블을 반환하는 함수를 만들면 해결된다.
 
+```javascript
+// 피보나치 수열을 구현한 사용자 정의 이터러블
+// 수열의 최대값을 인수로 전달받는다.
+const fibonacciFunc = function (max) {
+	let [pre, cur] = [0, 1];
+
+// Symbol.iterator 메서드를 구현한 이터러블을 반환한다.
+	return {
+		[Symbol.iterator]() {
+		return {
+			next() {
+					[pre, cur] = [cur, pre + cur];
+					return { value: cur, done: cur >= max };
+				}
+			};
+		}
+	};
+};
+
+// 이터러블을 반환하는 함수에 수열의 최대값을 인수로 전달하면서 호출한다.
+// fibonacciFunc(10)은 이터러블을 반환한다.
+for (const num of fibonacciFunc(10)) {
+	console.log(num); // 1 2 3 5 8
+}
 ```
 
 #### 34.6.3 이터러블이면서 이터레이터인 객체를 생성하는 함수
 
-```javascript
+앞에서 살펴본 fibonacciFunc 함수는 이터러블을 반환한다. 만약 이터레이터를 생성하려면 이터러블의 Symbol.iterator 메서드를 호출해야한다.
 
+```javascript
+// fibonacciFunc 함수는 이터러블을 반환한다.
+const iterable = fibonacciFunc(5);
+
+// 이터러블의 Symbol.iterator 메서드는 이터레이터를 반환한다.
+const iterator = iterable[Symbol.iterator]();
+
+console.log(iterator.next()); // { value: 1, done: false }
+console.log(iterator.next()); // { value: 2, done: false }
+console.log(iterator.next()); // { value: 3, done: false }
+console.log(iterator.next()); // { value: 5, done: true }
+```
+
+Symbol.iterator 메서드는 this를 반환하므로 next 메서드를 갖는 이터레이터를 반환한다.
+
+```javascript
+// 이터러블이면서 이터레이터인 객체
+// Symbol.iterator 메서드와 next 메서드를 소유한 이터러블이면서 이터레이터인 객체를 반환
+{
+	[Symbol.iterator]() { return this; },
+	next() {
+		return { value: any, done: boolean };
+	}
+}
+```
+
+```javascript
+// 이터러블이면서 이터레이터인 객체를 반환하는 함수
+const fibonacciFunc = function (max) {
+let [pre, cur] = [0, 1];
+
+// Symbol.iterator 메서드와 next 메서드를 소유한 이터러블이면서 이터레이터인 객체를 반환
+return {
+	[Symbol.iterator]() { return this; },
+	// next 메서드는 이터레이터 리절트 객체를 반환
+	next() {
+		[pre, cur] = [cur, pre + cur];
+		return { value: cur, done: cur >= max };
+		}
+	};
+};
+
+// iter는 이터러블이면서 이터레이터다.
+let iter = fibonacciFunc(10);
+
+// iter는 이터러블이므로 for... of 문으로 순회할 수 있다.
+for (const num of iter) {
+	console.log(num); // 1 2 3 5 8
+}
+
+// iter는 이터러블이면서 이터레이터다.
+iter = fibonacciFunc(10);
+
+// iter는 이터레이터이므로 이터레이션 리절트 객체를 반환하는 next 메서드를 소유한다.
+console.log(iter.next()); // { value: 1, done: false }
+console.log(iter.next()); // { value: 2, done: false }
+console.log(iter.next()); // { value: 3, done: false }
+console.log(iter.next()); // { value: 5, done: false }
+console.log(iter.next()); // { value: 8, done: false }
+console.log(iter.next()); // { value: 13, done: true }
 ```
 
 #### 34.6.4 무한 이터러블과 지연 평가
 
 ```javascript
+// 무한 이터러블을 생성하는 함수
+const fibonacciFunc = function () {
+let [pre, cur] = [0, 1];
 
+return {
+	[Symbol.iterator]() { return this; },
+	// next 메서드는 이터레이터 리절트 객체를 반환
+	next() {
+		[pre, cur] = [cur, pre + cur];
+		// 무한을 구현해야 하므로 done 프로퍼티를 생략한다.
+		return { value: cur};
+		}
+	};
+};
+
+// fibonacciFunc 함수는 무한 이터러블을 생성한다.
+for (const num of fibonacciFunc()) {
+	if (num > 10000) break;
+	console.log(num); // 1 2 3 5 8... 4181 6765
+}
+// 배열 디스트럭처링 할당을 통해 무한 이터러블에서 3개의 요소만 취득한다.
+const [fl, f2, f3] = fibonacciFunc();
+console.log(fl, f2, f3); // 1 2 3
 ```
+
+배열이나 문자열 등은 모든 데이터를 메모리에 미리 확보한 다음 데이터를 공급한다. 하지만 위 예제의 이터러블은 **지연 평가**를 통해 데이터를 생성한다.
+
+> 지연 평가 : 데이터가 필요한 시점 이전까지는 미리 데이터를 생성하지 않다가 데이터가 필요한 시점이 되면 그때야 비로소 데이터를 생성하는 기법이다. 즉, 평가 결과가 필요할 때까지 평가를 늦추는 기법이 지연 평가다.
+
+지연 평가를 사용하면 불필요한 데이터를 미리 생성하지 않고 필요한 데이터를 필요한 순간에 생성하므로 빠른 실행 속도를 기대할 수 있고 불필요한 메모리를 소비하지 않으며 무한도 표현할 수 있다는 장점이 있다.
