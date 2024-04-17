@@ -41,7 +41,7 @@
 
 ![](https://velog.velcdn.com/images/chtoqur/post/58abb722-8c23-403f-acd4-497129c0b34e/image.png)
 
-- innerHTML 또한 textContent와 마찬가지로 문자열을 할당할 경우 요소 노드의 모든 자식 노드를 제거하고 할당한 문자열로 교체한다
+- innerHTML 또한 textContent와 마찬가지로 문자열을 할당할 경우 요소 노드의 모든 자식 노드를 제거하고 할당한 문자열로 교체한다 <br/>
 ![](https://velog.velcdn.com/images/chtoqur/post/c5abfbb4-07de-47aa-86f2-4382f9d9727e/image.png)
 
 - innerHTML 프로퍼티를 사용한 DOM 조작은 구현이 간단하고 직관적이지만, 크로스 사이트 스크립팅 공격에 취약하다는 단점이 존재한다. 
@@ -83,27 +83,27 @@
 
 ![](https://velog.velcdn.com/images/chtoqur/post/58a42f2b-e9d7-4f86-a888-0e243ca6711a/image.png)
 
-- 이전의 코드 : 불필요한 div 태그가 존재
+- 이전의 코드 : 불필요한 div 태그가 존재 <br/>
 ![](https://velog.velcdn.com/images/chtoqur/post/fe45a938-6ce8-471b-81c0-8426d4664c88/image.png)
 
-- DocumnetFragment를 사용한 코드
+- DocumnetFragment를 사용한 코드 <br/>
 ![](https://velog.velcdn.com/images/chtoqur/post/dc579639-df68-45b4-810f-647e765a34f6/image.png)
 
 ### 39.6.5 노드 삽입
 #### appendChild 메서드: 마지막 노드로 추가
-- 노드 추가 위치 지정 불가능, 언제나 마지막 자식 노드로 추가
+- 노드 추가 위치 지정 불가능, 언제나 마지막 자식 노드로 추가 <br/>
 ![](https://velog.velcdn.com/images/chtoqur/post/aa6ee2c7-ae79-4ad0-ada2-776b2a724c0e/image.png)
 
 #### insertBefore 메서드: 지정한 위치에 노드 삽입
 - 첫 번째 인수로 전달받은 노드를 두 번째 인수로 전달받은 노드 앞에 삽입
 - 두 번째 인수로 전달받은, 위치를 지정하는 노드는 반드시 insertBefore 메서드를 호출한 노드의 자식 노드여야만 한다. 그렇지 않으면 DOMException 에러가 발생한다.
-- 만일 두 번째 인수로 전달받은 노드가 null이면 insertBefore 메서드를 호출한 노드의 마지막 자식 노드로 추가된다. 즉 appendChild 메서드처럼 동작한다.
+- 만일 두 번째 인수로 전달받은 노드가 null이면 insertBefore 메서드를 호출한 노드의 마지막 자식 노드로 추가된다. 즉 appendChild 메서드처럼 동작한다. <br/>
 ![](https://velog.velcdn.com/images/chtoqur/post/1e19e187-00db-4c95-a03b-d3e27badf504/image.png)
 
 ### 39.6.6 노드 이동
 #### appendChild 메서드: 마지막 노드로 이동
 #### insertBefore 메서드: 원하는 위치로 이동
-DOM에 이미 존재하는 노드를 appendChild 또는 insertBefore 메서드를 사용하여 DOM에 다시 추가하면 현재 위치에서 노드를 제거하고 새로운 위치에 노드를 추가한다. 즉, 노드가 이동한다.
+DOM에 이미 존재하는 노드를 appendChild 또는 insertBefore 메서드를 사용하여 DOM에 다시 추가하면 현재 위치에서 노드를 제거하고 새로운 위치에 노드를 추가한다. 즉, 노드가 이동한다. <br/>
 ![](https://velog.velcdn.com/images/chtoqur/post/70aa38f2-96c3-4a17-9915-77f7ab7d397a/image.png)
 
 ### 39.6.7 노드 복사
