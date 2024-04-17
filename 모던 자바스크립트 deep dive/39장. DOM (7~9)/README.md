@@ -117,4 +117,194 @@ data 어트리뷰트의 data- 접두사 다음에 존재하지 않는 이름을 
 </html>
 ```
 
+## 39.8 스타일
+### 39.8.1 인라인 스타일 조작
+HTMLElement.prototype.style 프로퍼티는 setter와 getter 모두 존재하는 접근자 프로퍼티로, 요소 노드의 **인라인 스타일**을 취득하거나 추가 또는 변경한다.
+
+``` html
+<!DOCTYPE html>
+<html>
+<body>
+  <div style="color: red">Hello World</div>
+  <script>
+    const $div = document.querySelector('div');
+
+    // 인라인 스타일 취득
+    console.log($div.style); // CSSStyleDeclaration { 0: "color", ... }
+
+    // 인라인 스타일 변경
+    $div.style.color = 'blue';
+
+    // 인라인 스타일 추가
+    $div.style.width = '100px';
+    $div.style.height = '100px';
+    $div.style.backgroundColor = 'yellow';
+  </script>
+</body>
+</html>
+```
+
+style 프로퍼티를 참조하면 CSSStyleDeclaration 타입의 객체를 반환한다.<br>
+CSSStyleDeclaration 객체는 다양한 CSS 프로퍼티에 대응하는 프로퍼티를 가지고 있으며, 이 프로퍼티에 값을 할당하면 해당 CSS 프로퍼티가 인라인 스타일로 HTML 요소에 추가되거나 변경된다.<br>
+CSS 프로퍼티는 케밥 케이스지만, CSSStyleDeclaration 객체의 프로퍼티는 카멜 케이스를 따른다.<br>
+예를 들어, CSS 프로퍼티 background-color에 대응하는 CSSStyleDeclaration 객체의 프로퍼티는 backgroundColor다.
+
+``` javascript
+$div.style.backgroundColor = 'yellow';
+$div.style['background-color'] = 'yellow'; // 케밥 케이스의 CSS 프로퍼티를 그대로 사용하려면 대괄호 표기법을 사용한다.
+$div.style.width = '100px'; // 단위 지정이 필요한 CSS 프로퍼티의 값은 반드시 단위를 지정해야 한다.
+```
+
+### 39.8.2 클래스 조작
+클래스 선택자를 사용하여 CSS class를 미리 정의한 다음, class 어트리뷰트 값을 변경하여 HTML 요소의 스타일을 변경할 수도 있다.<br>
+이때는 class 어트리뷰트에 대응하는 DOM 프로퍼티를 사용한다.<br>
+단, class 어트리뷰트에 대응하는 DOM 프로퍼티는 class가 아니라 **className**과 **classList**다. 자바스크립트에서 class는 예약어이기 때문이다.
+
+<hr>
+
+#### className
+Element.prototype.className 프로퍼티는 setter, getter 모두 존재하는 접근자 프로퍼티다.<br>
+요소 노드의 className 프로퍼티를 참조하면 class 어트리뷰트 값을 문자열로 반환하고,<br>
+요소 노드의 className 프로퍼티에 문자열을 할당하면 class 어트리뷰트 값을 할당한 문자열로 변경한다.<br>
+className 프로퍼티는 문자열을 반환하기 때문에, 여러 개의 클래스를 반환하는 경우 다루기가 불편하다.
+
+``` html
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .box {
+      width: 100px; height: 100px;
+      background-color: antiquewhite;
+    }
+    .red { color: red; }
+    .blue { color: blue; }
+  </style>
+</head>
+<body>
+  <div class="box red">Hello World</div>
+  <script>
+    const $box = document.querySelector('.box');
+
+    // .box 요소의 class 어트리뷰트 값을 취득
+    console.log($box.className); // 'box red'
+
+    // .box 요소의 class 어트리뷰트 값 중에서 'red'만 'blue'로 변경
+    $box.className = $box.className.replace('red', 'blue');
+  </script>
+</body>
+</html>
+```
+
+#### classList
+Element.prototype.classList 프로퍼티는 class 어트리뷰트의 정보를 담은 DOMTokenList 객체를 반환한다.<br>
+DOMTokenList 객체는 유사 배열 객체이면서 이터러블이다.<br>
+add, remove, item, contains, replace, toggle 등의 유용한 메서드를 제공한다.
+
+``` html
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .box {
+      width: 100px; height: 100px;
+      background-color: antiquewhite;
+    }
+    .red { color: red; }
+    .blue { color: blue; }
+  </style>
+</head>
+<body>
+  <div class="box red">Hello World</div>
+  <script>
+    const $box = document.querySelector('.box');
+  
+    // .box 요소의 class 어트리뷰트 정보를 담은 DOMTokenList 객체를 취득
+    // classList가 반환하는 DOMTokenList 객체는 HTMLCollection과 NodeList와 같이
+    // 노드 객체의 상태 변화를 실시간으로 반영하는 살아 있는(live) 객체다.
+    console.log($box.classList);
+    // DOMTokenList(2) [length: 2, value: "box blue", 0: "box", 1: "blue"]
+
+    // .box 요소의 class 어트리뷰트 값 중에서 'red'만 'blue'로 변경
+    $box.classList.replace('red', 'blue');  
+  </script>
+</body>
+</html>
+```
+
+### 39.8.3 요소에 적용되어 있는 CSS 스타일 참조
+style 프로퍼티는 인라인 스타일만 반환한다. 따라서 클래스를 적용한 스타일이나 상속을 통해 암묵적으로 적용된 스타일은 style 프로퍼티로 참조할 수 없다.<br>
+HTML 요소에 적용되어 있는 모든 CSS 스타일을 참조해야 할 경우 **getComputedStyle** 메서드를 사용한다.
+
+``` html
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      color: red;
+    }
+    .box {
+      width: 100px;
+      height: 50px;
+      background-color: cornsilk;
+      border: 1px solid black;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">Box</div>
+  <script>
+    const $box = document.querySelector('.box');
+
+    // .box 요소에 적용된 모든 CSS 스타일을 담고 있는 CSSStyleDeclaration 객체를 취득
+    const computedStyle = window.getComputedStyle($box);
+    console.log(computedStyle); // CSSStyleDeclaration
+
+    // 임베딩 스타일
+    console.log(computedStyle.width); // 100px
+    console.log(computedStyle.height); // 50px
+    console.log(computedStyle.backgroundColor); // rgb(255, 248, 220)
+    console.log(computedStyle.border); // 100px // 1px solid rgb(0, 0, 0)
+
+    // 상속 스타일(body → .box)
+    console.log(computedStyle.color); // rgb(255, 0, 0)
+
+    // 기본 스타일
+    console.log(computedStyle.display); // block
+  </script>
+</body>
+</html>
+```
+  
+window.getComputedStyle(element[, pseudo]) 메서드는 첫 번째 인수로 전달한 요소 노드에 적용되어 있는 모든 스타일을 CSSStyleDeclaration 객체에 담아 반환한다.<br>
+메서드의 두 번째 인수(pseudo)로 :after, :before와 같은 의사 요소를 지정하는 문자열을 전달할 수 있다.<br>
+[의사 요소 공식 문서](https://developer.mozilla.org/en-US/docs/Web/CSS/::before)
+
+``` html
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .box:before {
+      content: 'Hello';
+    }
+  </style>
+</head>
+<body>
+  <div class="box">Box</div>
+  <script>
+    const $box = document.querySelector('.box');
+
+    // 의사 요소 :before의 스타일을 취득한다.
+    const computedStyle = window.getComputedStyle($box, ':before');
+    console.log(computedStyle.content); // "Hello"
+  </script>
+</body>
+</html>
+```
+
+## 39.9 DOM 표준
+HTML과 DOM 표준은 W3C와 WHATWG 두 단체가 협력하면서 공통된 표준을 만들어 왔었다가,<br>
+현재는 WHATWG가 단일 표준을 내놓고 있다.
 
