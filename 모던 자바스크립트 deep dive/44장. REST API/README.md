@@ -44,11 +44,41 @@ POST http://www.plusblog.co.kr/users Content-Type: application/json // 헤더 : 
 
 ## 44.2 REST API 설계 원칙
 
-REST API 설계 원칙 두 가지는 **URI는 리소스를 표현**하는 데 집중하고 **행위에 대한 정의는 HTTP 요청 메서드**를 통해 하는 것이 설계하는 중요한 규칙
+REST API 설계 원칙 두 가지는 **URI는 리소스를 표현**하는 데 집중하고 **행위에 대한 정의는 HTTP 요청 메서드**를 통해 하는 것이 설계하는 것이 중요한 규칙
 
+1. URI는 리소스를 표현
 
-```javascript
+리소스를 식별할 수 있는 이름은 동사보다는 명사를 사용하고 이름에 get 같은 행위에 대한 표현이 들어가서는 안 된다.
 
+```
+# bad
+GET /getTodos/1
+GET /todos/show/1
+
+# good
+GET /todos/1
+```
+
+2. 행위에 대한 정의는 HTTP 요청 메서드로 표현
+
+HTTP 요청 메서드는 클라이언트가 서버에게 요청의 종류와 목적을 알리는 방법이다. 주로 5가지 요청 메서드(GET, POST, PUT, PATCH. DELETE 등)를 사용하여 CRUD를 구현한다.
+
+|HTTP 요청 메서드|종류|목적|페이로드|
+|-|-|-|-|
+|GET|index/retrieve|모든/특정 리소스 취득|X|
+|POST|create|리소스 생성|O|
+|PUT|replace|리소스의 전체 교체|O|
+|PATCH|modify|리소스의 일부 수정|O|
+|DELETE|delete|모든/특정 리소스 삭제|X|
+
+리소스에 대한 행위는 HTTP 요청 메서드를 통해 표현하며 URI에 표현하지 않는다.
+
+```
+# bad
+GET /todos/delete/1
+
+# good
+DELETE /todos/1
 ```
 
 <br>
