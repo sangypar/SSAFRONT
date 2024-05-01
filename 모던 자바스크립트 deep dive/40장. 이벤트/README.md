@@ -400,3 +400,76 @@ arguments.callee는 최적화를 방ㅎ하므로 strict mode에서 사용이 금
 </body>
 </html>
 ```
+
+## 이벤트 객체
+
+**생성된 이벤트 객체는 이벤트 핸들러의 첫 번째 인수로 전달된다.**
+
+```javaSCript
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <p>클릭한 곳의 좌표가 표시됩니다.</p>
+    <em class="message"></em>
+    <script>
+        
+        const $msg = document.querySelector('.messaege');
+
+        //클릭 이벤트에 의해 생성된 이벤트 객체는 이벤트 핸들러의 첫 인수로 전달된다.
+        function showCoords(e) {
+            $msg.textContent = `clientX: ${e.clientX}, clientY: ${e.clientY}`;
+        }
+
+        document.onclick = showCoords;
+
+    </script>
+</body>
+</html>
+```
+
+이벤트 객체는 핸들러의 첫 인수로 전달되어 매개변수 e에 암묵적으로 할당된다.
+따라서 이벤트 객체를 전달 받으려면 이벤트 핸들러 정의 시 이벤트 객체를 전달받을 매개변수를 명시적으로 선언해야 한다.
+
+```javaSCript
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+//여기에서는 event가 아닌 다른 이름으로는 이벤트 객체를 전달받지 못한다.
+<body onclick="showCoords(event)">
+    <p>클릭한 곳의 좌표가 표시됩니다.</p>
+    <em class="message"></em>
+    <script>
+        
+        const $msg = document.querySelector('.messaege');
+
+        //클릭 이벤트에 의해 생성된 이벤트 객체는 이벤트 핸들러의 첫 인수로 전달된다.
+        function showCoords(e) {
+            $msg.textContent = `clientX: ${e.clientX}, clientY: ${e.clientY}`;
+        }
+    </script>
+</body>
+</html>
+```
+이벤트 핸들러 어트리뷰트 방식으로는 꼭 event라는 변수를 통해 이벤트 객체를 전달받을 수 있다. onclick = "showCoords(event)"라는 이름으로 파싱되어 함수를 생성해 onclick 이벤트 핸들러 프로퍼티에 할당하기 때문에 event로 암묵적으로 명명되어 다른 이름으로는 이벤트 객체를 할당받지 못한다.
+
+### 이벤트 객체의 상속 구조
+
+![image](https://github.com/sangypar/SSAFRONT/assets/158231909/d368d1a5-03d5-4f52-b500-6af694c4d505)
+
+![image](https://github.com/sangypar/SSAFRONT/assets/158231909/4cf9a30b-d3fe-4c2f-b03c-8caa844a83e0)
+
+이벤트가 발생하면 암묵적으로 생성되는 이벤트 객체도 생성자 함수에 의해 생성된다. 이렇게 생성된 객체는 생성자 함수와 더불어 생성되는 프로토타입으로 구성된 체인의 일원이 된다.
+
+![image](https://github.com/sangypar/SSAFRONT/assets/158231909/f7b8a409-951e-4860-8bd7-9d0991959a18)
+
+이벤트 객체 중 일부는 사용자 행위에 의해 생성된 것이고 일부는 자바스크립트 코드에 의해 인위적으로 생ㅅ어된 것이다. MouseEvnet 객체는 사용자가 작동했을 때이고 CustonEvent는 자바스크립트 코드에 의해 인위적으로 생성한 객체이다. <br>
+Event 인터페이스는 DOM 내에서 발생한 이벤트에 의해 생성되는 이벤트 객체를 나타낸다. 여기에는 모든 이벤트 객체의 공통 프로퍼티가 정의되어 있고, 하위 인터페이스(FocusEvent, MouseEvent...)에 각 타입에 따른 고유 프로퍼티가 정의되어 있다.
+
+
