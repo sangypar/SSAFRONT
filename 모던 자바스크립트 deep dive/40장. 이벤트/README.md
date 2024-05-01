@@ -405,43 +405,14 @@ arguments.callee는 최적화를 방ㅎ하므로 strict mode에서 사용이 금
 
 **생성된 이벤트 객체는 이벤트 핸들러의 첫 번째 인수로 전달된다.**
 
-```javaSCript
+```javaScript
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body>
-    <p>클릭한 곳의 좌표가 표시됩니다.</p>
-    <em class="message"></em>
-    <script>
-        
-        const $msg = document.querySelector('.messaege');
-
-        //클릭 이벤트에 의해 생성된 이벤트 객체는 이벤트 핸들러의 첫 인수로 전달된다.
-        function showCoords(e) {
-            $msg.textContent = `clientX: ${e.clientX}, clientY: ${e.clientY}`;
-        }
-
-        document.onclick = showCoords;
-
-    </script>
-</body>
-</html>
-```
-
-이벤트 객체는 핸들러의 첫 인수로 전달되어 매개변수 e에 암묵적으로 할당된다.
-따라서 이벤트 객체를 전달 받으려면 이벤트 핸들러 정의 시 이벤트 객체를 전달받을 매개변수를 명시적으로 선언해야 한다.
-
-```javaSCript
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-//여기에서는 event가 아닌 다른 이름으로는 이벤트 객체를 전달받지 못한다.
+<!-- 어트리뷰트 방식일 경우는 event가 아닌 다른 이름으로는 이벤트 객체를 전달받지 못한다. -->
 <body onclick="showCoords(event)">
     <p>클릭한 곳의 좌표가 표시됩니다.</p>
     <em class="message"></em>
@@ -453,23 +424,219 @@ arguments.callee는 최적화를 방ㅎ하므로 strict mode에서 사용이 금
         function showCoords(e) {
             $msg.textContent = `clientX: ${e.clientX}, clientY: ${e.clientY}`;
         }
+
+        // document.onclick = showCoords; //어트리뷰트 방식이 아닐때 사용
     </script>
 </body>
 </html>
 ```
-이벤트 핸들러 어트리뷰트 방식으로는 꼭 event라는 변수를 통해 이벤트 객체를 전달받을 수 있다. onclick = "showCoords(event)"라는 이름으로 파싱되어 함수를 생성해 onclick 이벤트 핸들러 프로퍼티에 할당하기 때문에 event로 암묵적으로 명명되어 다른 이름으로는 이벤트 객체를 할당받지 못한다.
+
+이벤트에 의해 생성된 이벤트 객체는 이벤트 핸들러의 첫 인수로 전달되어 매개변수 e에 암묵적으로 할당된다. 매개변수는 명시적으로 선언해야 하나, e라는 이름 외에 다른 변수를 사용해도 상관없다.
+그러나 이벤트 핸들러 어트리뷰트 방식으로 이벤트 핸들러르 등록했다면 꼭 event를 통해 이벤트 객체를 전달받아야 한다. 어트리뷰트 값은 사실 암묵적으로 생성되는 onclick="showCoords(event)"라고 파싱되는 이벤트 핸들러의 함수 몸체를 의미하기 때문이다.
 
 ### 이벤트 객체의 상속 구조
 
-![image](https://github.com/sangypar/SSAFRONT/assets/158231909/d368d1a5-03d5-4f52-b500-6af694c4d505)
+![image](https://github.com/sangypar/SSAFRONT/assets/158231909/1189e6a5-da81-479c-bd8d-0ed738c2ea83)
 
-![image](https://github.com/sangypar/SSAFRONT/assets/158231909/4cf9a30b-d3fe-4c2f-b03c-8caa844a83e0)
+이벤트가 발생하면 다양한 이벤트 객체가 생성자 함수에 의해 생성되고, 그래서 이 개체는 프로토타입으로 구성된 체인의 일원이 된다.
+![image](https://github.com/sangypar/SSAFRONT/assets/158231909/27117bdb-2135-41e2-99ff-f2b7590d4deb)
 
-이벤트가 발생하면 암묵적으로 생성되는 이벤트 객체도 생성자 함수에 의해 생성된다. 이렇게 생성된 객체는 생성자 함수와 더불어 생성되는 프로토타입으로 구성된 체인의 일원이 된다.
+![image](https://github.com/sangypar/SSAFRONT/assets/158231909/4eb58323-86e3-47c3-9b7c-aa76ec7c8af3)
 
-![image](https://github.com/sangypar/SSAFRONT/assets/158231909/f7b8a409-951e-4860-8bd7-9d0991959a18)
+객체 중 일부는 사용자 행위에 의해 생성된 것이고, 일부는 자바스크립트 코드에 의해 인위적으로 생성된 것이다. MouseEvnet는 사용자 행위에 따라 생성되는 객체이며, CustomEvent는 자바스크립트 코드에 의해 인위적으로 생성한 이벤트 객체이다.
+Event 인터페이스에는 모든 이벤트 객체의 공통 프로퍼티가 정의되어 있고, FocusEvent, MouseEvent 등 하위 인터페이스에는 이벤트 타입에 따른 고유 프로퍼티가 정의되어 있다.
 
-이벤트 객체 중 일부는 사용자 행위에 의해 생성된 것이고 일부는 자바스크립트 코드에 의해 인위적으로 생ㅅ어된 것이다. MouseEvnet 객체는 사용자가 작동했을 때이고 CustonEvent는 자바스크립트 코드에 의해 인위적으로 생성한 객체이다. <br>
-Event 인터페이스는 DOM 내에서 발생한 이벤트에 의해 생성되는 이벤트 객체를 나타낸다. 여기에는 모든 이벤트 객체의 공통 프로퍼티가 정의되어 있고, 하위 인터페이스(FocusEvent, MouseEvent...)에 각 타입에 따른 고유 프로퍼티가 정의되어 있다.
+```javaScript
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text">
+    <input type="checkbox">
+    <button>Click me!</button>
 
+    <script>
 
+        const $input = document.querySelector('input[type=text]');
+        const $checkbox = document.querySelector('input[type=checkbox]');
+        const $button = document.querySelector('button');
+
+        window.onload = console.log;
+        //load 이벤트가 발생하면 Event 타입 객체가 생성된다.
+
+        $checkbox.onchange = console.log;
+        //change 이벤트가 발생하면 Event 타입 객체가 생성된다.
+
+        $input.onfocus = console.log;
+        //focus 이벤트가 발생하면 FocusEvnet객체가 생성된다.
+
+        $input.oninput = console.log;
+        //input 이벤트가 발생하면 InputEvent 객체가 생성된다.
+
+        $input.keyup = console.log;
+        //keyup이벤트가 발생하면 KeyBoardEvent 객체가 생성된다.
+
+        $button.onclick = console.log;
+        //click 이벤트가 발생하면 MouseEvnet 타입의 이벤트 객체가 생성된다.
+
+    </script>
+</body>
+</html>
+```
+
+![image](https://github.com/sangypar/SSAFRONT/assets/158231909/259ef315-563d-4713-a157-4430ffe1388c)
+
+### 이벤트 객체의 공통 프로퍼티
+
+Event 인터페이스에 있는 프로퍼티는 모든 파생 이벤트 객체에 상속된다.
+![image](https://github.com/sangypar/SSAFRONT/assets/158231909/daab8c28-f842-46d2-b853-623f9beacd8d)
+
+![image](https://github.com/sangypar/SSAFRONT/assets/158231909/017feaf0-4c3e-44fd-bb93-65650e25df7c)
+
+```javaScript
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="checkbox">
+    <em class="message">off</em>
+
+    <script>
+        const $checkbox = document.querySelector('input[type=checkbox]');
+        const $msg = document.querySelector('.message');
+
+        //change 이벤트가 발생하면 EVENT 타입의 객체가 생성된다.
+        $checkbox.onchange= e => {
+            console.log(Object.getPrototypeOf(e) === Event.prototype); //true
+
+            //e.target은 change를 발생시킨 DOM 요소 $checkbox를 가리키고
+            //e.target.checked는 체크박스 요소의 현재 체크 상태를 나타낸다.
+            $msg.textContent = e.target.checked? 'on':'off';
+        }
+
+    </script>
+</body>
+</html>
+```
+
+위 예제에서 이벤트 객체의 target 프로퍼티와 currentTarget 프로퍼티는 둘다 $checkbox를 가리킨다.
+일반적으로는 이벤트 객체 target 프로퍼티와 currentTarget 프로퍼티는 동일한 DOM 요소를 가리키지만 이벤트를 위임하게 되면 서로 다른 요소를 가리킬 수도 있다.
+
+### 마우스 정보 취득
+
+click, dblclick, mousedown, mouseup, mousemove, mouseenter, mouseleave 이벤트가 발생하면 MouseEvent 이벤트 객체가 생성된다.
+![image](https://github.com/sangypar/SSAFRONT/assets/158231909/445ca6ab-e5bf-4ca3-90d9-8458d5459d2e)
+
+![image](https://github.com/sangypar/SSAFRONT/assets/158231909/1121370c-c814-461f-9001-61bab877cee8)
+
+```javaScript
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마우스 정보 취득</title>
+    <style>
+        .box{
+            width: 100px;
+            height: 100px;
+            background-color: #fff700;
+            border: 5px solid pink;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="box"></div>
+
+    <script>
+        //드래그 대상 요소 설정
+        const $box = document.querySelector('.box');
+
+        //드래그 시작 시점 마우스 포인터 위치
+        const initialMousePos = { x:0, y:0 };
+        //오프셋: 이동할 거리
+        const offset = {x:0, y:0};
+
+        //mousemove 이벤트핸들러
+        const move = e => {
+            offset.x = e.clientX - initialMousePos.x;
+            offset.y = e.clientY - initialMousePos.y;
+            //현재 위치 - 시작 위치 차이
+
+            $box.style.transform = `translate3d(${offset.x}px, ${offset.y}px, 0)`;
+            //translate3d는 GPU를 사용하므로 absolute의 top, left 사용하는거보다 빠르다.
+            //top, left는 레이아웃에 영향을 준다.
+        };
+
+        //mousedown 이벤트가 발생하면 드래그 시작 시점 포인터 좌표를 저장한다.
+        $box.addEventListener('mousedown', (e) => {
+            /*
+             * 이동 거리 계산을 위해 mousedown 이벤트 발생하면 (드래그 시작) 드래그 시작지점의 좌표인 마우스 포인터 좌표를 저장해준다.
+             * 한번이상 드래그로 이동한 경우 move에서 translate3d(${offset.x} px, ${offset.y} px, 0)로 이동한 상태이니
+             * offset.x와 offset.y를 빼준다.
+            */
+           initialMousePos.x = e.clientX - offset.x;
+           initialMousePos.y = e.clientY - offset.y;
+
+           document.addEventListener('mousemove', move); //down이벤트가 발생하면 box 요소를 이동시킨다.
+        });
+
+        //mouseup이벤트가 발생하면 move이벤트 제거해 이동을 멈춘다.
+        document.addEventListener('mouseup', () =>{
+            document.removeEventListener('mousemove', move);
+        });
+    </script>
+</body>
+</html>
+```
+
+### 키보드 정보 취득
+
+```javaScript
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>키보드 정보 취득</title>
+</head>
+
+<body>
+    <input type="text" />
+    <em class="message"></em>
+    <script>
+        const $input = document.querySelector('input[type=text]');
+        const $msg = document.querySelector('.message');
+
+        $input.onkeyup = e => {
+            //e.key는 문자열로 반환한다
+            //입력한키가 enter키가 아니면 무시
+            if (e.key !== 'Enter') return;
+
+            //엔터키라면 입력된 값 출력
+            $msg.textContent = e.target.value;
+            e.target.value = ''; //초기화
+        };
+    </script>
+</body>
+
+</html>
+```
+
+## 이벤트 전파
+
+DOM 요소 노드에서 발생한 이벤트는 DOM 트리를 통해 전파된다. **이벤트 전파**라고 부른다.
+
+```javaScript
+
+```
