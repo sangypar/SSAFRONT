@@ -65,7 +65,7 @@ if ($button) {
   console.log(error.stack);   // Error: 정해인의 보고싶다
                               // at index.html:50:17
 ```
-- 자바스크립트는 Error 생성자 함수를 포함해 7가지의 에러 객체를 생성할 수 있는 Error 생성자 함수를 제공한다.
+- 자바스크립트는 Error 생성자 함수를 포함해 7가지의 에러 객체를 생성할 수 있는 Error 생성자 함수를 제공한다. <br/><br/>
 ![](https://velog.velcdn.com/images/chtoqur/post/88fdd06d-67d8-4d40-b2cc-58c464487864/image.png)
 
 ## 47.4 throw문
