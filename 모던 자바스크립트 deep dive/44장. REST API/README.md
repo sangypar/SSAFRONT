@@ -139,12 +139,86 @@ npm install json-server --save-dev
 npx json-server --watch db.json --port 3001
 //npx는 Node.js 패키지를 실행하고 관리하는 도구이고 json-server가 전역으로 설처된게 아니라서 적어주기
 ```
+<p align="center"><img src="./img/3.png"></p> 
+
+하지만 매번 다음과 같은 명령어를 입력하는 것은 번거로우기 때문에 package.json파일에서 scripts를 수정하면 더욱 빠르게 실행시킬 수 있다.
+
+<p align="center"><img src="./img/4.png"></p> 
+
+링크 클릭 시 다음과 같이 확인할 수 있다.
+
+<p align="center"><img src="./img/5.png"></p> 
 
 #### 44.3.4 GET 요청
 
-```javascript
+리소스에서 전체 데이터를 취득하고 싶으면 GET 요청을 하면 된다.
 
+루트폴더에 get_index.html을 다음과 같이 추가하면 된다. 
+
+```html
+<!DOCTYPE html>
+<html lang="ko">
+<body>
+    <pre></pre>
+    <script>
+        // XMLHttpRequest 객체 생성
+        const xhr = new XMLHttpRequest();
+        // HTTP 요청 초기화
+        // students 리소스에서 모든 students를 취득(index)
+        xhr.open('GET','/students');
+
+        // HTTP 요청 전송
+        xhr.send();
+
+        // load 이벤트는 요청이 성공적으로 완료된 경우 발생한다.
+        xhr.onload = () => {
+            // status 프로퍼티 값이 200이면 정상적으로 응답된 상태다.
+            if (xhr.status == 200) {
+                document.querySelector('pre').textContent = xhr.response;
+            } else {
+                console.error('Error', xhr.status, xhr.statusText);
+            }
+        };
+    </script>
+</body>
+</html>
 ```
+
+브라우저에서 http://localhost:3000/get_index.html로 접속하면 확인할 수 있다.
+<p align="center"><img src="./img/6.png"></p> 
+
+id를 사용하여 특정 데이터만 취득하고 싶으면 다음과 같이 추가하면 된다. 
+```html
+<!DOCTYPE html>
+<html lang="ko">
+<body>
+    <pre></pre>
+    <script>
+        // XMLHttpRequest 객체 생성
+        const xhr = new XMLHttpRequest();
+        // HTTP 요청 초기화
+        // students 리소스에서 id를 사용하여 특정 student를 취득(index)
+        xhr.open('GET','/students/2');
+
+        // HTTP 요청 전송
+        xhr.send();
+
+        // load 이벤트는 요청이 성공적으로 완료된 경우 발생한다.
+        xhr.onload = () => {
+            // status 프로퍼티 값이 200이면 정상적으로 응답된 상태다.
+            if (xhr.status == 200) {
+                document.querySelector('pre').textContent = xhr.response;
+            } else {
+                console.error('Error', xhr.status, xhr.statusText);
+            }
+        };
+    </script>
+</body>
+</html>
+```
+
+브라우저에서 http://localhost:3000/get_retrieve.html로 접속하면 확인할 수 있다.
+<p align="center"><img src="./img/7.png"></p> 
 
 #### 44.3.5 POST 요청
 
