@@ -97,14 +97,47 @@ npm install json-server --save-dev
 
 #### 44.3.2 db.json 파일 생성
 
-```javascript
+프로젝트 루트 폴더에 다음과 같이 db.json 파일을 생성한다.
 
+```javascript
+{
+    "students":[
+        {
+            "id": 1,
+            "name": "김도은",
+            "hobby": "농사"
+        },
+        {
+            "id": 2,
+            "name": "정상영",
+            "hobby": "영화 상영"
+        },
+        {
+            "id": 3,
+            "name": "최이서",
+            "hobby": "인형놀이"
+        },
+        {
+            "id": 4,
+            "name": "김윤",
+            "hobby": "강아지 산책"
+        },
+        {
+            "id": 5,
+            "name": "김일태",
+            "hobby": "불꽃 놀이"
+        }
+    ]
+}
 ```
 
 #### 44.3.3 JSON Server 실행
 
-```javascript
+터미널엔 다음과 같이 명령어를 입력하여 JSON Server를 실행한다. JSON Server가 데이터베이스 역할을 하는 db.json 파일의 변경을 감지하게 하려면 watch 옵션을 추가한다.
 
+```
+npx json-server --watch db.json --port 3001
+//npx는 Node.js 패키지를 실행하고 관리하는 도구이고 json-server가 전역으로 설처된게 아니라서 적어주기
 ```
 
 #### 44.3.4 GET 요청
