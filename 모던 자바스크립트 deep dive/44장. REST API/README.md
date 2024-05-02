@@ -184,7 +184,7 @@ npx json-server --watch db.json --port 3001
 </html>
 ```
 
-브라우저에서 http://localhost:3000/get_index.html로 접속하면 확인할 수 있다.
+브라우저에서 http://localhost:3001/get_index.html로 접속하면 확인할 수 있다.
 <p align="center"><img src="./img/6.png"></p> 
 
 id를 사용하여 특정 데이터만 취득하고 싶으면 다음과 같이 추가하면 된다. 
@@ -217,29 +217,162 @@ id를 사용하여 특정 데이터만 취득하고 싶으면 다음과 같이 �
 </html>
 ```
 
-브라우저에서 http://localhost:3000/get_retrieve.html로 접속하면 확인할 수 있다.
+브라우저에서 http://localhost:3001/get_retrieve.html로 접속하면 확인할 수 있다.
 <p align="center"><img src="./img/7.png"></p> 
 
 #### 44.3.5 POST 요청
 
-```javascript
+리소스에서 새로운 데이터를 생성할 때 POST 요청을 한다. 
 
+POST 요청 시에는 setRequestHeader 메서드를 사용하여 요청 몸체에 담아 서버로 전송할 페이로드의 MIME 타입을 지정해야 한다.
+
+```html
+<!DOCTYPE html>
+<html lang="ko">
+<body>
+    <pre></pre>
+    <script>
+        // XMLHttpRequest 객체 생성
+        const xhr = new XMLHttpRequest();
+        // HTTP 요청 초기화
+        // students 리소스에서 모든 students를 취득(index)
+        xhr.open('POST','/students');
+
+        // 요청 몸체에 담아 서버로 전송할 페이로드의 MIME 타입을 지정
+        xhr.setRequestHeader('content-type','application/json');
+
+        // HTTP 요청 전송
+        // 새로운 Student를 생성하기 위해 페이로드를 서버에 전송해야 한다.
+        xhr.send(JSON.stringify({id:6, name:"박상용","hobby":"식사"}));
+
+        // load 이벤트는 요청이 성공적으로 완료된 경우 발생한다.
+        xhr.onload = () => {
+            // status 프로퍼티 값이 200(OK) 또는 201(Created)이면 정상적으로 응답된 상태다.
+            if (xhr.status === 200 || xhr.status === 201) {
+                document.querySelector('pre').textContent = xhr.response;
+            } else {
+                console.error('Error', xhr.status, xhr.statusText);
+            }
+        };
+    </script>
+</body>
+</html>
 ```
+
+브라우저에서 http://localhost:3001/post.html로 접속하면 추가할 수 있다.
+<p align="center"><img src="./img/8.png"></p> 
 
 #### 44.3.6 PUT 요청
 
-```javascript
+리소스에서 기존 데이터를 교체할 때 PUT 요청을 한다. 리소스에서 id로 students를 특정하여 id를 제외한 리소스 전체를 비교 한다.
 
+```html
+<!DOCTYPE html>
+<html lang="ko">
+<body>
+    <pre></pre>
+    <script>
+        // XMLHttpRequest 객체 생성
+        const xhr = new XMLHttpRequest();
+        // HTTP 요청 초기화
+        // students 리소스에서 모든 students를 취득(index)
+        xhr.open('PUT','/students/1');
+
+        // 요청 몸체에 담아 서버로 전송할 페이로드의 MIME 타입을 지정
+        xhr.setRequestHeader('content-type','application/json');
+
+        // HTTP 요청 전송
+        // 새로운 Student를 생성하기 위해 페이로드를 서버에 전송해야 한다.
+        xhr.send(JSON.stringify({id:1, name:"김도은","hobby":"기지개"}));
+
+        // load 이벤트는 요청이 성공적으로 완료된 경우 발생한다.
+        xhr.onload = () => {
+            // status 프로퍼티 값이 200(OK)이면 정상적으로 응답된 상태다.
+            if (xhr.status === 200) {
+                document.querySelector('pre').textContent = xhr.response;
+            } else {
+                console.error('Error', xhr.status, xhr.statusText);
+            }
+        };
+    </script>
+</body>
+</html>
 ```
+브라우저에서 http://localhost:3001/put.html로 접속하면 수정할 수 있다.
+<p align="center"><img src="./img/9.png"></p> 
 
 #### 44.3.7 PATCH 요청
 
-```javascript
+리소스에서 기존 데이터의 일부를 수정할 때 PATCH 요청을 한다. 리소스에서 id로 students를 특정하여 id를 제외한 리소스 일부를 비교 한다.
 
+```html
+<!DOCTYPE html>
+<html lang="ko">
+<body>
+    <pre></pre>
+    <script>
+        // XMLHttpRequest 객체 생성
+        const xhr = new XMLHttpRequest();
+        // HTTP 요청 초기화
+        // students 리소스에서 모든 students를 취득(index)
+        xhr.open('PUT','/students/4');
+
+        // 요청 몸체에 담아 서버로 전송할 페이로드의 MIME 타입을 지정
+        xhr.setRequestHeader('content-type','application/json');
+
+        // HTTP 요청 전송
+        // 새로운 Student를 생성하기 위해 페이로드를 서버에 전송해야 한다.
+        xhr.send(JSON.stringify({name:"킹율"}));
+
+        // load 이벤트는 요청이 성공적으로 완료된 경우 발생한다.
+        xhr.onload = () => {
+            // status 프로퍼티 값이 200(OK)이면 정상적으로 응답된 상태다.
+            if (xhr.status === 200) {
+                document.querySelector('pre').textContent = xhr.response;
+            } else {
+                console.error('Error', xhr.status, xhr.statusText);
+            }
+        };
+    </script>
+</body>
+</html>
 ```
+
+브라우저에서 http://localhost:3001/patch.html로 접속하면 데이터의 일부를 수정할 수 있다.
+<p align="center"><img src="./img/10.png"></p> 
 
 #### 44.3.8 DELETE 요청
 
-```javascript
+리소스에서 기존 데이터를 삭제할 때 DELETE 요청을 한다. 리소스에서 id로 students를 특정하여 삭제 한다.
 
+```html
+<!DOCTYPE html>
+<html lang="ko">
+<body>
+    <pre></pre>
+    <script>
+        // XMLHttpRequest 객체 생성
+        const xhr = new XMLHttpRequest();
+        // HTTP 요청 초기화
+        // students 리소스에서 모든 students를 취득(index)
+        xhr.open('DELETE','/students/4');
+
+        // HTTP 요청 전송
+        xhr.send();
+
+        // load 이벤트는 요청이 성공적으로 완료된 경우 발생한다.
+        xhr.onload = () => {
+            // status 프로퍼티 값이 200(OK)이면 정상적으로 응답된 상태다.
+            if (xhr.status === 200) {
+                document.querySelector('pre').textContent = xhr.response;
+            } else {
+                console.error('Error', xhr.status, xhr.statusText);
+            }
+        };
+    </script>
+</body>
+</html>
 ```
+
+브라우저에서 http://localhost:3001/delete.html로 접속하면 데이터를 삭제할 수 있다.
+<p align="center"><img src="./img/11.png"></p> 
