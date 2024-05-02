@@ -91,6 +91,9 @@ DELETE /todos/1
 npm init -y
 npm install json-server --save-dev
 ```
+<p align="center"><img src="./img/1.png"></p> 
+<p align="center"><img src="./img/2.png"></p> 
+
 
 #### 44.3.2 db.json 파일 생성
 
