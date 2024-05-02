@@ -87,8 +87,9 @@ DELETE /todos/1
 
 #### 44.3.1 JSON Server 설치
 
-```javascript
-
+```
+npm init -y
+npm install json-server --save-dev
 ```
 
 #### 44.3.2 db.json 파일 생성
