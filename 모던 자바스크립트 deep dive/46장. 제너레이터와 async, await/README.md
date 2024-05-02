@@ -218,6 +218,18 @@ async 함수가 명시적으로 프로미스를 반환하지 않더라도 async 
 await 키워드는 반드시 async 함수 내부에서 사용해야한다.<br>
 await 키워드는 프로미스가 settle 상태(비동기 처리가 수행된 상태)가 될 때까지 대기하다가 settled 상태가 되면 프로미스가 resolve한 처리 결과를 반환한다.
 
+``` javascript
+async function foo() {
+    const a = await new Promise(resolve => setTimeout(() => resolve(1), 3000));
+    const b = await new Promise(resolve => setTimeout(() => resolve(2), 2000));
+    const c = await new Promise(resolve => setTimeout(() => resolve(3), 1000));
+
+    console.log([a, b, c]);
+}
+
+foo();
+```
+
 ### 46.6.3 에러처리
 async/await에서 에러 처리는 try ... catch 문을 사용할 수 있다.<br>
 콜백 함수를 인수로 전달받는 비동기 함수와는 달리 프로미스를 반환하는 비동기 함수는 명시적으로 호출할 수 있기 때문에 호출자가 명확하다.
