@@ -25,7 +25,7 @@
     return Math.pow(n, n);
 })
 ```
-
+ 
 ### 49.1.1 Babel 설치
 npm을 사용하여 Babel을 설치해 보자.
 > cf. npm
