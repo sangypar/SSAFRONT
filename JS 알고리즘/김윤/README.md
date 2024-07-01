@@ -6,7 +6,7 @@
 ## 🥰 SOLVE
 |제출 날짜|문제 이름|문제 링크|난이도|
 |:-------:|:--------:|:-------:|:----:|
-|240701|모의고사|[모의고](https://school.programmers.co.kr/learn/courses/30/lessons/42840?language=javascript)|```LV.1```|
+|240701|모의고사|[모의고사](https://school.programmers.co.kr/learn/courses/30/lessons/42840?language=javascript)|```LV.1```|
 
 <br/>
 
