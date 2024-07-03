@@ -1,4 +1,3 @@
-
 function solution(answers) {
 
     let people1 = [1,2,3,4,5];
