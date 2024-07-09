@@ -20,6 +20,11 @@ SSAFY 11기 5반 프론트엔드 스터디입니다.
 | 2024.07.09 | 정상영 |   붕대 감기   |  [붕대감기](https://school.programmers.co.kr/learn/courses/30/lessons/250137)    |
 | 2024.07.09 | 정상영 |   영어 끝말잇기   |  [영어 끝말잇기](https://school.programmers.co.kr/learn/courses/30/lessons/12981)    |
 | 2024.07.09 | 정상영 |   올바른 괄호   |  [올바른 괄호](https://school.programmers.co.kr/learn/courses/30/lessons/12909)    |
+| 2024.07.16 | 김도은 |   숫자 문자열과 영단어   |  [숫자 문자열과 영단어](https://school.programmers.co.kr/learn/courses/30/lessons/81301)   |
+| 2024.07.16 | 김도은 |   삼총사   |  [삼총사](https://school.programmers.co.kr/learn/courses/30/lessons/131705)   |
+| 2024.07.16 | 김도은 |   소수 찾기   |  [소수 찾기](https://school.programmers.co.kr/learn/courses/30/lessons/42839)   |
+| 2024.07.16 | 김도은 |   둘 만의 암호   |  [둘 만의 암호](https://school.programmers.co.kr/learn/courses/30/lessons/155652)   |
+
 
 </details>
 
