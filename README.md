@@ -10,8 +10,7 @@ SSAFY 11기 5반 프론트엔드 스터디입니다.
 2. 주 1회 (4문제, 레벨1, 2섞어서)
 3. 자바스크립트 연습할 줄 아는 사이트 있으면 그거 가져와도 좋음!
 
-<details>
-<summary>문제 목록</summary>
+### 문제 목록
   
 | 날짜 | 출제자 |  문제이름 | 문제링크 |
 |--------|------|-----|-------|
@@ -24,6 +23,10 @@ SSAFY 11기 5반 프론트엔드 스터디입니다.
 | 2024.07.16 | 김도은 |   삼총사   |  [삼총사](https://school.programmers.co.kr/learn/courses/30/lessons/131705)   |
 | 2024.07.16 | 김도은 |   소수 찾기   |  [소수 찾기](https://school.programmers.co.kr/learn/courses/30/lessons/42839)   |
 | 2024.07.16 | 김도은 |   둘 만의 암호   |  [둘 만의 암호](https://school.programmers.co.kr/learn/courses/30/lessons/155652)   |
+| 2024.07.23 | 김윤 |   예산   |  [예산](https://school.programmers.co.kr/learn/courses/30/lessons/12982)   |
+| 2024.07.23 | 김윤 |   실패율   |  [실패율](https://school.programmers.co.kr/learn/courses/30/lessons/42889)   |
+| 2024.07.23 | 김윤 |   기능개발   |  [기능개발](https://school.programmers.co.kr/learn/courses/30/lessons/42586)   |
+| 2024.07.23 | 김윤 |   모음사전   |  [모음사전](https://school.programmers.co.kr/learn/courses/30/lessons/84512)   |
 
 
 </details>
