@@ -27,6 +27,10 @@ SSAFY 11기 5반 프론트엔드 스터디입니다.
 | 2024.07.23 | 김윤 |   실패율   |  [실패율](https://school.programmers.co.kr/learn/courses/30/lessons/42889)   |
 | 2024.07.23 | 김윤 |   기능개발   |  [기능개발](https://school.programmers.co.kr/learn/courses/30/lessons/42586)   |
 | 2024.07.23 | 김윤 |   모음사전   |  [모음사전](https://school.programmers.co.kr/learn/courses/30/lessons/84512)   |
+| 2024.07.30 | 최이서 |   가장 큰 수   |  [가장 큰 수](https://school.programmers.co.kr/learn/courses/30/lessons/42746)   |
+| 2024.07.30 | 최이서 |   크레인 인형뽑기 게임   |  [크레인 인형뽑기 게임](https://school.programmers.co.kr/learn/courses/30/lessons/64061)   |
+| 2024.07.30 | 최이서 |   키패드 누르기   |  [키패드 누르기](https://school.programmers.co.kr/learn/courses/30/lessons/67256)   |
+| 2024.07.30 | 최이서 |   전화번호 목록   |  [전화번호 목록](https://school.programmers.co.kr/learn/courses/30/lessons/42577)   |
 
 
 </details>
