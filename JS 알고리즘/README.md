@@ -28,3 +28,6 @@
 | 2024.08.27 | 정상영 |   카펫   |  [카펫](https://school.programmers.co.kr/learn/courses/30/lessons/42842)   |
 | 2024.08.27 | 정상영 |   네트워크   |  [네트워크](https://school.programmers.co.kr/learn/courses/30/lessons/43162)   |
 | 2024.08.27 | 정상영 |   단속카메라   |  [단속카메라](https://school.programmers.co.kr/learn/courses/30/lessons/42884)   |
+| 2024.09.03 | 김도은 |   석유 시추   |  [석유 시추](https://school.programmers.co.kr/learn/courses/30/lessons/250136)   |
+| 2024.09.03 | 김도은 |   2 x n 타일링   |  [2 x n 타일링](https://school.programmers.co.kr/learn/courses/30/lessons/12900)   |
+| 2024.09.03 | 김도은 |   베스트앨범   |  [베스트앨범](https://school.programmers.co.kr/learn/courses/30/lessons/42579)   |
