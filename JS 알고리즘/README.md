@@ -31,3 +31,6 @@
 | 2024.09.03 | 김도은 |   석유 시추   |  [석유 시추](https://school.programmers.co.kr/learn/courses/30/lessons/250136)   |
 | 2024.09.03 | 김도은 |   2 x n 타일링   |  [2 x n 타일링](https://school.programmers.co.kr/learn/courses/30/lessons/12900)   |
 | 2024.09.03 | 김도은 |   베스트앨범   |  [베스트앨범](https://school.programmers.co.kr/learn/courses/30/lessons/42579)   |
+| 2024.09.10 | 김윤 |   의상   |  [의상](https://school.programmers.co.kr/learn/courses/30/lessons/42578)   |
+| 2024.09.10 | 김윤 |   야근 지수   |  [야근 지수](https://school.programmers.co.kr/learn/courses/30/lessons/12927)   |
+| 2024.09.10 | 김윤 |   단어 변환   |  [단어 변환](https://school.programmers.co.kr/learn/courses/30/lessons/43163)   |
