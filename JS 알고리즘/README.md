@@ -34,3 +34,6 @@
 | 2024.09.10 | 김윤 |   의상   |  [의상](https://school.programmers.co.kr/learn/courses/30/lessons/42578)   |
 | 2024.09.10 | 김윤 |   야근 지수   |  [야근 지수](https://school.programmers.co.kr/learn/courses/30/lessons/12927)   |
 | 2024.09.10 | 김윤 |   단어 변환   |  [단어 변환](https://school.programmers.co.kr/learn/courses/30/lessons/43163)   |
+| 2024.09.17 | 김도은 |   괄호 회전하기   |  [괄호 회전하기](https://school.programmers.co.kr/learn/courses/30/lessons/76502)   |
+| 2024.09.17 | 김도은 |   타겟 넘버   |  [타겟 넘버](https://school.programmers.co.kr/learn/courses/30/lessons/43165)   |
+| 2024.09.17 | 김도은 |   롤케이크 자르기   |  [롤케이크 자르기](https://school.programmers.co.kr/learn/courses/30/lessons/132265)   |
